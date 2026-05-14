@@ -5,7 +5,8 @@ import styles from './site-header.module.css';
 const NAV_ITEMS = [
   { label: '首页', href: '/' },
   { label: '课程', href: '/courses' },
-  { label: '作品', href: '/works' },
+  { label: '画廊', href: '/gallery' },
+  { label: '纹样库', href: '/patterns' },
   { label: '商城', href: '/shop' },
   { label: '社区', href: '/community' },
 ];

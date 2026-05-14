@@ -1,0 +1,228 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--lc-space-8) var(--lc-space-4);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-6);
+}
+
+.heading {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-2xl);
+  font-weight: 700;
+  color: var(--lc-text);
+  margin: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-4);
+}
+
+.sectionTitle {
+  font-size: var(--lc-text-lg);
+  font-weight: 600;
+  color: var(--lc-text);
+  margin: 0;
+}
+
+.sectionHint {
+  font-size: var(--lc-text-xs);
+  color: var(--lc-text-muted);
+  margin: 0;
+}
+
+/* Image Upload */
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lc-space-3);
+}
+
+@media (max-width: 600px) {
+  .imageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.imageItem {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--lc-radius-md);
+  overflow: hidden;
+}
+
+.imageThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageActions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: var(--lc-space-1);
+  padding: var(--lc-space-2);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+}
+
+.imageActionBtn {
+  flex: 1;
+  padding: var(--lc-space-1);
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  border-radius: var(--lc-radius-sm);
+  font-size: var(--lc-text-xs);
+  cursor: pointer;
+}
+
+.imageActionBtn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.imageDeleteBtn {
+  flex: 1;
+  padding: var(--lc-space-1);
+  background: rgba(217, 79, 79, 0.7);
+  color: #fff;
+  border: none;
+  border-radius: var(--lc-radius-sm);
+  font-size: var(--lc-text-xs);
+  cursor: pointer;
+}
+
+.removePreviewBtn {
+  position: absolute;
+  top: var(--lc-space-1);
+  right: var(--lc-space-1);
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lc-radius-full);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.uploadBtn {
+  aspect-ratio: 1;
+  border: 2px dashed var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: transparent;
+  color: var(--lc-text-muted);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lc-space-2);
+  font-size: var(--lc-text-sm);
+  transition: all var(--lc-duration-fast) var(--lc-ease);
+}
+
+.uploadBtn:hover {
+  border-color: var(--lc-primary);
+  color: var(--lc-primary);
+  background: var(--lc-primary-50);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* Fields */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-2);
+}
+
+.label {
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  color: var(--lc-text);
+}
+
+.input {
+  padding: var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  transition: border-color var(--lc-duration-fast) var(--lc-ease);
+}
+
+.input:focus {
+  border-color: var(--lc-primary);
+}
+
+.textarea {
+  padding: var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  resize: vertical;
+  font-family: var(--lc-font-sans);
+  outline: none;
+  transition: border-color var(--lc-duration-fast) var(--lc-ease);
+}
+
+.textarea:focus {
+  border-color: var(--lc-primary);
+}
+
+/* Chips */
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lc-space-2);
+}
+
+.chip {
+  padding: var(--lc-space-1) var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-full);
+  background: transparent;
+  color: var(--lc-text-secondary);
+  font-size: var(--lc-text-xs);
+  cursor: pointer;
+  transition: all var(--lc-duration-fast) var(--lc-ease);
+}
+
+.chip:hover {
+  border-color: var(--lc-primary);
+  color: var(--lc-primary);
+}
+
+.chipActive {
+  background: var(--lc-primary);
+  border-color: var(--lc-primary);
+  color: #fff;
+}
+
+.error {
+  color: var(--lc-error);
+  font-size: var(--lc-text-sm);
+  margin: 0;
+}
+
+.actions {
+  padding-top: var(--lc-space-4);
+}

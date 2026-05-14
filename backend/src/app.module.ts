@@ -11,6 +11,10 @@ import { UserModule } from './modules/user/user.module';
 import { CourseModule } from './modules/course/course.module';
 import { ReviewModule } from './modules/review/review.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { ArtworkModule } from './modules/artwork/artwork.module';
+import { FavoriteModule } from './modules/favorite/favorite.module';
+import { CommentModule } from './modules/comment/comment.module';
+import { PatternModule } from './modules/pattern/pattern.module';
 
 @Module({
   imports: [
@@ -37,6 +41,10 @@ import { StorageModule } from './modules/storage/storage.module';
     CourseModule,
     ReviewModule,
     StorageModule,
+    ArtworkModule,
+    FavoriteModule,
+    CommentModule,
+    PatternModule,
   ],
   providers: [
     {

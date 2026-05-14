@@ -1,0 +1,27 @@
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--lc-space-8) var(--lc-space-4);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--lc-space-8);
+}
+
+.heading {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-3xl);
+  font-weight: 700;
+  color: var(--lc-text);
+  margin: 0 0 var(--lc-space-2);
+}
+
+.subtitle {
+  font-size: var(--lc-text-base);
+  color: var(--lc-text-secondary);
+  margin: 0;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}

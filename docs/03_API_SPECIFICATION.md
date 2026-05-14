@@ -291,29 +291,146 @@ Response 200: data: LessonProgress
 
 ```yaml
 Query:
-  page?, pageSize?, category?, tags?, keyword?, sortBy?
+  page?, pageSize?, category?, keyword?, techniques? (逗号分隔), sortBy?: 'createdAt'|'likeCount'|'viewCount'
 Response 200: PaginatedResponse<IArtwork>
 ```
 
-### GET `/artworks/:id` — 作品详情
-
-### POST `/artworks` — 发布作品 🔒
+### GET `/artworks/:id` — 作品详情 (自动 +1 浏览量)
 
 ```yaml
-Request: multipart/form-data
-  title: string (required)
+Response 200: data: IArtwork (含 images, comments 嵌套 3 层)
+```
+
+### GET `/artworks/:id/related` — 相关作品
+
+```yaml
+Response 200: data: IArtwork[] (同技法/同作者，limit 6)
+```
+
+### GET `/artworks/my` — 我的作品 🔒
+
+```yaml
+Query: page?, pageSize?
+Response 200: PaginatedResponse<IArtwork> (含所有状态)
+```
+
+### POST `/artworks` — 创建作品 🔒
+
+```yaml
+Request: application/json
+  title: string (required, max 200)
   description?: string
   category?: string
   techniques?: string[]
   materials?: string[]
-  images: File[] (required, max 9)
+  tags?: string[]
   story?: string
 Response 201: data: IArtwork
 ```
 
-### POST `/artworks/:id/like` — 点赞 🔒
+### POST `/artworks/:id/images` — 添加图片 🔒
 
-### DELETE `/artworks/:id/like` — 取消点赞 🔒
+```yaml
+Request:
+  body: { imageUrls: string[] } (总上限 9 张)
+Response 201: data: IArtworkImage[] (首张自动设为封面)
+```
+
+### PATCH `/artworks/:id/images/reorder` — 重排序图片 🔒
+
+```yaml
+Request:
+  body: { imageIds: string[] } (按新顺序)
+```
+
+### POST `/artworks/:id/images/:imageId/cover` — 设为封面 🔒
+
+### DELETE `/artworks/:id/images/:imageId` — 删除图片 🔒
+
+### POST `/artworks/:id/submit` — 提交审核 🔒
+
+```yaml
+说明: DRAFT/REJECTED → REVIEWING
+```
+
+### PATCH `/artworks/:id` — 更新作品 🔒
+
+### DELETE `/artworks/:id` — 删除作品(软删除) 🔒
+
+### 评论与收藏（通用）
+
+见下方「评论模块」和「收藏模块」。
+
+---
+
+## 五-b、评论模块 `/api/v1/comments`
+
+### GET `/comments/artworks/:artworkId` — 作品评论列表
+
+```yaml
+Query: page?, pageSize?
+Response 200: PaginatedResponse<IComment> (嵌套 3 层)
+```
+
+### POST `/comments/artworks/:artworkId` — 评论作品 🔒
+
+```yaml
+Request:
+  body:
+    content: string (required, 1-1000)
+    parentId?: string (回复某条评论，最深 3 层)
+Response 201: data: IComment
+Errors: 400 超过最大回复深度
+```
+
+### GET `/comments/posts/:postId` — 帖子评论列表
+
+### POST `/comments/posts/:postId` — 评论帖子 🔒
+
+### DELETE `/comments/:id` — 删除评论 🔒 (owner)
+
+---
+
+## 五-c、收藏模块 `/api/v1/favorites`
+
+### POST `/favorites/:entityType/:entityId` — 切换收藏（幂等）🔒
+
+```yaml
+Path:
+  entityType: 'artwork' | 'course' | 'post'
+Response 200: data: { favorited: boolean }
+说明: 已收藏则取消，未收藏则添加。自动更新实体 likeCount。
+```
+
+### GET `/favorites/check/:entityType/:entityId` — 检查是否已收藏 🔒
+
+### GET `/favorites/my` — 我的收藏列表 🔒
+
+```yaml
+Query: entityType?, page?, pageSize?
+Response 200: PaginatedResponse<Favorite>
+```
+
+---
+
+## 五-d、纹样素材库 `/api/v1/patterns`
+
+### GET `/patterns` — 纹样列表
+
+```yaml
+Query: page?, pageSize?, category?, keyword?
+Response 200: PaginatedResponse<IPatternAsset>
+```
+
+### GET `/patterns/:id` — 纹样详情
+
+### POST `/patterns` — 创建纹样 🔒 ADMIN
+
+### PATCH `/patterns/:id` — 更新纹样 🔒 ADMIN
+
+### DELETE `/patterns/:id` — 删除纹样 🔒 ADMIN
+
+### POST `/patterns/:id/download` — 下载计数 +1
 
 ---
 

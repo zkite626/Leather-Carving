@@ -288,3 +288,77 @@ interface AddressFormProps {
 }
 // 省市区三级联动
 ```
+
+---
+
+## Wave 3 — 创作与展示组件
+
+### ArtworkCard
+
+```typescript
+interface ArtworkCardProps {
+  artwork: IArtwork;
+}
+// 瀑布流卡片：图片 + hover 浮层（标题、作者头像+昵称、❤️ 点赞数）
+// CSS columns masonry 布局，图片自适应高度
+// Link 到 /gallery/[id]
+```
+
+### ImageLightbox
+
+```typescript
+// 内置于 /gallery/[id] 页面
+// 全屏灯箱：左右切换、键盘导航（←→）、ESC 关闭、缩放、图片计数器
+// CSS transform + 手势事件
+```
+
+### ModelViewer (3D)
+
+```typescript
+interface ModelViewerProps {
+  modelUrl: string;        // glTF/GLB URL
+  autoRotate?: boolean;
+}
+// @react-three/fiber + @react-three/drei
+// OrbitControls（旋转/缩放/平移）
+// Environment 光照 + ContactShadows
+// useGLTF 加载模型
+```
+
+### CommentSection
+
+```typescript
+interface CommentSectionProps {
+  entityType: 'artwork' | 'post';
+  entityId: string;
+}
+// 嵌套评论，最多 3 层深度
+// 回复按钮 → parentId 传参
+// 删除自己的评论
+// 用户头像 + 昵称 + 时间
+```
+
+### FavoriteButton
+
+```typescript
+interface FavoriteButtonProps {
+  entityType: string;
+  entityId: string;
+  initialCount?: number;
+}
+// ❤️ 点赞按钮，带动画反馈（scale pop）
+// 幂等切换：已收藏则取消
+// 实时更新计数
+```
+
+### PatternGallery
+
+```typescript
+interface PatternGalleryProps {
+  compact?: boolean;
+}
+// 分类 Tab：全部 / 壮锦 / 瑶族 / 喀斯特 / 现代
+// 网格展示缩略图 + hover overlay
+// 点击打开预览大图 Modal
+// 一键下载 + 下载计数
+```
