@@ -1,0 +1,152 @@
+.container {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: var(--lc-radius-lg);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--lc-duration-fast) var(--lc-ease);
+}
+
+.playOverlay:hover {
+  opacity: 0.8;
+}
+
+/* Controls */
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: var(--lc-space-8) var(--lc-space-3) var(--lc-space-2);
+  transition: opacity var(--lc-duration-normal) var(--lc-ease);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Progress bar */
+.progressBar {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: var(--lc-space-2);
+}
+
+.progressBar:hover {
+  height: 6px;
+}
+
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--lc-primary);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.progressThumb {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--lc-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity var(--lc-duration-fast);
+}
+
+.progressBar:hover .progressThumb {
+  opacity: 1;
+}
+
+/* Control row */
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controlLeft,
+.controlRight {
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-2);
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: var(--lc-radius-sm);
+  transition: background var(--lc-duration-fast);
+}
+
+.controlBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.volumeControl {
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-1);
+}
+
+.volumeSlider {
+  width: 0;
+  opacity: 0;
+  transition: width var(--lc-duration-normal) var(--lc-ease),
+    opacity var(--lc-duration-normal) var(--lc-ease);
+  accent-color: var(--lc-primary);
+}
+
+.volumeControl:hover .volumeSlider {
+  width: 80px;
+  opacity: 1;
+}
+
+.timeDisplay {
+  font-size: var(--lc-text-xs);
+  color: rgba(255, 255, 255, 0.8);
+  font-variant-numeric: tabular-nums;
+  min-width: 90px;
+}
+
+.rateLabel {
+  font-size: var(--lc-text-xs);
+  font-weight: 600;
+  color: #fff;
+}

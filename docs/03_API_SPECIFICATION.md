@@ -175,11 +175,94 @@ Response 201: data: ICourse
 
 ### PATCH `/courses/:id` — 更新课程 🔒 TEACHER(owner)
 
+```yaml
+Request:
+  body: Partial<CreateCourseDto>
+Response 200: data: ICourse
+```
+
 ### DELETE `/courses/:id` — 删除课程 🔒 TEACHER(owner)
+
+```yaml
+Response 200: { message: "Course deleted" }
+```
+
+### POST `/courses/:id/publish` — 发布课程 🔒 TEACHER(owner)
+
+```yaml
+Response 200: data: ICourse
+Errors: 400 课程无章节不可发布
+```
+
+### GET `/courses/my` — 教师自己的课程列表 🔒 TEACHER
+
+```yaml
+Query: page?, pageSize?, keyword?
+Response 200: PaginatedResponse<ICourse>
+```
+
+### GET `/courses/dashboard` — 教师数据概览 🔒 TEACHER
+
+```yaml
+Response 200:
+  data: { totalCourses, publishedCourses, totalStudents, avgRating, recentEnrollments }
+```
+
+### GET `/courses/:id/enrollment` — 获取报名状态 🔒
+
+```yaml
+Response 200: data: IEnrollment | null
+```
+
+### GET `/courses/:id/progress` — 获取课程学习进度 🔒
+
+```yaml
+Response 200: data: IEnrollment & { lessonProgresses: ILessonProgress[] } | null
+```
 
 ### POST `/courses/:id/chapters` — 添加章节 🔒 TEACHER
 
-### POST `/chapters/:chapterId/lessons` — 添加课时 🔒 TEACHER
+```yaml
+Request:
+  body:
+    title: string (required)
+    sortOrder?: number
+Response 201: data: IChapter
+```
+
+### PATCH `/courses/chapters/:chapterId` — 更新章节 🔒 TEACHER(owner)
+
+### DELETE `/courses/chapters/:chapterId` — 删除章节 🔒 TEACHER(owner)
+
+### POST `/courses/:id/chapters/reorder` — 章节排序 🔒 TEACHER(owner)
+
+```yaml
+Request:
+  body:
+    chapterIds: string[] (required, 排序后的 ID 列表)
+Response 200: { message: "Chapters reordered" }
+```
+
+### POST `/courses/chapters/:chapterId/lessons` — 添加课时 🔒 TEACHER
+
+```yaml
+Request:
+  body:
+    title: string (required)
+    type: LessonType (required)
+    content?: string
+    videoUrl?: string
+    duration?: number
+    isFreePreview?: boolean
+    sortOrder?: number
+Response 201: data: ILesson
+```
+
+### PATCH `/courses/lessons/:lessonId` — 更新课时 🔒 TEACHER(owner)
+
+### DELETE `/courses/lessons/:lessonId` — 删除课时 🔒 TEACHER(owner)
+
+### POST `/courses/chapters/:chapterId/lessons/reorder` — 课时排序 🔒 TEACHER(owner)
 
 ### POST `/courses/:id/enroll` — 报名课程 🔒
 
@@ -372,6 +455,38 @@ Request: multipart/form-data
 Response 201:
   data: { url: string, duration: number }
 ```
+
+---
+
+## 十-b、评价模块 `/api/v1/reviews`
+
+### POST `/reviews/courses/:courseId` — 创建课程评价 🔒
+
+```yaml
+Request:
+  body:
+    rating: number (required, 1-5)
+    content?: string
+    images?: string[]
+Response 201: data: IReview
+Errors: 403 未报名 | 409 已评价
+```
+
+### GET `/reviews/courses/:courseId` — 获取课程评价列表
+
+```yaml
+Query: page?, pageSize?
+Response 200: PaginatedResponse<IReview>
+```
+
+### GET `/reviews/courses/:courseId/summary` — 获取课程评价统计
+
+```yaml
+Response 200:
+  data: { average: number, count: number, distribution: Record<1-5, number> }
+```
+
+### DELETE `/reviews/:id` — 删除评价 🔒 (owner)
 
 ---
 

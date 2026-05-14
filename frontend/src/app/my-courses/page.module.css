@@ -1,0 +1,219 @@
+/* ============================================
+   My Courses Page
+   ============================================ */
+
+.page {
+  min-height: 100vh;
+}
+
+/* ---- Header ---- */
+
+.header {
+  background-color: var(--lc-bg-secondary);
+  padding: var(--lc-space-12) 0 var(--lc-space-8);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(181, 101, 29, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(212, 168, 83, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.headerInner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--lc-space-4);
+}
+
+.title {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-4xl);
+  font-weight: 700;
+  color: var(--lc-text);
+  margin-bottom: var(--lc-space-3);
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-size: var(--lc-text-lg);
+  color: var(--lc-text-secondary);
+  line-height: 1.6;
+}
+
+.subtitle strong {
+  color: var(--lc-primary);
+  font-weight: 600;
+}
+
+/* ---- Container ---- */
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--lc-space-8) var(--lc-space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--lc-space-6);
+    padding-right: var(--lc-space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--lc-space-8);
+    padding-right: var(--lc-space-8);
+  }
+}
+
+/* ---- Tabs ---- */
+
+.tabs {
+  display: flex;
+  gap: var(--lc-space-1);
+  background-color: var(--lc-bg-secondary);
+  border-radius: var(--lc-radius-md);
+  padding: var(--lc-space-1);
+  margin-bottom: var(--lc-space-8);
+  width: fit-content;
+}
+
+.tab {
+  padding: var(--lc-space-2) var(--lc-space-5);
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  color: var(--lc-text-secondary);
+  background: none;
+  border: none;
+  border-radius: var(--lc-radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--lc-duration-fast) var(--lc-ease);
+}
+
+.tab:hover {
+  color: var(--lc-text);
+}
+
+.tabActive {
+  color: var(--lc-bg);
+  background-color: var(--lc-primary);
+  font-weight: 600;
+}
+
+.tabActive:hover {
+  color: var(--lc-bg);
+  background-color: var(--lc-primary-dark);
+}
+
+/* ---- Course Grid ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--lc-space-6);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cardWrapper {
+  display: contents;
+}
+
+/* ---- Skeleton Cards ---- */
+
+.skeletonCard {
+  border-radius: var(--lc-radius-lg);
+  overflow: hidden;
+  background-color: var(--lc-bg);
+  border: 1px solid var(--lc-border);
+}
+
+.skeletonInfo {
+  padding: var(--lc-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-3);
+}
+
+/* ---- Pagination ---- */
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--lc-space-10);
+}
+
+/* ---- Empty State ---- */
+
+.emptyState {
+  text-align: center;
+  padding: var(--lc-space-16) var(--lc-space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.emptyIcon {
+  color: var(--lc-text-muted);
+  margin-bottom: var(--lc-space-4);
+}
+
+.emptyTitle {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-xl);
+  font-weight: 600;
+  color: var(--lc-text);
+  margin-bottom: var(--lc-space-2);
+}
+
+.emptyText {
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-secondary);
+  margin-bottom: var(--lc-space-6);
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 639px) {
+  .header {
+    padding: var(--lc-space-10) 0 var(--lc-space-6);
+  }
+
+  .title {
+    font-size: var(--lc-text-3xl);
+  }
+
+  .subtitle {
+    font-size: var(--lc-text-base);
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    text-align: center;
+  }
+}
