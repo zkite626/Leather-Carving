@@ -42,7 +42,7 @@ export async function getOrder(id: string) {
   return res.data.data;
 }
 
-export async function payOrder(id: string, method = 'MOCK') {
+export async function payOrder(id: string, method = 'WECHAT') {
   const res = await apiClient.post<ApiResponse<{ payUrl?: string }>>(
     `/shop/orders/${id}/pay`,
     { method },

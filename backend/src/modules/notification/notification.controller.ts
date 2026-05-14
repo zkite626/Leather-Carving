@@ -7,7 +7,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { NotificationService } from './notification.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
@@ -31,7 +36,11 @@ export class NotificationController {
     @Query('isRead') isRead?: string,
   ) {
     const readFilter = isRead !== undefined ? isRead === 'true' : undefined;
-    return this.notificationService.findAll(userId, { page, pageSize, isRead: readFilter });
+    return this.notificationService.findAll(userId, {
+      page,
+      pageSize,
+      isRead: readFilter,
+    });
   }
 
   @Get('unread-count')
@@ -58,10 +67,7 @@ export class NotificationController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete notification' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     await this.notificationService.remove(id, userId);
     return { message: 'Notification deleted' };
   }

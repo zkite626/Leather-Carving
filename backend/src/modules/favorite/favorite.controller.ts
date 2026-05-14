@@ -51,6 +51,11 @@ export class FavoriteController {
     @Query('page') page?: number,
     @Query('pageSize') pageSize?: number,
   ) {
-    return this.favoriteService.getMyFavorites(userId, entityType, page, pageSize);
+    return this.favoriteService.getMyFavorites(
+      userId,
+      entityType,
+      page,
+      pageSize,
+    );
   }
 }

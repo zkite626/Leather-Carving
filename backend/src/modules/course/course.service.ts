@@ -137,7 +137,9 @@ export class CourseService {
           take: 10,
           orderBy: { createdAt: 'desc' },
           include: {
-            user: { select: { id: true, nickname: true, avatar: true, role: true } },
+            user: {
+              select: { id: true, nickname: true, avatar: true, role: true },
+            },
           },
         },
       },
@@ -301,7 +303,12 @@ export class CourseService {
 
     return {
       data: courses,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
@@ -360,7 +367,11 @@ export class CourseService {
     });
   }
 
-  async updateChapter(chapterId: string, userId: string, dto: UpdateChapterDto) {
+  async updateChapter(
+    chapterId: string,
+    userId: string,
+    dto: UpdateChapterDto,
+  ) {
     const chapter = await this.prisma.chapter.findUnique({
       where: { id: chapterId },
       include: { course: true },
@@ -387,7 +398,11 @@ export class CourseService {
     await this.prisma.chapter.delete({ where: { id: chapterId } });
   }
 
-  async reorderChapters(courseId: string, userId: string, chapterIds: string[]) {
+  async reorderChapters(
+    courseId: string,
+    userId: string,
+    chapterIds: string[],
+  ) {
     await this.ensureOwnership(courseId, userId);
 
     const updates = chapterIds.map((id, index) =>
@@ -493,13 +508,15 @@ export class CourseService {
       where: { id: courseId, status: CourseStatus.PUBLISHED, deletedAt: null },
     });
 
-    if (!course) throw new NotFoundException('Course not found or not published');
+    if (!course)
+      throw new NotFoundException('Course not found or not published');
 
     const existing = await this.prisma.enrollment.findUnique({
       where: { userId_courseId: { userId, courseId } },
     });
 
-    if (existing) throw new ConflictException('Already enrolled in this course');
+    if (existing)
+      throw new ConflictException('Already enrolled in this course');
 
     if (course.isFree) {
       const enrollment = await this.prisma.enrollment.create({
@@ -541,7 +558,12 @@ export class CourseService {
               teacher: {
                 include: {
                   user: {
-                    select: { id: true, nickname: true, avatar: true, role: true },
+                    select: {
+                      id: true,
+                      nickname: true,
+                      avatar: true,
+                      role: true,
+                    },
                   },
                 },
               },
@@ -559,13 +581,22 @@ export class CourseService {
         progress: Number(e.progress),
         course: this.formatCourse(e.course),
       })),
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
   // ==================== Lesson Progress ====================
 
-  async updateProgress(userId: string, lessonId: string, dto: UpdateProgressDto) {
+  async updateProgress(
+    userId: string,
+    lessonId: string,
+    dto: UpdateProgressDto,
+  ) {
     const lesson = await this.prisma.lesson.findUnique({
       where: { id: lessonId },
       include: { chapter: { include: { course: true } } },
@@ -601,7 +632,9 @@ export class CourseService {
       update: {
         watchedDuration: dto.watchedDuration,
         lastPosition: dto.lastPosition,
-        ...(dto.isCompleted ? { isCompleted: true, completedAt: new Date() } : {}),
+        ...(dto.isCompleted
+          ? { isCompleted: true, completedAt: new Date() }
+          : {}),
       },
     });
 
@@ -731,7 +764,10 @@ export class CourseService {
     });
   }
 
-  private async updateEnrollmentProgress(enrollmentId: string, courseId: string) {
+  private async updateEnrollmentProgress(
+    enrollmentId: string,
+    courseId: string,
+  ) {
     const totalLessons = await this.prisma.lesson.count({
       where: { chapter: { courseId } },
     });
@@ -742,7 +778,8 @@ export class CourseService {
       where: { enrollmentId, isCompleted: true },
     });
 
-    const progress = Math.round((completedLessons / totalLessons) * 10000) / 100;
+    const progress =
+      Math.round((completedLessons / totalLessons) * 10000) / 100;
 
     await this.prisma.enrollment.update({
       where: { id: enrollmentId },

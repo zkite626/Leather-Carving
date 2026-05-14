@@ -15,7 +15,13 @@ export interface ImageOptions {
 }
 
 export abstract class BaseAIProvider {
-  abstract chat(messages: ChatMessage[], options?: ChatOptions): AsyncGenerator<string>;
-  abstract generateImage(prompt: string, options?: ImageOptions): Promise<string>;
+  abstract chat(
+    messages: ChatMessage[],
+    options?: ChatOptions,
+  ): AsyncGenerator<string>;
+  abstract generateImage(
+    prompt: string,
+    options?: ImageOptions,
+  ): Promise<string>;
   abstract testConnection(): Promise<boolean>;
 }

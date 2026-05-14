@@ -16,7 +16,8 @@ export const LEARNING_ASSISTANT_PROMPT = {
 };
 
 export const PATTERN_GENERATION_PROMPT = {
-  system: '你是皮雕纹样设计专家，擅长将广西民族文化元素融入现代皮雕设计。请生成高质量的皮雕纹样图片。',
+  system:
+    '你是皮雕纹样设计专家，擅长将广西民族文化元素融入现代皮雕设计。请生成高质量的皮雕纹样图片。',
   styles: {
     zhuangjin: '壮锦风格：使用菱形/回字纹/蝴蝶纹等壮族传统纹样',
     yaozu: '瑶族风格：使用盘王纹/太阳纹等瑶族传统图腾',

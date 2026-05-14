@@ -88,7 +88,9 @@ export class QueryPatternDto {
   @IsOptional()
   pageSize?: number;
 
-  @ApiPropertyOptional({ description: 'Category filter: 壮锦/瑶族/喀斯特/现代' })
+  @ApiPropertyOptional({
+    description: 'Category filter: 壮锦/瑶族/喀斯特/现代',
+  })
   @IsOptional()
   @IsString()
   category?: string;

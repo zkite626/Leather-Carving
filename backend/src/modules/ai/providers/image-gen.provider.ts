@@ -1,5 +1,10 @@
 import { Logger } from '@nestjs/common';
-import { BaseAIProvider, ChatMessage, ChatOptions, ImageOptions } from './base-ai.provider';
+import {
+  BaseAIProvider,
+  ChatMessage,
+  ChatOptions,
+  ImageOptions,
+} from './base-ai.provider';
 
 interface ImageGenConfig {
   baseUrl: string;
@@ -15,12 +20,18 @@ export class ImageGenProvider extends BaseAIProvider {
     super();
   }
 
-  async *_chat(_messages: ChatMessage[], _options?: ChatOptions): AsyncGenerator<string> {
+  async *_chat(
+    _messages: ChatMessage[],
+    _options?: ChatOptions,
+  ): AsyncGenerator<string> {
     throw new Error('Chat not supported by image generation provider');
   }
 
   // Implement abstract method
-  async *chat(_messages: ChatMessage[], _options?: ChatOptions): AsyncGenerator<string> {
+  async *chat(
+    _messages: ChatMessage[],
+    _options?: ChatOptions,
+  ): AsyncGenerator<string> {
     throw new Error('Chat not supported by image generation provider');
   }
 
@@ -45,7 +56,9 @@ export class ImageGenProvider extends BaseAIProvider {
 
     if (!response.ok) {
       const errorText = await response.text();
-      this.logger.error(`Image generation error: ${response.status} - ${errorText}`);
+      this.logger.error(
+        `Image generation error: ${response.status} - ${errorText}`,
+      );
       throw new Error(`Image generation error: ${response.status}`);
     }
 

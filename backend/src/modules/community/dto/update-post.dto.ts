@@ -1,4 +1,11 @@
-import { IsString, IsOptional, IsEnum, IsArray, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsEnum,
+  IsArray,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { PostType } from './create-post.dto';
 

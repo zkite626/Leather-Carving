@@ -1,6 +1,10 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreatePatternDto, UpdatePatternDto, QueryPatternDto } from './dto/pattern.dto';
+import {
+  CreatePatternDto,
+  UpdatePatternDto,
+  QueryPatternDto,
+} from './dto/pattern.dto';
 
 @Injectable()
 export class PatternService {
@@ -55,18 +59,27 @@ export class PatternService {
 
     return {
       data: patterns,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
   async findOne(id: string) {
-    const pattern = await this.prisma.patternAsset.findUnique({ where: { id } });
+    const pattern = await this.prisma.patternAsset.findUnique({
+      where: { id },
+    });
     if (!pattern) throw new NotFoundException('Pattern not found');
     return pattern;
   }
 
   async update(id: string, dto: UpdatePatternDto) {
-    const pattern = await this.prisma.patternAsset.findUnique({ where: { id } });
+    const pattern = await this.prisma.patternAsset.findUnique({
+      where: { id },
+    });
     if (!pattern) throw new NotFoundException('Pattern not found');
 
     return this.prisma.patternAsset.update({
@@ -84,7 +97,9 @@ export class PatternService {
   }
 
   async remove(id: string) {
-    const pattern = await this.prisma.patternAsset.findUnique({ where: { id } });
+    const pattern = await this.prisma.patternAsset.findUnique({
+      where: { id },
+    });
     if (!pattern) throw new NotFoundException('Pattern not found');
 
     await this.prisma.patternAsset.delete({ where: { id } });

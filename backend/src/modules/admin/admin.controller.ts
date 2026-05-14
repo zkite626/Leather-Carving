@@ -81,13 +81,19 @@ export class AdminController {
 
   @Patch('users/:id/role')
   @ApiOperation({ summary: 'Update user role' })
-  async updateUserRole(@Param('id') id: string, @Body() dto: UpdateUserRoleDto) {
+  async updateUserRole(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserRoleDto,
+  ) {
     return this.adminUserService.updateUserRole(id, dto);
   }
 
   @Patch('users/:id/status')
   @ApiOperation({ summary: 'Ban or unban user' })
-  async updateUserStatus(@Param('id') id: string, @Body() dto: UpdateUserStatusDto) {
+  async updateUserStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserStatusDto,
+  ) {
     return this.adminUserService.updateUserStatus(id, dto);
   }
 
@@ -141,7 +147,10 @@ export class AdminController {
 
   @Patch('orders/:id/status')
   @ApiOperation({ summary: 'Update order status' })
-  updateOrderStatus(@Param('id') id: string, @Body() dto: UpdateOrderStatusDto) {
+  updateOrderStatus(
+    @Param('id') id: string,
+    @Body() dto: UpdateOrderStatusDto,
+  ) {
     return this.adminOrderService.updateOrderStatus(id, dto);
   }
 
@@ -167,9 +176,16 @@ export class AdminController {
 
   @Get('finance/export')
   @ApiOperation({ summary: 'Export transactions as CSV' })
-  async exportTransactions(@Query() query: FinanceQueryDto, @Res() res: import('express').Response) {
-    const data = await this.adminFinanceService.getTransactions({ ...query, pageSize: 10000 });
-    const header = 'Transaction No,Order No,Amount,Method,Status,Paid At,User\n';
+  async exportTransactions(
+    @Query() query: FinanceQueryDto,
+    @Res() res: import('express').Response,
+  ) {
+    const data = await this.adminFinanceService.getTransactions({
+      ...query,
+      pageSize: 10000,
+    });
+    const header =
+      'Transaction No,Order No,Amount,Method,Status,Paid At,User\n';
     const rows = data.items
       .map(
         (p) =>
@@ -178,7 +194,10 @@ export class AdminController {
       .join('\n');
 
     res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-    res.setHeader('Content-Disposition', 'attachment; filename=transactions.csv');
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=transactions.csv',
+    );
     res.send('﻿' + header + rows);
   }
 

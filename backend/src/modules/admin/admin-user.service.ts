@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, Logger, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Logger,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserQueryDto, UpdateUserRoleDto, UpdateUserStatusDto } from './dto';
 import { Prisma, UserRole } from '@prisma/client';
@@ -77,7 +82,13 @@ export class AdminUserService {
     const updated = await this.prisma.user.update({
       where: { id: userId },
       data: { role: dto.role },
-      select: { id: true, email: true, nickname: true, role: true, status: true },
+      select: {
+        id: true,
+        email: true,
+        nickname: true,
+        role: true,
+        status: true,
+      },
     });
 
     this.logger.log(`User ${userId} role changed: ${user.role} -> ${dto.role}`);
@@ -94,10 +105,18 @@ export class AdminUserService {
     const updated = await this.prisma.user.update({
       where: { id: userId },
       data: { status: dto.status },
-      select: { id: true, email: true, nickname: true, role: true, status: true },
+      select: {
+        id: true,
+        email: true,
+        nickname: true,
+        role: true,
+        status: true,
+      },
     });
 
-    this.logger.log(`User ${userId} status changed: ${user.status} -> ${dto.status}${dto.reason ? ` (reason: ${dto.reason})` : ''}`);
+    this.logger.log(
+      `User ${userId} status changed: ${user.status} -> ${dto.status}${dto.reason ? ` (reason: ${dto.reason})` : ''}`,
+    );
     return updated;
   }
 }

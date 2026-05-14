@@ -1,4 +1,9 @@
-export type UserRole = 'LEARNER' | 'TEACHER' | 'MERCHANT' | 'ADMIN' | 'SUPER_ADMIN';
+export type UserRole =
+  | 'LEARNER'
+  | 'TEACHER'
+  | 'MERCHANT'
+  | 'ADMIN'
+  | 'SUPER_ADMIN';
 
 export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'BANNED';
 

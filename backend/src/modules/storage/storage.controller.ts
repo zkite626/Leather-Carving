@@ -8,7 +8,12 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
 import { StorageService } from './storage.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
@@ -35,7 +40,9 @@ export class StorageController {
     }
 
     if (!type) {
-      throw new BadRequestException('Upload type is required (avatar, course, artwork, product, post)');
+      throw new BadRequestException(
+        'Upload type is required (avatar, course, artwork, product, post)',
+      );
     }
 
     return this.storageService.uploadImage(file, type);

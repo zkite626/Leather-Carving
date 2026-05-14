@@ -32,7 +32,10 @@ export class AuditLogInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
     const { method, path, body, ip, headers } = request;
 
-    if (!AUDIT_METHODS.includes(method) || !AUDIT_PATHS.some((p) => path.startsWith(p))) {
+    if (
+      !AUDIT_METHODS.includes(method) ||
+      !AUDIT_PATHS.some((p) => path.startsWith(p))
+    ) {
       return next.handle();
     }
 
@@ -53,7 +56,8 @@ export class AuditLogInterceptor implements NestInterceptor {
                 action,
                 entityType: this.extractEntityType(path),
                 entityId: this.extractEntityId(path),
-                newData: body && Object.keys(body).length > 0 ? body : undefined,
+                newData:
+                  body && Object.keys(body).length > 0 ? body : undefined,
                 ip: clientIp,
                 userAgent: userAgent.substring(0, 500),
               },
@@ -62,7 +66,9 @@ export class AuditLogInterceptor implements NestInterceptor {
               this.logger.error('Failed to create audit log', err);
             });
 
-          this.logger.debug(`Audit: ${action} by ${userId} (${Date.now() - startTime}ms)`);
+          this.logger.debug(
+            `Audit: ${action} by ${userId} (${Date.now() - startTime}ms)`,
+          );
         },
         error: () => {
           // Still log failed attempts
@@ -74,7 +80,8 @@ export class AuditLogInterceptor implements NestInterceptor {
                 action,
                 entityType: this.extractEntityType(path),
                 entityId: this.extractEntityId(path),
-                newData: body && Object.keys(body).length > 0 ? body : undefined,
+                newData:
+                  body && Object.keys(body).length > 0 ? body : undefined,
                 ip: clientIp,
                 userAgent: userAgent.substring(0, 500),
               },

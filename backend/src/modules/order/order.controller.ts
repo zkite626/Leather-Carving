@@ -45,10 +45,7 @@ export class OrderController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get order detail' })
-  async findOne(
-    @CurrentUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
+  async findOne(@CurrentUser('sub') userId: string, @Param('id') id: string) {
     return this.orderService.findOne(userId, id);
   }
 
@@ -59,15 +56,12 @@ export class OrderController {
     @Param('id') id: string,
     @Body('method') method?: PaymentMethod,
   ) {
-    return this.paymentService.pay(userId, id, method ?? PaymentMethod.MOCK);
+    return this.paymentService.pay(userId, id, method ?? PaymentMethod.WECHAT);
   }
 
   @Post(':id/cancel')
   @ApiOperation({ summary: 'Cancel order' })
-  async cancel(
-    @CurrentUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
+  async cancel(@CurrentUser('sub') userId: string, @Param('id') id: string) {
     return this.orderService.cancel(userId, id);
   }
 

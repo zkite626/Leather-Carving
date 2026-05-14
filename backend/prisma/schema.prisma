@@ -79,7 +79,6 @@ enum OrderStatus {
 enum PaymentMethod {
   WECHAT
   ALIPAY
-  MOCK
 }
 
 enum PaymentStatus {
@@ -205,6 +204,7 @@ model Chapter {
   course  Course   @relation(fields: [courseId], references: [id])
   lessons Lesson[]
 
+  @@index([courseId])
   @@map("chapters")
 }
 
@@ -225,6 +225,7 @@ model Lesson {
   chapter            Chapter          @relation(fields: [chapterId], references: [id])
   lessonProgresses   LessonProgress[]
 
+  @@index([chapterId])
   @@map("lessons")
 }
 
@@ -245,6 +246,8 @@ model Enrollment {
   lessonProgresses LessonProgress[]
 
   @@unique([userId, courseId])
+  @@index([courseId])
+  @@index([userId])
   @@map("enrollments")
 }
 
@@ -263,6 +266,7 @@ model LessonProgress {
   lesson     Lesson     @relation(fields: [lessonId], references: [id])
 
   @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
   @@map("lesson_progresses")
 }
 
@@ -387,6 +391,7 @@ model CartItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@unique([userId, productId])
+  @@index([userId])
   @@map("cart_items")
 }
 
@@ -532,6 +537,9 @@ model Review {
   course  Course?  @relation(fields: [courseId], references: [id])
   product Product? @relation(fields: [productId], references: [id])
 
+  @@index([courseId])
+  @@index([productId])
+  @@index([userId])
   @@map("reviews")
 }
 
@@ -545,6 +553,8 @@ model Favorite {
   user User @relation(fields: [userId], references: [id])
 
   @@unique([userId, entityType, entityId])
+  @@index([userId])
+  @@index([entityType, entityId])
   @@map("favorites")
 }
 
@@ -627,5 +637,8 @@ model AuditLog {
 
   user User? @relation(fields: [userId], references: [id])
 
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
   @@map("audit_logs")
 }

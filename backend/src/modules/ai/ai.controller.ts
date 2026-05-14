@@ -57,7 +57,10 @@ export class AIController {
   @Roles(UserRole.ADMIN, UserRole.SUPER_ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update AI model config' })
-  async updateConfig(@Param('id') id: string, @Body() dto: Record<string, unknown>) {
+  async updateConfig(
+    @Param('id') id: string,
+    @Body() dto: Record<string, unknown>,
+  ) {
     const result = await this.aiConfigService.updateConfig(id, dto);
     return result;
   }
@@ -105,7 +108,9 @@ export class AIController {
       });
 
       for await (const chunk of generator) {
-        res.write(`data: ${JSON.stringify({ content: chunk, done: false })}\n\n`);
+        res.write(
+          `data: ${JSON.stringify({ content: chunk, done: false })}\n\n`,
+        );
       }
 
       res.write(`data: ${JSON.stringify({ content: '', done: true })}\n\n`);

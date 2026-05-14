@@ -31,24 +31,37 @@ export class AdminService {
     }
 
     const now = new Date();
-    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayStart = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+    );
 
-    const [userCount, courseCount, orderCount, revenueResult, todayNewUsers, todayOrders, todayRevenue] =
-      await Promise.all([
-        this.prisma.user.count({ where: { deletedAt: null } }),
-        this.prisma.course.count({ where: { deletedAt: null } }),
-        this.prisma.order.count(),
-        this.prisma.payment.aggregate({
-          where: { status: 'SUCCESS' },
-          _sum: { amount: true },
-        }),
-        this.prisma.user.count({ where: { createdAt: { gte: todayStart }, deletedAt: null } }),
-        this.prisma.order.count({ where: { createdAt: { gte: todayStart } } }),
-        this.prisma.payment.aggregate({
-          where: { status: 'SUCCESS', paidAt: { gte: todayStart } },
-          _sum: { amount: true },
-        }),
-      ]);
+    const [
+      userCount,
+      courseCount,
+      orderCount,
+      revenueResult,
+      todayNewUsers,
+      todayOrders,
+      todayRevenue,
+    ] = await Promise.all([
+      this.prisma.user.count({ where: { deletedAt: null } }),
+      this.prisma.course.count({ where: { deletedAt: null } }),
+      this.prisma.order.count(),
+      this.prisma.payment.aggregate({
+        where: { status: 'SUCCESS' },
+        _sum: { amount: true },
+      }),
+      this.prisma.user.count({
+        where: { createdAt: { gte: todayStart }, deletedAt: null },
+      }),
+      this.prisma.order.count({ where: { createdAt: { gte: todayStart } } }),
+      this.prisma.payment.aggregate({
+        where: { status: 'SUCCESS', paidAt: { gte: todayStart } },
+        _sum: { amount: true },
+      }),
+    ]);
 
     const [userGrowthChart, revenueChart, topCourses] = await Promise.all([
       this.getUserGrowthChart(period),

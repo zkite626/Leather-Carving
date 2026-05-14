@@ -39,7 +39,10 @@ export class CreateAddressDto {
   @MaxLength(200)
   detail!: string;
 
-  @ApiPropertyOptional({ description: 'Set as default address', default: false })
+  @ApiPropertyOptional({
+    description: 'Set as default address',
+    default: false,
+  })
   @IsOptional()
   @IsBoolean()
   isDefault?: boolean;

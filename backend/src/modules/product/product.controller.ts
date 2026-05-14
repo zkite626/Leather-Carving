@@ -94,10 +94,7 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete product (soft)' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.productService.remove(id, userId);
   }
 

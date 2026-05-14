@@ -18,7 +18,11 @@ export class CreateLessonDto {
   @MaxLength(100)
   title!: string;
 
-  @ApiProperty({ enum: LessonType, description: '课时类型', default: LessonType.VIDEO })
+  @ApiProperty({
+    enum: LessonType,
+    description: '课时类型',
+    default: LessonType.VIDEO,
+  })
   @IsEnum(LessonType)
   type!: LessonType;
 

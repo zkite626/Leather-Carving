@@ -5,7 +5,7 @@ import { PaymentMethod } from '@prisma/client';
 export class CreatePaymentDto {
   @ApiPropertyOptional({
     enum: PaymentMethod,
-    default: PaymentMethod.MOCK,
+    default: PaymentMethod.WECHAT,
     description: 'Payment method',
   })
   @IsOptional()

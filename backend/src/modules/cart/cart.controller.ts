@@ -39,10 +39,7 @@ export class CartController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Add item to cart' })
-  async addItem(
-    @CurrentUser('sub') userId: string,
-    @Body() dto: AddToCartDto,
-  ) {
+  async addItem(@CurrentUser('sub') userId: string, @Body() dto: AddToCartDto) {
     return this.cartService.addItem(userId, dto);
   }
 

@@ -7,7 +7,11 @@ import {
 } from '@nestjs/common';
 import { ArtworkStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateArtworkDto, UpdateArtworkDto, QueryArtworkDto } from './dto/create-artwork.dto';
+import {
+  CreateArtworkDto,
+  UpdateArtworkDto,
+  QueryArtworkDto,
+} from './dto/create-artwork.dto';
 
 const MAX_IMAGES = 9;
 
@@ -32,7 +36,9 @@ export class ArtworkService {
       },
       include: {
         images: { orderBy: { sortOrder: 'asc' } },
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -47,11 +53,14 @@ export class ArtworkService {
     });
 
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     const currentCount = artwork.images.length;
     if (currentCount + imageUrls.length > MAX_IMAGES) {
-      throw new BadRequestException(`Maximum ${MAX_IMAGES} images allowed. Currently: ${currentCount}`);
+      throw new BadRequestException(
+        `Maximum ${MAX_IMAGES} images allowed. Currently: ${currentCount}`,
+      );
     }
 
     const images = await Promise.all(
@@ -84,7 +93,8 @@ export class ArtworkService {
     });
 
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     const image = artwork.images.find((img) => img.id === imageId);
     if (!image) throw new NotFoundException('Image not found');
@@ -104,7 +114,8 @@ export class ArtworkService {
     });
 
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     const image = artwork.images.find((img) => img.id === imageId);
     if (!image) throw new NotFoundException('Image not found');
@@ -122,9 +133,12 @@ export class ArtworkService {
   }
 
   async reorderImages(artworkId: string, userId: string, imageIds: string[]) {
-    const artwork = await this.prisma.artwork.findUnique({ where: { id: artworkId } });
+    const artwork = await this.prisma.artwork.findUnique({
+      where: { id: artworkId },
+    });
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     await Promise.all(
       imageIds.map((id, index) =>
@@ -137,12 +151,17 @@ export class ArtworkService {
   }
 
   async submitForReview(artworkId: string, userId: string) {
-    const artwork = await this.prisma.artwork.findUnique({ where: { id: artworkId } });
+    const artwork = await this.prisma.artwork.findUnique({
+      where: { id: artworkId },
+    });
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     if (artwork.status !== 'DRAFT' && artwork.status !== 'REJECTED') {
-      throw new BadRequestException('Only draft or rejected artworks can be submitted');
+      throw new BadRequestException(
+        'Only draft or rejected artworks can be submitted',
+      );
     }
 
     return this.prisma.artwork.update({
@@ -186,7 +205,9 @@ export class ArtworkService {
         orderBy,
         include: {
           images: { orderBy: { sortOrder: 'asc' }, take: 1 },
-          user: { select: { id: true, nickname: true, avatar: true, role: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, role: true },
+          },
         },
       }),
       this.prisma.artwork.count({ where }),
@@ -194,7 +215,12 @@ export class ArtworkService {
 
     return {
       data: artworks,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
@@ -203,22 +229,40 @@ export class ArtworkService {
       where: { id, deletedAt: null },
       include: {
         images: { orderBy: { sortOrder: 'asc' } },
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
         comments: {
           where: { parentId: null, deletedAt: null },
           orderBy: { createdAt: 'desc' },
           include: {
-            user: { select: { id: true, nickname: true, avatar: true, role: true } },
+            user: {
+              select: { id: true, nickname: true, avatar: true, role: true },
+            },
             replies: {
               where: { deletedAt: null },
               orderBy: { createdAt: 'asc' },
               include: {
-                user: { select: { id: true, nickname: true, avatar: true, role: true } },
+                user: {
+                  select: {
+                    id: true,
+                    nickname: true,
+                    avatar: true,
+                    role: true,
+                  },
+                },
                 replies: {
                   where: { deletedAt: null },
                   orderBy: { createdAt: 'asc' },
                   include: {
-                    user: { select: { id: true, nickname: true, avatar: true, role: true } },
+                    user: {
+                      select: {
+                        id: true,
+                        nickname: true,
+                        avatar: true,
+                        role: true,
+                      },
+                    },
                   },
                 },
               },
@@ -262,14 +306,20 @@ export class ArtworkService {
 
     return {
       data: artworks,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
   async update(id: string, userId: string, dto: UpdateArtworkDto) {
     const artwork = await this.prisma.artwork.findUnique({ where: { id } });
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     return this.prisma.artwork.update({
       where: { id },
@@ -288,7 +338,8 @@ export class ArtworkService {
   async remove(id: string, userId: string) {
     const artwork = await this.prisma.artwork.findUnique({ where: { id } });
     if (!artwork) throw new NotFoundException('Artwork not found');
-    if (artwork.userId !== userId) throw new ForbiddenException('Not your artwork');
+    if (artwork.userId !== userId)
+      throw new ForbiddenException('Not your artwork');
 
     await this.prisma.artwork.update({
       where: { id },
@@ -314,7 +365,9 @@ export class ArtworkService {
       orderBy: { createdAt: 'desc' },
       include: {
         images: { orderBy: { sortOrder: 'asc' }, take: 1 },
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
   }

@@ -58,7 +58,9 @@ export class CartService {
         },
       });
 
-      this.logger.log(`Cart item updated: ${existingItem.id} qty ${newQuantity} by user ${userId}`);
+      this.logger.log(
+        `Cart item updated: ${existingItem.id} qty ${newQuantity} by user ${userId}`,
+      );
       return updated;
     }
 
@@ -93,7 +95,9 @@ export class CartService {
       },
     });
 
-    this.logger.log(`Cart item added: product ${dto.productId} qty ${dto.quantity} by user ${userId}`);
+    this.logger.log(
+      `Cart item added: product ${dto.productId} qty ${dto.quantity} by user ${userId}`,
+    );
     return created;
   }
 
@@ -146,7 +150,9 @@ export class CartService {
       },
     });
 
-    this.logger.log(`Cart item ${itemId} quantity updated to ${dto.quantity} by user ${userId}`);
+    this.logger.log(
+      `Cart item ${itemId} quantity updated to ${dto.quantity} by user ${userId}`,
+    );
     return updated;
   }
 
@@ -170,7 +176,9 @@ export class CartService {
       where: { userId },
     });
 
-    this.logger.log(`Cart cleared for user ${userId}: ${deleteResult.count} items removed`);
+    this.logger.log(
+      `Cart cleared for user ${userId}: ${deleteResult.count} items removed`,
+    );
     return { message: 'Cart cleared', count: deleteResult.count };
   }
 

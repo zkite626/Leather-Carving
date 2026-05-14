@@ -16,7 +16,10 @@ export class CommentService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  private async validateEntity(entityType: 'artwork' | 'post', entityId: string) {
+  private async validateEntity(
+    entityType: 'artwork' | 'post',
+    entityId: string,
+  ) {
     if (entityType === 'artwork') {
       const artwork = await this.prisma.artwork.findUnique({
         where: { id: entityId, deletedAt: null },
@@ -28,7 +31,9 @@ export class CommentService {
       });
       if (!post) throw new NotFoundException('Post not found');
     } else {
-      throw new BadRequestException('Invalid entity type. Must be artwork or post');
+      throw new BadRequestException(
+        'Invalid entity type. Must be artwork or post',
+      );
     }
   }
 
@@ -37,7 +42,9 @@ export class CommentService {
     let currentId: string | null = parentId;
 
     while (currentId && depth < MAX_DEPTH) {
-      const row: { parentId: string | null } | null = await (this.prisma as any).comment.findUnique({
+      const row: { parentId: string | null } | null = await (
+        this.prisma as any
+      ).comment.findUnique({
         where: { id: currentId },
         select: { parentId: true },
       });
@@ -59,22 +66,33 @@ export class CommentService {
 
     let depth = 0;
     if (dto.parentId) {
-      const parent: { id: string; parentId: string | null; artworkId: string | null; postId: string | null } | null = await this.prisma.comment.findUnique({
+      const parent: {
+        id: string;
+        parentId: string | null;
+        artworkId: string | null;
+        postId: string | null;
+      } | null = await this.prisma.comment.findUnique({
         where: { id: dto.parentId },
       });
       if (!parent) throw new NotFoundException('Parent comment not found');
 
       // Check that parent belongs to the same entity
       if (entityType === 'artwork' && parent.artworkId !== entityId) {
-        throw new BadRequestException('Parent comment does not belong to this artwork');
+        throw new BadRequestException(
+          'Parent comment does not belong to this artwork',
+        );
       }
       if (entityType === 'post' && parent.postId !== entityId) {
-        throw new BadRequestException('Parent comment does not belong to this post');
+        throw new BadRequestException(
+          'Parent comment does not belong to this post',
+        );
       }
 
       depth = await this.checkDepth(dto.parentId);
       if (depth >= MAX_DEPTH - 1) {
-        throw new BadRequestException(`Maximum reply depth of ${MAX_DEPTH} levels exceeded`);
+        throw new BadRequestException(
+          `Maximum reply depth of ${MAX_DEPTH} levels exceeded`,
+        );
       }
     }
 
@@ -93,7 +111,9 @@ export class CommentService {
     const comment = await this.prisma.comment.create({
       data,
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -105,7 +125,9 @@ export class CommentService {
       });
     }
 
-    this.logger.log(`Comment created on ${entityType}/${entityId} by user ${userId}`);
+    this.logger.log(
+      `Comment created on ${entityType}/${entityId} by user ${userId}`,
+    );
     return comment;
   }
 
@@ -136,17 +158,28 @@ export class CommentService {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { id: true, nickname: true, avatar: true, role: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, role: true },
+          },
           replies: {
             where: { deletedAt: null },
             orderBy: { createdAt: 'asc' },
             include: {
-              user: { select: { id: true, nickname: true, avatar: true, role: true } },
+              user: {
+                select: { id: true, nickname: true, avatar: true, role: true },
+              },
               replies: {
                 where: { deletedAt: null },
                 orderBy: { createdAt: 'asc' },
                 include: {
-                  user: { select: { id: true, nickname: true, avatar: true, role: true } },
+                  user: {
+                    select: {
+                      id: true,
+                      nickname: true,
+                      avatar: true,
+                      role: true,
+                    },
+                  },
                 },
               },
             },
@@ -158,7 +191,12 @@ export class CommentService {
 
     return {
       data: comments,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 

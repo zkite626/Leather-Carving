@@ -1,10 +1,22 @@
-import { Injectable, Logger, ServiceUnavailableException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import { AIConfigService } from './ai-config.service';
-import { BaseAIProvider, ChatMessage, ImageOptions } from './providers/base-ai.provider';
+import {
+  BaseAIProvider,
+  ChatMessage,
+  ImageOptions,
+} from './providers/base-ai.provider';
 import { OpenAICompatProvider } from './providers/openai-compat.provider';
 import { ImageGenProvider } from './providers/image-gen.provider';
 import { RedisService } from '../redis/redis.service';
-import { LEARNING_ASSISTANT_PROMPT, PATTERN_GENERATION_PROMPT, RECOMMEND_PROMPT } from './prompts';
+import {
+  LEARNING_ASSISTANT_PROMPT,
+  PATTERN_GENERATION_PROMPT,
+  RECOMMEND_PROMPT,
+} from './prompts';
 
 const CHAT_HISTORY_TTL = 1800; // 30 minutes
 const CHAT_HISTORY_PREFIX = 'ai_chat:';
@@ -22,7 +34,9 @@ export class AIService {
   private async getProvider(capability: string): Promise<BaseAIProvider> {
     const config = await this.configService.getConfigByCapability(capability);
     if (!config) {
-      throw new ServiceUnavailableException(`No active AI model configured for capability: ${capability}`);
+      throw new ServiceUnavailableException(
+        `No active AI model configured for capability: ${capability}`,
+      );
     }
 
     if (config.providerType === 'openai_compat') {
@@ -43,7 +57,9 @@ export class AIService {
       });
     }
 
-    throw new ServiceUnavailableException(`Unsupported provider type: ${config.providerType}`);
+    throw new ServiceUnavailableException(
+      `Unsupported provider type: ${config.providerType}`,
+    );
   }
 
   async *chat(params: {
@@ -87,7 +103,9 @@ export class AIService {
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : String(error);
       this.logger.error(`AI chat error: ${errMsg}`);
-      throw new ServiceUnavailableException('AI service is temporarily unavailable');
+      throw new ServiceUnavailableException(
+        'AI service is temporarily unavailable',
+      );
     }
 
     // Save to history (sliding window)
@@ -100,7 +118,11 @@ export class AIService {
     }
 
     try {
-      await this.redis.set(historyKey, JSON.stringify(history), CHAT_HISTORY_TTL);
+      await this.redis.set(
+        historyKey,
+        JSON.stringify(history),
+        CHAT_HISTORY_TTL,
+      );
     } catch {
       // Redis unavailable
     }
@@ -113,9 +135,15 @@ export class AIService {
   }): Promise<string> {
     const { prompt, style, size } = params;
 
-    const styleDesc = style && PATTERN_GENERATION_PROMPT.styles[style as keyof typeof PATTERN_GENERATION_PROMPT.styles]
-      ? PATTERN_GENERATION_PROMPT.styles[style as keyof typeof PATTERN_GENERATION_PROMPT.styles]
-      : '';
+    const styleDesc =
+      style &&
+      PATTERN_GENERATION_PROMPT.styles[
+        style as keyof typeof PATTERN_GENERATION_PROMPT.styles
+      ]
+        ? PATTERN_GENERATION_PROMPT.styles[
+            style as keyof typeof PATTERN_GENERATION_PROMPT.styles
+          ]
+        : '';
 
     const fullPrompt = styleDesc
       ? `${PATTERN_GENERATION_PROMPT.system}\n${styleDesc}\n\n用户需求：${prompt}`

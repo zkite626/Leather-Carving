@@ -9,7 +9,10 @@ export const registerSchema = z.object({
     .regex(/[a-z]/, '密码必须包含小写字母')
     .regex(/[A-Z]/, '密码必须包含大写字母')
     .regex(/[0-9]/, '密码必须包含数字'),
-  nickname: z.string().min(2, '昵称至少 2 个字符').max(20, '昵称最多 20 个字符'),
+  nickname: z
+    .string()
+    .min(2, '昵称至少 2 个字符')
+    .max(20, '昵称最多 20 个字符'),
   phone: z
     .string()
     .regex(/^1[3-9]\d{9}$/, '请输入有效的手机号')

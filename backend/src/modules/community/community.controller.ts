@@ -9,7 +9,12 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { CommunityService } from './community.service';
 import { CreatePostDto, PostType } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -37,7 +42,14 @@ export class CommunityController {
     @Query('sortBy') sortBy?: string,
     @Query('sortOrder') sortOrder?: 'asc' | 'desc',
   ) {
-    return this.communityService.findAll({ page, pageSize, type, keyword, sortBy, sortOrder });
+    return this.communityService.findAll({
+      page,
+      pageSize,
+      type,
+      keyword,
+      sortBy,
+      sortOrder,
+    });
   }
 
   @Get('posts/hot')
@@ -56,10 +68,7 @@ export class CommunityController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a post' })
-  async create(
-    @CurrentUser('sub') userId: string,
-    @Body() dto: CreatePostDto,
-  ) {
+  async create(@CurrentUser('sub') userId: string, @Body() dto: CreatePostDto) {
     return this.communityService.create(userId, dto);
   }
 
@@ -79,10 +88,7 @@ export class CommunityController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a post' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     await this.communityService.remove(id, userId);
     return { message: 'Post deleted' };
   }
@@ -102,10 +108,7 @@ export class CommunityController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Check in to a challenge' })
-  async checkin(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async checkin(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.communityService.checkin(userId, id);
   }
 }

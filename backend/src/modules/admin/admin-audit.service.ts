@@ -15,7 +15,9 @@ export class AdminAuditService {
     const skip = (page - 1) * pageSize;
 
     const where: Prisma.AuditLogWhereInput = {
-      ...(query.action && { action: { contains: query.action, mode: 'insensitive' } }),
+      ...(query.action && {
+        action: { contains: query.action, mode: 'insensitive' },
+      }),
       ...(query.userId && { userId: query.userId }),
       ...((query.startDate || query.endDate) && {
         createdAt: {
@@ -32,7 +34,9 @@ export class AdminAuditService {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { id: true, nickname: true, email: true, avatar: true } },
+          user: {
+            select: { id: true, nickname: true, email: true, avatar: true },
+          },
         },
       }),
       this.prisma.auditLog.count({ where }),

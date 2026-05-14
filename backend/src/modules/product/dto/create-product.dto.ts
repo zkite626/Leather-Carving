@@ -26,7 +26,9 @@ export class CreateProductDto {
   @MaxLength(200)
   slug?: string;
 
-  @ApiPropertyOptional({ example: '采用传统壮锦纹样与现代皮雕工艺相结合的手提包' })
+  @ApiPropertyOptional({
+    example: '采用传统壮锦纹样与现代皮雕工艺相结合的手提包',
+  })
   @IsOptional()
   @IsString()
   description?: string;
@@ -67,7 +69,9 @@ export class CreateProductDto {
   @IsBoolean()
   isGuangxi?: boolean;
 
-  @ApiPropertyOptional({ example: { material: '头层牛皮', size: '30x25x10cm' } })
+  @ApiPropertyOptional({
+    example: { material: '头层牛皮', size: '30x25x10cm' },
+  })
   @IsOptional()
   @IsObject()
   attributes?: Record<string, unknown>;

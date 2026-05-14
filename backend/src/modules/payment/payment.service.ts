@@ -4,7 +4,7 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
-import { PaymentMethod, PaymentStatus, OrderStatus, Prisma } from '@prisma/client';
+import { PaymentMethod, PaymentStatus, OrderStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -13,7 +13,11 @@ export class PaymentService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async pay(userId: string, orderId: string, method: PaymentMethod): Promise<{
+  async pay(
+    userId: string,
+    orderId: string,
+    method: PaymentMethod,
+  ): Promise<{
     id: string;
     status: PaymentStatus;
     transactionNo: string;
@@ -35,8 +39,17 @@ export class PaymentService {
       throw new BadRequestException('Order is not in pending status');
     }
 
+    // Validate payment method
+    if (method !== PaymentMethod.WECHAT && method !== PaymentMethod.ALIPAY) {
+      throw new BadRequestException(
+        'Invalid payment method. Supported: WECHAT, ALIPAY',
+      );
+    }
+
     const transactionNo = this.generateTransactionNo();
 
+    // TODO: Integrate with real WeChat Pay / Alipay SDK
+    // For now, simulate payment processing
     const result = await this.prisma.$transaction(async (tx) => {
       const payment = await tx.payment.create({
         data: {
@@ -61,7 +74,7 @@ export class PaymentService {
     });
 
     this.logger.log(
-      `Payment successful: ${result.id}, order: ${orderId}, txn: ${transactionNo}`,
+      `Payment successful: ${result.id}, order: ${orderId}, method: ${method}, txn: ${transactionNo}`,
     );
 
     return {

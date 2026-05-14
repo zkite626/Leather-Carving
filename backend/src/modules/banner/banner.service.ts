@@ -66,8 +66,12 @@ export class BannerService {
         ...(dto.position !== undefined && { position: dto.position }),
         ...(dto.sortOrder !== undefined && { sortOrder: dto.sortOrder }),
         ...(dto.isActive !== undefined && { isActive: dto.isActive }),
-        ...(dto.startAt !== undefined && { startAt: dto.startAt ? new Date(dto.startAt) : null }),
-        ...(dto.endAt !== undefined && { endAt: dto.endAt ? new Date(dto.endAt) : null }),
+        ...(dto.startAt !== undefined && {
+          startAt: dto.startAt ? new Date(dto.startAt) : null,
+        }),
+        ...(dto.endAt !== undefined && {
+          endAt: dto.endAt ? new Date(dto.endAt) : null,
+        }),
       },
     });
   }

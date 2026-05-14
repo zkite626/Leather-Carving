@@ -14,28 +14,39 @@ export class AdminFinanceService {
     const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 1);
 
-    const [totalRevenue, monthlyRevenue, lastMonthRevenue, orderCount, paidOrderCount] =
-      await Promise.all([
-        this.prisma.payment.aggregate({
-          where: { status: 'SUCCESS' },
-          _sum: { amount: true },
-        }),
-        this.prisma.payment.aggregate({
-          where: { status: 'SUCCESS', paidAt: { gte: monthStart } },
-          _sum: { amount: true },
-        }),
-        this.prisma.payment.aggregate({
-          where: { status: 'SUCCESS', paidAt: { gte: lastMonthStart, lt: lastMonthEnd } },
-          _sum: { amount: true },
-        }),
-        this.prisma.order.count(),
-        this.prisma.order.count({ where: { status: { notIn: ['PENDING', 'CANCELLED'] } } }),
-      ]);
+    const [
+      totalRevenue,
+      monthlyRevenue,
+      lastMonthRevenue,
+      orderCount,
+      paidOrderCount,
+    ] = await Promise.all([
+      this.prisma.payment.aggregate({
+        where: { status: 'SUCCESS' },
+        _sum: { amount: true },
+      }),
+      this.prisma.payment.aggregate({
+        where: { status: 'SUCCESS', paidAt: { gte: monthStart } },
+        _sum: { amount: true },
+      }),
+      this.prisma.payment.aggregate({
+        where: {
+          status: 'SUCCESS',
+          paidAt: { gte: lastMonthStart, lt: lastMonthEnd },
+        },
+        _sum: { amount: true },
+      }),
+      this.prisma.order.count(),
+      this.prisma.order.count({
+        where: { status: { notIn: ['PENDING', 'CANCELLED'] } },
+      }),
+    ]);
 
     const total = Number(totalRevenue._sum.amount ?? 0);
     const monthly = Number(monthlyRevenue._sum.amount ?? 0);
     const lastMonthly = Number(lastMonthRevenue._sum.amount ?? 0);
-    const monthGrowth = lastMonthly > 0 ? ((monthly - lastMonthly) / lastMonthly) * 100 : 0;
+    const monthGrowth =
+      lastMonthly > 0 ? ((monthly - lastMonthly) / lastMonthly) * 100 : 0;
 
     return {
       totalRevenue: total,
@@ -43,7 +54,10 @@ export class AdminFinanceService {
       monthGrowth: Math.round(monthGrowth * 100) / 100,
       orderCount,
       paidOrderCount,
-      averageOrderValue: paidOrderCount > 0 ? Math.round((total / paidOrderCount) * 100) / 100 : 0,
+      averageOrderValue:
+        paidOrderCount > 0
+          ? Math.round((total / paidOrderCount) * 100) / 100
+          : 0,
     };
   }
 
@@ -73,7 +87,9 @@ export class AdminFinanceService {
           order: {
             include: {
               user: { select: { id: true, nickname: true, email: true } },
-              items: { select: { productName: true, quantity: true, price: true } },
+              items: {
+                select: { productName: true, quantity: true, price: true },
+              },
             },
           },
         },

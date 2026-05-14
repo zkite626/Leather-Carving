@@ -182,8 +182,50 @@ export default async function CourseDetailPage({
   const totalChapterLessons = chapters.reduce((sum, ch) => sum + ch.lessons.length, 0);
   const maxDistribution = Math.max(...Object.values(reviewSummary.distribution), 1);
 
+  // JSON-LD structured data for Course schema
+  const courseJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: title,
+    description: subtitle || description?.slice(0, 300) || `${title} - 艺育皮韵非遗皮雕课程`,
+    provider: {
+      '@type': 'Organization',
+      name: '艺育皮韵',
+      sameAs: process.env.NEXT_PUBLIC_APP_URL || 'https://leather-art.edu',
+    },
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://leather-art.edu'}/courses/${slug}`,
+    image: coverImage || undefined,
+    isAccessibleForFree: isFree,
+    aggregateRating: reviewSummary.count > 0 ? {
+      '@type': 'AggregateRating',
+      ratingValue: reviewSummary.average,
+      reviewCount: reviewSummary.count,
+      bestRating: 5,
+      worstRating: 1,
+    } : undefined,
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'online',
+      courseWorkload: formatTotalDuration(totalDuration),
+    },
+    offers: {
+      '@type': 'Offer',
+      price: isFree ? 0 : price,
+      priceCurrency: 'CNY',
+      availability: 'https://schema.org/InStock',
+    },
+    numberOfCredits: totalLessons,
+    educationalLevel: LEVEL_LABELS[level],
+  };
+
   return (
     <div className={styles.page}>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
+
       {/* Accordion initialization script */}
       <script dangerouslySetInnerHTML={{ __html: CHAPTER_ACCORDION_SCRIPT }} />
 

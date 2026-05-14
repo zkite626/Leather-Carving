@@ -9,7 +9,7 @@ export type OrderStatus =
   | 'REFUNDING'
   | 'REFUNDED';
 
-export type PaymentMethod = 'WECHAT' | 'ALIPAY' | 'MOCK';
+export type PaymentMethod = 'WECHAT' | 'ALIPAY';
 
 export type PaymentStatus = 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED';
 

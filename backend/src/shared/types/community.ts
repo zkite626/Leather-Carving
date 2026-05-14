@@ -1,6 +1,11 @@
 import type { IUserPublic } from './user';
 
-export type PostType = 'DISCUSSION' | 'SHOWCASE' | 'QUESTION' | 'TUTORIAL' | 'CHALLENGE';
+export type PostType =
+  | 'DISCUSSION'
+  | 'SHOWCASE'
+  | 'QUESTION'
+  | 'TUTORIAL'
+  | 'CHALLENGE';
 
 export type PostStatus = 'PUBLISHED' | 'HIDDEN' | 'DELETED';
 

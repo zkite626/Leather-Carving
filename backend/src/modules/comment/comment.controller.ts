@@ -26,7 +26,12 @@ export class CommentController {
     @Query('page') page?: number,
     @Query('pageSize') pageSize?: number,
   ) {
-    return this.commentService.findByEntity('artwork', artworkId, page, pageSize);
+    return this.commentService.findByEntity(
+      'artwork',
+      artworkId,
+      page,
+      pageSize,
+    );
   }
 
   @Post('artworks/:artworkId')
@@ -67,10 +72,7 @@ export class CommentController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete comment' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     await this.commentService.remove(id, userId);
     return { message: 'Comment deleted' };
   }

@@ -8,7 +8,9 @@ export class CreateCommentDto {
   @MaxLength(1000)
   content!: string;
 
-  @ApiPropertyOptional({ description: 'Parent comment ID for replies (max 3 levels)' })
+  @ApiPropertyOptional({
+    description: 'Parent comment ID for replies (max 3 levels)',
+  })
   @IsOptional()
   @IsString()
   parentId?: string;

@@ -21,7 +21,9 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     try {
-      const token = client.handshake.auth?.token || client.handshake.headers?.authorization?.replace('Bearer ', '');
+      const token =
+        client.handshake.auth?.token ||
+        client.handshake.headers?.authorization?.replace('Bearer ', '');
 
       if (!token) {
         this.logger.warn(`Client ${client.id} connected without token`);
@@ -29,7 +31,10 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
         return;
       }
 
-      const payload = jwt.verify(token, process.env.JWT_SECRET || 'default-secret') as any;
+      const payload = jwt.verify(
+        token,
+        process.env.JWT_SECRET || 'default-secret',
+      ) as any;
       const userId = payload.sub;
 
       client.data.userId = userId;
@@ -47,7 +52,9 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('notification:read')
   handleNotificationRead(client: Socket, data: { notificationId: string }) {
-    this.logger.debug(`User ${client.data.userId} read notification ${data.notificationId}`);
+    this.logger.debug(
+      `User ${client.data.userId} read notification ${data.notificationId}`,
+    );
   }
 
   sendToUser(userId: string, event: string, data: any) {

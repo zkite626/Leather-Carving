@@ -65,8 +65,48 @@ export default async function ProductDetailPage({
 
   const categoryName = product.category?.name ?? '';
 
+  // JSON-LD structured data for Product schema
+  const productJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description?.slice(0, 300) || product.name,
+    image: product.coverImage || undefined,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://leather-art.edu'}/shop/${slug}`,
+    brand: {
+      '@type': 'Brand',
+      name: '艺育皮韵',
+    },
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'CNY',
+      availability: product.stock > 0
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      seller: {
+        '@type': 'Organization',
+        name: '艺育皮韵',
+      },
+    },
+    category: categoryName || undefined,
+    aggregateRating: product.reviewSummary.count > 0 ? {
+      '@type': 'AggregateRating',
+      ratingValue: product.rating,
+      reviewCount: product.reviewSummary.count,
+      bestRating: 5,
+      worstRating: 1,
+    } : undefined,
+  };
+
   return (
     <div className={styles.page}>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
       {/* ========== Breadcrumb ========== */}
       <nav className={styles.breadcrumb} aria-label="面包屑导航">
         <Link href="/" className={styles.breadcrumbLink}>首页</Link>

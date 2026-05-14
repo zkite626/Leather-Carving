@@ -41,7 +41,9 @@ export class FavoriteService {
         });
       }
 
-      this.logger.log(`Favorite removed: ${entityType}/${entityId} by user ${userId}`);
+      this.logger.log(
+        `Favorite removed: ${entityType}/${entityId} by user ${userId}`,
+      );
       return { favorited: false };
     }
 
@@ -62,7 +64,9 @@ export class FavoriteService {
       });
     }
 
-    this.logger.log(`Favorite added: ${entityType}/${entityId} by user ${userId}`);
+    this.logger.log(
+      `Favorite added: ${entityType}/${entityId} by user ${userId}`,
+    );
     return { favorited: true };
   }
 
@@ -75,7 +79,12 @@ export class FavoriteService {
     return { favorited: !!existing };
   }
 
-  async getMyFavorites(userId: string, entityType?: string, page = 1, pageSize = 20) {
+  async getMyFavorites(
+    userId: string,
+    entityType?: string,
+    page = 1,
+    pageSize = 20,
+  ) {
     const skip = (page - 1) * pageSize;
     const where: any = { userId };
     if (entityType) where.entityType = entityType;
@@ -92,7 +101,12 @@ export class FavoriteService {
 
     return {
       data: favorites,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 }

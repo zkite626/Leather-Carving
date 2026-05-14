@@ -35,13 +35,12 @@ import { AdminModule } from './modules/admin/admin.module';
     PrismaModule,
     RedisModule,
 
-    // Rate limiting
+    // Rate limiting — tiered throttlers for burst protection and general traffic
     ThrottlerModule.forRoot({
       throttlers: [
-        {
-          ttl: 60000,
-          limit: 60,
-        },
+        { name: 'short', ttl: 1000, limit: 3 }, // 3/sec for burst protection
+        { name: 'medium', ttl: 10000, limit: 20 }, // 20/10sec for normal traffic
+        { name: 'long', ttl: 60000, limit: 100 }, // 100/min general cap
       ],
     }),
 

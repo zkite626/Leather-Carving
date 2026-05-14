@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, Logger, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Logger,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { OrderQueryDto, UpdateOrderStatusDto } from './dto';
 import { OrderStatus, Prisma } from '@prisma/client';
@@ -19,7 +24,11 @@ export class AdminOrderService {
       ...(query.keyword && {
         OR: [
           { orderNo: { contains: query.keyword, mode: 'insensitive' } },
-          { user: { nickname: { contains: query.keyword, mode: 'insensitive' } } },
+          {
+            user: {
+              nickname: { contains: query.keyword, mode: 'insensitive' },
+            },
+          },
         ],
       }),
     };
@@ -31,7 +40,9 @@ export class AdminOrderService {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { id: true, nickname: true, avatar: true, email: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, email: true },
+          },
           items: true,
           payments: true,
         },
@@ -51,7 +62,9 @@ export class AdminOrderService {
   }
 
   async updateOrderStatus(orderId: string, dto: UpdateOrderStatusDto) {
-    const order = await this.prisma.order.findUnique({ where: { id: orderId } });
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+    });
     if (!order) throw new NotFoundException('Order not found');
 
     const validTransitions: Record<string, string[]> = {
@@ -90,7 +103,9 @@ export class AdminOrderService {
       },
     });
 
-    this.logger.log(`Order ${order.orderNo} status: ${order.status} -> ${dto.status}`);
+    this.logger.log(
+      `Order ${order.orderNo} status: ${order.status} -> ${dto.status}`,
+    );
     return updated;
   }
 }

@@ -15,8 +15,16 @@ import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { QueryCourseDto } from './dto/query-course.dto';
-import { CreateChapterDto, UpdateChapterDto, ReorderChaptersDto } from './dto/create-chapter.dto';
-import { CreateLessonDto, UpdateLessonDto, ReorderLessonsDto } from './dto/create-lesson.dto';
+import {
+  CreateChapterDto,
+  UpdateChapterDto,
+  ReorderChaptersDto,
+} from './dto/create-chapter.dto';
+import {
+  CreateLessonDto,
+  UpdateLessonDto,
+  ReorderLessonsDto,
+} from './dto/create-lesson.dto';
 import { UpdateProgressDto } from './dto/update-progress.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -92,10 +100,7 @@ export class CourseController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a course (owner only, soft delete)' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     await this.courseService.remove(id, userId);
     return { message: 'Course deleted' };
   }
@@ -105,10 +110,7 @@ export class CourseController {
   @Roles(UserRole.TEACHER, UserRole.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Publish a course' })
-  async publish(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async publish(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.courseService.publish(id, userId);
   }
 

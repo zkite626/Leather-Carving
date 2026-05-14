@@ -58,6 +58,9 @@ export class HealthController {
     const start = Date.now();
     try {
       const client = this.redis.getClient();
+      if (!client) {
+        return { status: 'degraded', latencyMs: Date.now() - start };
+      }
       await client.ping();
       return { status: 'healthy', latencyMs: Date.now() - start };
     } catch {

@@ -139,8 +139,45 @@ export default function PostDetailPage() {
     return <div className={styles.page}><div className={styles.empty}>帖子不存在</div></div>;
   }
 
+  // JSON-LD structured data for Article schema
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.content.slice(0, 300),
+    author: {
+      '@type': 'Person',
+      name: post.author.nickname,
+    },
+    datePublished: post.createdAt,
+    image: post.images?.[0] || undefined,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://leather-art.edu'}/community/${postId}`,
+    publisher: {
+      '@type': 'Organization',
+      name: '艺育皮韵',
+    },
+    interactionStatistic: [
+      {
+        '@type': 'InteractionCounter',
+        interactionType: 'https://schema.org/LikeAction',
+        userInteractionCount: likeCount,
+      },
+      {
+        '@type': 'InteractionCounter',
+        interactionType: 'https://schema.org/CommentAction',
+        userInteractionCount: post.commentCount,
+      },
+    ],
+  };
+
   return (
     <div className={styles.page}>
+      {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+
       <div className={styles.container}>
         {/* Breadcrumb */}
         <div className={styles.breadcrumb}>

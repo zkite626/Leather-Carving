@@ -12,9 +12,18 @@ import {
   UploadedFiles,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { ArtworkService } from './artwork.service';
-import { CreateArtworkDto, UpdateArtworkDto, QueryArtworkDto } from './dto/create-artwork.dto';
+import {
+  CreateArtworkDto,
+  UpdateArtworkDto,
+  QueryArtworkDto,
+} from './dto/create-artwork.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 
@@ -33,7 +42,10 @@ export class ArtworkController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get my artworks' })
-  async findMy(@CurrentUser('sub') userId: string, @Query() query: QueryArtworkDto) {
+  async findMy(
+    @CurrentUser('sub') userId: string,
+    @Query() query: QueryArtworkDto,
+  ) {
     return this.artworkService.findByUser(userId, query);
   }
 
@@ -135,10 +147,7 @@ export class ArtworkController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete artwork (soft)' })
-  async remove(
-    @Param('id') id: string,
-    @CurrentUser('sub') userId: string,
-  ) {
+  async remove(@Param('id') id: string, @CurrentUser('sub') userId: string) {
     return this.artworkService.remove(id, userId);
   }
 }

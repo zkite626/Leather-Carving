@@ -1,6 +1,16 @@
-import { Injectable, NotFoundException, Logger, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Logger,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ContentReviewQueryDto, ApproveContentDto, RejectContentDto, BatchContentActionDto } from './dto';
+import {
+  ContentReviewQueryDto,
+  ApproveContentDto,
+  RejectContentDto,
+  BatchContentActionDto,
+} from './dto';
 import { CourseStatus, ArtworkStatus, PostStatus } from '@prisma/client';
 
 @Injectable()
@@ -30,14 +40,23 @@ export class AdminContentService {
 
     // Fetch courses
     if (type === 'all' || type === 'course') {
-      const courseStatus = status === 'REVIEWING' ? CourseStatus.REVIEWING : status === 'PUBLISHED' ? CourseStatus.PUBLISHED : CourseStatus.DRAFT;
+      const courseStatus =
+        status === 'REVIEWING'
+          ? CourseStatus.REVIEWING
+          : status === 'PUBLISHED'
+            ? CourseStatus.PUBLISHED
+            : CourseStatus.DRAFT;
       if (status !== 'REJECTED') {
         const courses = await this.prisma.course.findMany({
           where: { status: courseStatus, deletedAt: null },
           skip: type === 'course' ? skip : 0,
           take: type === 'course' ? pageSize : 50,
           include: {
-            teacher: { include: { user: { select: { id: true, nickname: true, avatar: true } } } },
+            teacher: {
+              include: {
+                user: { select: { id: true, nickname: true, avatar: true } },
+              },
+            },
           },
           orderBy: { updatedAt: 'desc' },
         });
@@ -58,7 +77,12 @@ export class AdminContentService {
 
     // Fetch artworks
     if (type === 'all' || type === 'artwork') {
-      const artworkStatus = status === 'REVIEWING' ? ArtworkStatus.REVIEWING : status === 'PUBLISHED' ? ArtworkStatus.PUBLISHED : ArtworkStatus.REJECTED;
+      const artworkStatus =
+        status === 'REVIEWING'
+          ? ArtworkStatus.REVIEWING
+          : status === 'PUBLISHED'
+            ? ArtworkStatus.PUBLISHED
+            : ArtworkStatus.REJECTED;
       const artworks = await this.prisma.artwork.findMany({
         where: { status: artworkStatus, deletedAt: null },
         skip: type === 'artwork' ? skip : 0,
@@ -86,7 +110,12 @@ export class AdminContentService {
 
     // Fetch posts
     if (type === 'all' || type === 'post') {
-      const postStatus = status === 'HIDDEN' ? PostStatus.HIDDEN : status === 'PUBLISHED' ? PostStatus.PUBLISHED : PostStatus.PUBLISHED;
+      const postStatus =
+        status === 'HIDDEN'
+          ? PostStatus.HIDDEN
+          : status === 'PUBLISHED'
+            ? PostStatus.PUBLISHED
+            : PostStatus.PUBLISHED;
       const posts = await this.prisma.post.findMany({
         where: { status: postStatus, deletedAt: null },
         skip: type === 'post' ? skip : 0,
@@ -115,8 +144,10 @@ export class AdminContentService {
 
     // Apply pagination for 'all' type
     const total = results.length;
-    const paginatedResults = type === 'all' ? results.slice(skip, skip + pageSize) : results;
-    const totalAll = type === 'all' ? total : await this.getTotalCount(type, status);
+    const paginatedResults =
+      type === 'all' ? results.slice(skip, skip + pageSize) : results;
+    const totalAll =
+      type === 'all' ? total : await this.getTotalCount(type, status);
 
     return {
       items: paginatedResults,
@@ -131,12 +162,26 @@ export class AdminContentService {
 
   private async getTotalCount(type: string, status: string): Promise<number> {
     if (type === 'course') {
-      const s = status === 'REVIEWING' ? CourseStatus.REVIEWING : status === 'PUBLISHED' ? CourseStatus.PUBLISHED : CourseStatus.DRAFT;
-      return this.prisma.course.count({ where: { status: s, deletedAt: null } });
+      const s =
+        status === 'REVIEWING'
+          ? CourseStatus.REVIEWING
+          : status === 'PUBLISHED'
+            ? CourseStatus.PUBLISHED
+            : CourseStatus.DRAFT;
+      return this.prisma.course.count({
+        where: { status: s, deletedAt: null },
+      });
     }
     if (type === 'artwork') {
-      const s = status === 'REVIEWING' ? ArtworkStatus.REVIEWING : status === 'PUBLISHED' ? ArtworkStatus.PUBLISHED : ArtworkStatus.REJECTED;
-      return this.prisma.artwork.count({ where: { status: s, deletedAt: null } });
+      const s =
+        status === 'REVIEWING'
+          ? ArtworkStatus.REVIEWING
+          : status === 'PUBLISHED'
+            ? ArtworkStatus.PUBLISHED
+            : ArtworkStatus.REJECTED;
+      return this.prisma.artwork.count({
+        where: { status: s, deletedAt: null },
+      });
     }
     if (type === 'post') {
       const s = status === 'HIDDEN' ? PostStatus.HIDDEN : PostStatus.PUBLISHED;
@@ -239,19 +284,25 @@ export class AdminContentService {
       try {
         const course = await this.prisma.course.findUnique({ where: { id } });
         if (course) {
-          await this.rejectContent(id, 'course', { reason: dto.reason ?? 'Batch rejected' });
+          await this.rejectContent(id, 'course', {
+            reason: dto.reason ?? 'Batch rejected',
+          });
           results.push({ id, type: 'course', success: true });
           continue;
         }
         const artwork = await this.prisma.artwork.findUnique({ where: { id } });
         if (artwork) {
-          await this.rejectContent(id, 'artwork', { reason: dto.reason ?? 'Batch rejected' });
+          await this.rejectContent(id, 'artwork', {
+            reason: dto.reason ?? 'Batch rejected',
+          });
           results.push({ id, type: 'artwork', success: true });
           continue;
         }
         const post = await this.prisma.post.findUnique({ where: { id } });
         if (post) {
-          await this.rejectContent(id, 'post', { reason: dto.reason ?? 'Batch rejected' });
+          await this.rejectContent(id, 'post', {
+            reason: dto.reason ?? 'Batch rejected',
+          });
           results.push({ id, type: 'post', success: true });
           continue;
         }

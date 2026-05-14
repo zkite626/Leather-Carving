@@ -7,7 +7,10 @@ export class NotificationService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(userId: string, params: { page?: number; pageSize?: number; isRead?: boolean }) {
+  async findAll(
+    userId: string,
+    params: { page?: number; pageSize?: number; isRead?: boolean },
+  ) {
     const { page = 1, pageSize = 20, isRead } = params;
     const skip = (page - 1) * pageSize;
 
@@ -26,7 +29,12 @@ export class NotificationService {
 
     return {
       data: notifications,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
@@ -53,7 +61,9 @@ export class NotificationService {
       },
     });
 
-    this.logger.log(`Notification created for user ${data.userId}: ${data.title}`);
+    this.logger.log(
+      `Notification created for user ${data.userId}: ${data.title}`,
+    );
     return notification;
   }
 

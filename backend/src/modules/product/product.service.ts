@@ -23,8 +23,7 @@ export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(userId: string, dto: CreateProductDto) {
-    const slug =
-      dto.slug ?? this.generateSlug(dto.name);
+    const slug = dto.slug ?? this.generateSlug(dto.name);
 
     const existing = await this.prisma.product.findUnique({
       where: { slug },
@@ -48,9 +47,10 @@ export class ProductService {
         slug,
         description: dto.description,
         price: new Prisma.Decimal(dto.price),
-        originalPrice: dto.originalPrice != null
-          ? new Prisma.Decimal(dto.originalPrice)
-          : undefined,
+        originalPrice:
+          dto.originalPrice != null
+            ? new Prisma.Decimal(dto.originalPrice)
+            : undefined,
         stock: dto.stock ?? 0,
         stockAlert: dto.stockAlert ?? 0,
         isGuangxi: dto.isGuangxi ?? false,
@@ -221,9 +221,10 @@ export class ProductService {
         description: dto.description,
         categoryId: dto.categoryId,
         price: dto.price != null ? new Prisma.Decimal(dto.price) : undefined,
-        originalPrice: dto.originalPrice != null
-          ? new Prisma.Decimal(dto.originalPrice)
-          : undefined,
+        originalPrice:
+          dto.originalPrice != null
+            ? new Prisma.Decimal(dto.originalPrice)
+            : undefined,
         stock: dto.stock,
         stockAlert: dto.stockAlert,
         isGuangxi: dto.isGuangxi,
@@ -290,11 +291,7 @@ export class ProductService {
     return images;
   }
 
-  async reorderImages(
-    productId: string,
-    userId: string,
-    imageIds: string[],
-  ) {
+  async reorderImages(productId: string, userId: string, imageIds: string[]) {
     const product = await this.prisma.product.findUnique({
       where: { id: productId },
     });

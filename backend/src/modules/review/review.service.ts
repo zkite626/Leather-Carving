@@ -17,14 +17,20 @@ export class ReviewService {
 
   // ─── Course Reviews ────────────────────────────────────────────────
 
-  async createCourseReview(userId: string, courseId: string, dto: CreateReviewDto) {
+  async createCourseReview(
+    userId: string,
+    courseId: string,
+    dto: CreateReviewDto,
+  ) {
     // Verify enrollment
     const enrollment = await this.prisma.enrollment.findUnique({
       where: { userId_courseId: { userId, courseId } },
     });
 
     if (!enrollment) {
-      throw new ForbiddenException('You must be enrolled in this course to leave a review');
+      throw new ForbiddenException(
+        'You must be enrolled in this course to leave a review',
+      );
     }
 
     // Check existing review
@@ -45,7 +51,9 @@ export class ReviewService {
         images: dto.images ?? [],
       },
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -66,7 +74,9 @@ export class ReviewService {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { id: true, nickname: true, avatar: true, role: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, role: true },
+          },
         },
       }),
       this.prisma.review.count({ where: { courseId } }),
@@ -110,7 +120,11 @@ export class ReviewService {
 
   // ─── Product Reviews ───────────────────────────────────────────────
 
-  async createProductReview(userId: string, productId: string, dto: CreateReviewDto) {
+  async createProductReview(
+    userId: string,
+    productId: string,
+    dto: CreateReviewDto,
+  ) {
     // Verify user has a completed order containing this product
     const completedOrder = await this.prisma.order.findFirst({
       where: {
@@ -146,14 +160,18 @@ export class ReviewService {
         images: dto.images ?? [],
       },
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
     // Recalculate product rating
     await this.updateProductRating(productId);
 
-    this.logger.log(`Review created for product ${productId} by user ${userId}`);
+    this.logger.log(
+      `Review created for product ${productId} by user ${userId}`,
+    );
     return review;
   }
 
@@ -167,7 +185,9 @@ export class ReviewService {
         take: pageSize,
         orderBy: { createdAt: 'desc' },
         include: {
-          user: { select: { id: true, nickname: true, avatar: true, role: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, role: true },
+          },
         },
       }),
       this.prisma.review.count({ where: { productId } }),

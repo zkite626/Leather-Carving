@@ -22,7 +22,14 @@ export class CommunityService {
     sortBy?: string;
     sortOrder?: 'asc' | 'desc';
   }) {
-    const { page = 1, pageSize = 20, type, keyword, sortBy = 'createdAt', sortOrder = 'desc' } = params;
+    const {
+      page = 1,
+      pageSize = 20,
+      type,
+      keyword,
+      sortBy = 'createdAt',
+      sortOrder = 'desc',
+    } = params;
     const skip = (page - 1) * pageSize;
 
     const where: any = { deletedAt: null, status: 'PUBLISHED' };
@@ -42,7 +49,9 @@ export class CommunityService {
         take: pageSize,
         orderBy: [{ isPinned: 'desc' }, { [sortBy]: sortOrder }],
         include: {
-          user: { select: { id: true, nickname: true, avatar: true, role: true } },
+          user: {
+            select: { id: true, nickname: true, avatar: true, role: true },
+          },
         },
       }),
       this.prisma.post.count({ where }),
@@ -66,7 +75,12 @@ export class CommunityService {
 
     return {
       data: mapped,
-      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
     };
   }
 
@@ -74,7 +88,9 @@ export class CommunityService {
     const post = await this.prisma.post.findUnique({
       where: { id, deletedAt: null },
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -115,7 +131,9 @@ export class CommunityService {
         tags: dto.tags || [],
       },
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -143,7 +161,8 @@ export class CommunityService {
     });
 
     if (!post) throw new NotFoundException('Post not found');
-    if (post.userId !== userId) throw new ForbiddenException('You can only edit your own posts');
+    if (post.userId !== userId)
+      throw new ForbiddenException('You can only edit your own posts');
 
     const updated = await this.prisma.post.update({
       where: { id },
@@ -155,7 +174,9 @@ export class CommunityService {
         ...(dto.tags && { tags: dto.tags }),
       },
       include: {
-        user: { select: { id: true, nickname: true, avatar: true, role: true } },
+        user: {
+          select: { id: true, nickname: true, avatar: true, role: true },
+        },
       },
     });
 
@@ -183,7 +204,8 @@ export class CommunityService {
     });
 
     if (!post) throw new NotFoundException('Post not found');
-    if (post.userId !== userId) throw new ForbiddenException('You can only delete your own posts');
+    if (post.userId !== userId)
+      throw new ForbiddenException('You can only delete your own posts');
 
     await this.prisma.post.update({
       where: { id },

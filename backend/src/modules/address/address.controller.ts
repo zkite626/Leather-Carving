@@ -31,10 +31,7 @@ export class AddressController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get single address' })
-  async findOne(
-    @CurrentUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
+  async findOne(@CurrentUser('sub') userId: string, @Param('id') id: string) {
     return this.addressService.findOne(userId, id);
   }
 
@@ -65,10 +62,7 @@ export class AddressController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete address' })
-  async remove(
-    @CurrentUser('sub') userId: string,
-    @Param('id') id: string,
-  ) {
+  async remove(@CurrentUser('sub') userId: string, @Param('id') id: string) {
     return this.addressService.remove(userId, id);
   }
 }
