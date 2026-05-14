@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { getAdminUsers, updateUserRole, updateUserStatus, type AdminUser, type PaginatedResult } from '@/lib/admin-api';
 import styles from './page.module.css';
 
@@ -109,8 +110,8 @@ export default function AdminUsersPage() {
                 <tr key={u.id}>
                   <td>
                     <div className={styles.userCell}>
-                      <div className={styles.userAvatar}>
-                        {u.avatar ? <img src={u.avatar} alt={u.nickname} /> : u.nickname.charAt(0).toUpperCase()}
+                      <div className={styles.userAvatar} style={{ position: 'relative' }}>
+                        {u.avatar ? <Image src={u.avatar} alt={u.nickname} fill unoptimized /> : u.nickname.charAt(0).toUpperCase()}
                       </div>
                       <div className={styles.userInfo}>
                         <span className={styles.userName}>{u.nickname}</span>

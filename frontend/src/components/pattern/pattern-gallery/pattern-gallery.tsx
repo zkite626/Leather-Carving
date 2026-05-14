@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { getPatterns, incrementPatternDownload, type IPatternAsset } from '@/lib/pattern-api';
 import type { PaginatedResponse } from '@/shared/types/api';
 import styles from './pattern-gallery.module.css';
@@ -77,12 +78,14 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
               className={styles.item}
               onClick={() => setPreviewPattern(pattern)}
             >
-              <img
+              <div style={{ position: 'relative' }}><Image
                 src={pattern.thumbnailUrl || pattern.imageUrl}
                 alt={pattern.name}
                 className={styles.thumb}
                 loading="lazy"
-              />
+                fill
+                unoptimized
+              /></div>
               <div className={styles.itemOverlay}>
                 <span className={styles.itemName}>{pattern.name}</span>
               </div>
@@ -98,11 +101,13 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
             <button className={styles.previewClose} onClick={() => setPreviewPattern(null)}>
               &times;
             </button>
-            <img
+            <div style={{ position: 'relative' }}><Image
               src={previewPattern.imageUrl}
               alt={previewPattern.name}
               className={styles.previewImage}
-            />
+              fill
+              unoptimized
+            /></div>
             <div className={styles.previewInfo}>
               <h4 className={styles.previewName}>{previewPattern.name}</h4>
               {previewPattern.description && (

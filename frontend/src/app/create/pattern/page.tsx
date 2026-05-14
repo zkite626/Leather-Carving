@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { generatePattern } from '@/lib/ai-api';
 import { useAuth } from '@/contexts/auth-context';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 const STYLES = [
@@ -163,8 +164,8 @@ export default function PatternGeneratePage() {
 
             {result && !generating && (
               <div className={styles.result}>
-                <div className={styles.resultImage}>
-                  <img src={result.imageUrl} alt={result.prompt} />
+                <div className={styles.resultImage} style={{ position: 'relative' }}>
+                  <Image src={result.imageUrl} alt={result.prompt} fill unoptimized />
                 </div>
                 <div className={styles.resultInfo}>
                   <p className={styles.resultPrompt}>{result.prompt}</p>
@@ -196,8 +197,8 @@ export default function PatternGeneratePage() {
                 <h3 className={styles.historyTitle}>生成历史</h3>
                 <div className={styles.historyGrid}>
                   {history.slice(1).map((item, i) => (
-                    <div key={i} className={styles.historyItem}>
-                      <img src={item.imageUrl} alt={item.prompt} onClick={() => setResult(item)} />
+                    <div key={i} className={styles.historyItem} style={{ position: 'relative' }}>
+                      <Image src={item.imageUrl} alt={item.prompt} onClick={() => setResult(item)} fill unoptimized />
                     </div>
                   ))}
                 </div>

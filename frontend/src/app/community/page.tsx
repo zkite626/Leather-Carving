@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { getPosts, getHotTopics } from '@/lib/community-api';
 import { toggleFavorite } from '@/lib/favorite-api';
@@ -145,9 +146,9 @@ export default function CommunityPage() {
               <Link key={post.id} href={`/community/${post.id}`} className={styles.postCard}>
                 <div className={styles.postHeader}>
                   <div className={styles.postAuthor}>
-                    <div className={styles.avatar}>
+                    <div className={styles.avatar} style={{ position: 'relative' }}>
                       {post.author.avatar ? (
-                        <img src={post.author.avatar} alt={post.author.nickname} />
+                        <Image src={post.author.avatar} alt={post.author.nickname} fill unoptimized />
                       ) : (
                         <span>{post.author.nickname?.[0] || '?'}</span>
                       )}
@@ -170,8 +171,8 @@ export default function CommunityPage() {
                 {post.images && post.images.length > 0 && (
                   <div className={styles.postImages}>
                     {post.images.slice(0, 3).map((img, i) => (
-                      <div key={i} className={styles.postImage}>
-                        <img src={img} alt="" />
+                      <div key={i} className={styles.postImage} style={{ position: 'relative' }}>
+                        <Image src={img} alt="" fill unoptimized />
                       </div>
                     ))}
                   </div>

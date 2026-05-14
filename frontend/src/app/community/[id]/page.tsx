@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getPostDetail } from '@/lib/community-api';
@@ -190,9 +191,9 @@ export default function PostDetailPage() {
         <article className={styles.post}>
           <div className={styles.postHeader}>
             <div className={styles.author}>
-              <div className={styles.avatar}>
+              <div className={styles.avatar} style={{ position: 'relative' }}>
                 {post.author.avatar ? (
-                  <img src={post.author.avatar} alt={post.author.nickname} />
+                  <Image src={post.author.avatar} alt={post.author.nickname} fill unoptimized />
                 ) : (
                   <span>{post.author.nickname?.[0] || '?'}</span>
                 )}
@@ -220,8 +221,8 @@ export default function PostDetailPage() {
           {post.images && post.images.length > 0 && (
             <div className={styles.images}>
               {post.images.map((img, i) => (
-                <div key={i} className={styles.imageItem} onClick={() => setLightboxImg(img)}>
-                  <img src={img} alt={`图片 ${i + 1}`} />
+                <div key={i} className={styles.imageItem} onClick={() => setLightboxImg(img)} style={{ position: 'relative' }}>
+                  <Image src={img} alt={`图片 ${i + 1}`} fill unoptimized />
                 </div>
               ))}
             </div>
@@ -291,9 +292,9 @@ export default function PostDetailPage() {
               <div key={comment.id} className={styles.comment}>
                 <div className={styles.commentHeader}>
                   <div className={styles.commentAuthor}>
-                    <div className={styles.commentAvatar}>
+                    <div className={styles.commentAvatar} style={{ position: 'relative' }}>
                       {comment.user.avatar ? (
-                        <img src={comment.user.avatar} alt={comment.user.nickname} />
+                        <Image src={comment.user.avatar} alt={comment.user.nickname} fill unoptimized />
                       ) : (
                         <span>{comment.user.nickname?.[0] || '?'}</span>
                       )}
@@ -319,9 +320,9 @@ export default function PostDetailPage() {
                       <div key={reply.id} className={styles.reply}>
                         <div className={styles.commentHeader}>
                           <div className={styles.commentAuthor}>
-                            <div className={styles.commentAvatarSmall}>
+                            <div className={styles.commentAvatarSmall} style={{ position: 'relative' }}>
                               {reply.user.avatar ? (
-                                <img src={reply.user.avatar} alt={reply.user.nickname} />
+                                <Image src={reply.user.avatar} alt={reply.user.nickname} fill unoptimized />
                               ) : (
                                 <span>{reply.user.nickname?.[0] || '?'}</span>
                               )}
@@ -350,7 +351,9 @@ export default function PostDetailPage() {
       {/* Lightbox */}
       {lightboxImg && (
         <div className={styles.lightbox} onClick={() => setLightboxImg(null)}>
-          <img src={lightboxImg} alt="" />
+          <div style={{ position: 'relative' }}>
+            <Image src={lightboxImg} alt="" fill unoptimized />
+          </div>
         </div>
       )}
     </div>

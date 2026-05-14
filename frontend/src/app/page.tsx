@@ -150,7 +150,7 @@ export default async function HomePage() {
         <section className={styles.hero} aria-label="欢迎来到艺育皮韵">
           <div className={styles.heroImageWrap}>
             <Image
-              src="/images/placeholders/hero-workshop-placeholder.svg"
+              src="/images/placeholders/hero-workshop-placeholder.png"
               alt="皮雕工坊"
               fill
               priority

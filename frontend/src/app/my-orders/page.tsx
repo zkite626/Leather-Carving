@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { getOrders, payOrder, cancelOrder, confirmOrder } from '@/lib/order-api';
 import { Pagination } from '@/components/ui/pagination/pagination';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
@@ -303,12 +304,13 @@ export default function MyOrdersPage() {
                   <div className={styles.orderItems}>
                     <div className={styles.orderItemList}>
                       {order.items.map((item) => (
-                        <div key={item.id} className={styles.orderItem}>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
+                        <div key={item.id} className={styles.orderItem} style={{ position: 'relative' }}>
+                          <Image
                             className={styles.itemImage}
                             src={item.productImage}
                             alt={item.productName}
+                            fill
+                            unoptimized
                           />
                           <div className={styles.itemInfo}>
                             <div className={styles.itemName}>{item.productName}</div>

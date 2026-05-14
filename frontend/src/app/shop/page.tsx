@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { apiClient } from '@/lib/api-client';
 import {
@@ -301,7 +302,7 @@ export default function ShopPage() {
                   key={banner.id}
                   className={`${styles.bannerSlide} ${i === bannerIndex ? styles.bannerSlideActive : ''}`}
                 >
-                  <img src={banner.imageUrl} alt={banner.title} className={styles.bannerImage} />
+                  <Image src={banner.imageUrl} alt={banner.title} className={styles.bannerImage} fill unoptimized />
                   <div className={styles.bannerOverlay} />
                   {banner.title && (
                     <div className={styles.bannerContent}>

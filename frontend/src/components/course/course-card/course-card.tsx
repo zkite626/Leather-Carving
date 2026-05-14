@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Tag } from '@/components/ui/tag/tag';
 import type { ICourse, CourseLevel } from '@/shared/types/course';
 import styles from './course-card.module.css';
@@ -40,7 +41,7 @@ export function CourseCard({
   return (
     <Link href={`/courses/${course.slug}`} className={`${styles.card} ${styles[layout]}`}>
       <div className={styles.coverWrapper}>
-        <img src={coverUrl} alt={course.title} className={styles.cover} />
+        <div style={{ position: 'relative' }}><Image src={coverUrl} alt={course.title} className={styles.cover} fill unoptimized /></div>
         <div className={styles.levelBadge}>
           <Tag variant={LEVEL_VARIANTS[course.level]}>{LEVEL_LABELS[course.level]}</Tag>
         </div>
@@ -53,11 +54,13 @@ export function CourseCard({
         {showTeacher && course.teacher && (
           <div className={styles.teacher}>
             {course.teacher.avatar ? (
-              <img
+              <div style={{ position: 'relative' }}><Image
                 src={course.teacher.avatar}
                 alt={course.teacher.nickname}
                 className={styles.teacherAvatar}
-              />
+                fill
+                unoptimized
+              /></div>
             ) : (
               <div className={styles.teacherAvatarPlaceholder}>
                 {course.teacher.nickname?.[0] ?? '师'}

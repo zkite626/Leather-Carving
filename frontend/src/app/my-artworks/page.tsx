@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { getMyArtworks, deleteArtwork, submitArtwork } from '@/lib/artwork-api';
 import { Button } from '@/components/ui/button/button';
@@ -102,10 +103,12 @@ export default function MyArtworksPage() {
         <div className={styles.grid}>
           {filtered.map((artwork) => (
             <div key={artwork.id} className={styles.card}>
-              <div className={styles.cardImage}>
-                <img
+              <div className={styles.cardImage} style={{ position: 'relative' }}>
+                <Image
                   src={artwork.coverImage || artwork.images?.[0]?.url || '/images/placeholders/artwork-placeholder.png'}
                   alt={artwork.title}
+                  fill
+                  unoptimized
                 />
                 <span className={`${styles.status} ${styles[STATUS_VARIANTS[artwork.status] || '']}`}>
                   {STATUS_LABELS[artwork.status] || artwork.status}

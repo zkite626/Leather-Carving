@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { IProduct } from '@/shared/types/product';
 import styles from './product-card.module.css';
 
@@ -22,7 +23,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   return (
     <Link href={`/shop/${product.slug}`} className={`${styles.card} ${product.isGuangxi ? styles.guangxi : ''}`}>
       <div className={styles.coverWrapper}>
-        <img src={coverUrl} alt={product.name} className={styles.cover} />
+        <div style={{ position: 'relative' }}><Image src={coverUrl} alt={product.name} className={styles.cover} fill unoptimized /></div>
         {product.isGuangxi && (
           <span className={styles.guangxiBadge}>广西非遗</span>
         )}

@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/stores/cart-store';
 import { getAddresses, createAddress, type IAddress, type CreateAddressData } from '@/lib/address-api';
@@ -582,12 +583,14 @@ export default function CheckoutPage() {
               </div>
               <div className={styles.orderItemList}>
                 {selectedItems.map((item) => (
-                  <div key={item.productId} className={styles.orderItem}>
+                  <div key={item.productId} className={styles.orderItem} style={{ position: 'relative' }}>
                     {item.coverImage ? (
-                      <img
+                      <Image
                         src={item.coverImage}
                         alt={item.name}
                         className={styles.orderItemImage}
+                        fill
+                        unoptimized
                       />
                     ) : (
                       <div className={styles.noImage}>No Image</div>

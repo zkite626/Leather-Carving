@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { IArtwork } from '@/shared/types/community';
 import styles from './artwork-card.module.css';
 
@@ -18,13 +19,13 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
   return (
     <Link href={`/gallery/${artwork.id}`} className={styles.card}>
       <div className={styles.imageWrapper}>
-        <img src={coverUrl} alt={artwork.title} className={styles.image} loading="lazy" />
+        <div style={{ position: 'relative' }}><Image src={coverUrl} alt={artwork.title} className={styles.image} loading="lazy" fill unoptimized /></div>
         <div className={styles.overlay}>
           <div className={styles.overlayContent}>
             <h3 className={styles.title}>{artwork.title}</h3>
             <div className={styles.author}>
               {artwork.user?.avatar ? (
-                <img src={artwork.user.avatar} alt="" className={styles.avatar} />
+                <div style={{ position: 'relative' }}><Image src={artwork.user.avatar} alt="" className={styles.avatar} fill unoptimized /></div>
               ) : (
                 <div className={styles.avatarPlaceholder}>
                   {artwork.user?.nickname?.[0] ?? '?'}

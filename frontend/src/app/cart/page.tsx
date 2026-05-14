@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/stores/cart-store';
 import { useAuth } from '@/contexts/auth-context';
@@ -228,13 +229,13 @@ export default function CartPage() {
                   </div>
 
                   {/* Product Image */}
-                  <div className={styles.itemImage}>
+                  <div className={styles.itemImage} style={{ position: 'relative' }}>
                     {item.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={item.coverImage}
                         alt={item.name}
-                        loading="lazy"
+                        fill
+                        unoptimized
                       />
                     ) : (
                       <div className={styles.imagePlaceholder}>

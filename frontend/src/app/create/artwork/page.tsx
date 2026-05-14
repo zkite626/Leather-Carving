@@ -12,6 +12,7 @@ import {
 } from '@/lib/artwork-api';
 import { Button } from '@/components/ui/button/button';
 import type { IArtworkImage } from '@/shared/types/community';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 const TECHNIQUES = ['镂刻', '印花', '染色', '烙烫', '浮雕', '编织', '镶嵌', '彩绘'];
@@ -139,8 +140,8 @@ export default function CreateArtworkPage() {
           <div className={styles.imageGrid}>
             {/* Existing uploaded images */}
             {images.map((img) => (
-              <div key={img.id} className={styles.imageItem}>
-                <img src={img.url} alt="" className={styles.imageThumb} />
+              <div key={img.id} className={styles.imageItem} style={{ position: 'relative' }}>
+                <Image src={img.url} alt="" className={styles.imageThumb} fill unoptimized />
                 <div className={styles.imageActions}>
                   <button
                     type="button"
@@ -162,8 +163,8 @@ export default function CreateArtworkPage() {
 
             {/* Local previews */}
             {previewUrls.map((p, idx) => (
-              <div key={idx} className={styles.imageItem}>
-                <img src={p.url} alt="" className={styles.imageThumb} />
+              <div key={idx} className={styles.imageItem} style={{ position: 'relative' }}>
+                <Image src={p.url} alt="" className={styles.imageThumb} fill unoptimized />
                 <button
                   type="button"
                   onClick={() => removePreview(idx)}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { getArtworkById, getRelatedArtworks } from '@/lib/artwork-api';
 import { toggleFavorite, checkFavorite } from '@/lib/favorite-api';
@@ -146,11 +147,13 @@ export default function ArtworkDetailPage() {
     <div className={styles.page}>
       {/* Image Gallery */}
       <div className={styles.gallery}>
-        <div className={styles.mainImage} onClick={() => openLightbox(0)}>
-          <img
+        <div className={styles.mainImage} style={{ position: 'relative' }} onClick={() => openLightbox(0)}>
+          <Image
             src={images[0]?.url || artwork.coverImage || '/images/placeholders/artwork-placeholder.png'}
             alt={artwork.title}
             className={styles.heroImage}
+            fill
+            unoptimized
           />
         </div>
         {images.length > 1 && (
@@ -161,7 +164,7 @@ export default function ArtworkDetailPage() {
                 className={styles.thumbnail}
                 onClick={() => openLightbox(idx)}
               >
-                <img src={img.url} alt={img.caption || ''} />
+                <Image src={img.url} alt={img.caption || ''} fill unoptimized />
               </button>
             ))}
           </div>
@@ -175,7 +178,7 @@ export default function ArtworkDetailPage() {
 
           <div className={styles.authorBar}>
             {artwork.user?.avatar ? (
-              <img src={artwork.user.avatar} alt="" className={styles.authorAvatar} />
+              <Image src={artwork.user.avatar} alt="" className={styles.authorAvatar} fill unoptimized />
             ) : (
               <div className={styles.authorAvatarPlaceholder}>
                 {artwork.user?.nickname?.[0] ?? '?'}
@@ -307,10 +310,12 @@ export default function ArtworkDetailPage() {
             <button className={styles.lightboxClose} onClick={closeLightbox}>
               &times;
             </button>
-            <img
+            <Image
               src={images[lightboxIndex]?.url}
               alt=""
               className={styles.lightboxImage}
+              fill
+              unoptimized
             />
             {lightboxIndex > 0 && (
               <button
@@ -353,7 +358,7 @@ function CommentItem({
     <div className={`${styles.comment} ${depth > 0 ? styles.commentNested : ''}`}>
       <div className={styles.commentHeader}>
         {comment.user?.avatar ? (
-          <img src={comment.user.avatar} alt="" className={styles.commentAvatar} />
+          <Image src={comment.user.avatar} alt="" className={styles.commentAvatar} fill unoptimized />
         ) : (
           <div className={styles.commentAvatarPlaceholder}>
             {comment.user?.nickname?.[0] ?? '?'}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import styles from './avatar.module.css';
 
 type AvatarSize = 'sm' | 'md' | 'lg';
@@ -32,12 +33,14 @@ export function Avatar({
     .join(' ');
 
   return (
-    <div className={classNames}>
+    <div className={classNames} style={{ position: 'relative' }}>
       {showImage ? (
-        <img
+        <Image
           src={src}
           alt={alt}
           className={styles.image}
+          fill
+          unoptimized
           onError={() => setImgError(true)}
         />
       ) : (

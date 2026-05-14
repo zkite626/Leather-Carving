@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea/textarea';
 import { useToast } from '@/components/ui/toast/toast-provider';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
 import type { ICourse, IChapter, ILesson, CourseLevel, LessonType } from '@/shared/types/course';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 // ---------------------
@@ -638,14 +639,16 @@ export default function CourseEditorPage() {
                   onChange={(e) => setCoverImage(e.target.value)}
                 />
                 {coverImage && (
-                  <div className={styles.coverPreview}>
-                    <img
+                  <div className={styles.coverPreview} style={{ position: 'relative' }}>
+                    <Image
                       src={coverImage}
                       alt="课程封面预览"
                       className={styles.coverPreviewImage}
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                       }}
+                      fill
+                      unoptimized
                     />
                   </div>
                 )}
@@ -1233,12 +1236,14 @@ export default function CourseEditorPage() {
             <h2 className={styles.panelTitle}>预览 / 发布</h2>
 
             <div className={styles.previewCard}>
-              <div className={styles.previewCover}>
+              <div className={styles.previewCover} style={{ position: 'relative' }}>
                 {coverImage ? (
-                  <img
+                  <Image
                     src={coverImage}
                     alt={title}
                     className={styles.previewCoverImage}
+                    fill
+                    unoptimized
                   />
                 ) : (
                   '暂无封面图片'

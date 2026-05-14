@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/toast/toast-provider';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
 import type { ICourse, CourseStatus } from '@/shared/types/course';
 import type { PaginatedResponse } from '@/shared/types/api';
+import Image from 'next/image';
 import styles from './page.module.css';
 
 const STATUS_CONFIG: Record<CourseStatus, { label: string; variant: 'default' | 'primary' | 'success' | 'warning' }> = {
@@ -182,11 +183,15 @@ export default function TeacherCoursesPage() {
                         <td className={styles.tableCell}>
                           <div className={styles.courseTitleCell}>
                             {course.coverImage ? (
-                              <img
-                                src={course.coverImage}
-                                alt=""
-                                className={styles.courseCover}
-                              />
+                              <div style={{ position: 'relative' }}>
+                                <Image
+                                  src={course.coverImage}
+                                  alt=""
+                                  className={styles.courseCover}
+                                  fill
+                                  unoptimized
+                                />
+                              </div>
                             ) : (
                               <div className={styles.courseCoverPlaceholder}>
                                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
