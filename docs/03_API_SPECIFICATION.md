@@ -608,19 +608,76 @@ Query: position?: string (如 'shop')
 
 ```yaml
 Query:
-  page?, pageSize?, type?: PostType, keyword?, sortBy?
+  page?, pageSize?, type?: PostType, keyword?, sortBy?, sortOrder?
 Response 200: PaginatedResponse<IPost>
 ```
 
 ### POST `/community/posts` — 发布帖子 🔒
 
+```yaml
+Request:
+  body:
+    type: PostType (required)
+    title: string (required, max 200)
+    content: string (required, Markdown)
+    images?: string[]
+    tags?: string[]
+Response 201: data: IPost
+```
+
+### GET `/community/posts/hot` — 热门话题
+
+```yaml
+Response 200: data: { id, title, type, likeCount, commentCount, viewCount }[]
+```
+
 ### GET `/community/posts/:id` — 帖子详情
 
+### PATCH `/community/posts/:id` — 更新帖子 🔒 (owner)
+
+```yaml
+Request:
+  body:
+    type?: PostType
+    title?: string
+    content?: string
+    images?: string[]
+    tags?: string[]
+```
+
+### DELETE `/community/posts/:id` — 删除帖子(软删除) 🔒 (owner)
+
 ### POST `/community/posts/:id/like` — 点赞 🔒
+
+### GET `/community/posts/:id/checkin` — 挑战打卡状态 🔒
+
+### POST `/community/posts/:id/checkin` — 挑战打卡 🔒
 
 ### GET `/community/posts/:id/comments` — 评论列表
 
 ### POST `/community/posts/:id/comments` — 发表评论 🔒
+
+### 通知模块 `/api/v1/notifications`
+
+### GET `/notifications` — 用户通知列表 🔒
+
+```yaml
+Query:
+  page?, pageSize?, isRead?: boolean
+Response 200: PaginatedResponse<INotification>
+```
+
+### GET `/notifications/unread-count` — 未读通知数 🔒
+
+```yaml
+Response 200: data: { count: number }
+```
+
+### POST `/notifications/:id/read` — 标记已读 🔒
+
+### POST `/notifications/read-all` — 全部标记已读 🔒
+
+### DELETE `/notifications/:id` — 删除通知 🔒
 
 ---
 
@@ -631,12 +688,13 @@ Response 200: PaginatedResponse<IPost>
 ```yaml
 Request:
   body:
-    message: string (required)
+    message: string (required, max 4000)
     sessionId?: string
     context?: string          // 当前学习的课程上下文
 Response 200 (SSE stream):
   event: message
   data: { content: string, done: boolean }
+Error: data: { error: string, done: true }
 ```
 
 ### POST `/ai/pattern/generate` — AI 纹样生成 🔒
@@ -644,16 +702,46 @@ Response 200 (SSE stream):
 ```yaml
 Request:
   body:
-    prompt: string (required)
+    prompt: string (required, max 1000)
     style?: 'zhuangjin' | 'yaozu' | 'modern' | 'karst'
     size?: '512x512' | '1024x1024'
 Response 200:
-  data: { imageUrl: string, prompt: string }
+  data: { imageUrl: string, prompt: string, style?: string }
 ```
 
 ### POST `/ai/recommend/courses` — 课程推荐 🔒
 
+```yaml
+Request:
+  body:
+    preferences?: string
+    limit?: number (1-20, default 5)
+Response 200:
+  data: { recommendations: string }
+```
+
 ### POST `/ai/recommend/products` — 商品推荐 🔒
+
+```yaml
+Request:
+  body:
+    preferences?: string
+    limit?: number (1-20, default 5)
+Response 200:
+  data: { recommendations: string }
+```
+
+### WebSocket `/ws` — 实时通信
+
+```yaml
+Auth: Socket.IO auth token (JWT)
+Events:
+  Server → Client:
+    notification:new — 新通知推送
+  Client → Server:
+    notification:read — 标记通知已读
+Room: user:{userId} (自动加入)
+```
 
 ---
 

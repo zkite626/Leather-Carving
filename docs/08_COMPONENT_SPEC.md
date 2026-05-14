@@ -220,9 +220,23 @@ interface AIChatWidgetProps {
   position?: 'inline' | 'floating';
   placeholder?: string;
 }
-// floating: 右下角悬浮气泡
-// inline: 嵌入页面
-// 支持 SSE 流式打字效果
+// floating: 右下角悬浮气泡，点击展开聊天面板
+// inline: 嵌入页面（如学习播放页侧栏）
+// 支持 SSE 流式打字效果（ReadableStream 消费）
+// 快捷问题提示，对话历史记忆（Redis session）
+// 路径: components/ai/ai-chat-widget/
+```
+
+### NotificationBell
+
+```typescript
+// 无 Props — 从 Zustand store 读取状态
+// 路径: components/notification/notification-bell.tsx
+// Header 中的铃铛图标 + 未读数字 Badge
+// 点击下拉显示最近 10 条通知列表
+// WebSocket 实时接收新通知（socket.io-client）
+// "全部已读" 操作
+// Link 到 /notifications 完整通知页
 ```
 
 ### PatternGallery

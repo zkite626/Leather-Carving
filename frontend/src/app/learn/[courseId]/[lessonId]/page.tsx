@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { VideoPlayer } from '@/components/course/video-player/video-player';
 import { LearningPanel } from '@/components/course/learning-panel/learning-panel';
+import { AIChatWidget } from '@/components/ai/ai-chat-widget';
 import {
   getCourseById,
   getCourseProgress,
@@ -58,6 +59,7 @@ export default function LearnLessonPage() {
   const [lessonProgressMap, setLessonProgressMap] = useState<Record<string, ILessonProgress>>({});
   const [nextLessonId, setNextLessonId] = useState<string | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showAI, setShowAI] = useState(false);
 
   // refs used inside callbacks to avoid stale closures
   const lessonIdRef = useRef(lessonId);
@@ -307,6 +309,7 @@ export default function LearnLessonPage() {
 
   // -- Main layout --
   return (
+    <>
     <div className={styles.learnPage}>
       {/* ===== Top Bar ===== */}
       <div className={styles.topBar}>
@@ -500,7 +503,10 @@ export default function LearnLessonPage() {
           )}
         </div>
 
-        <div className={styles.aiPlaceholder}>
+        <button
+          className={styles.aiPlaceholder}
+          onClick={() => setShowAI(!showAI)}
+        >
           <span className={styles.aiIcon}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path
@@ -514,9 +520,25 @@ export default function LearnLessonPage() {
             </svg>
           </span>
           AI 学习助手
-          <span className={styles.comingSoonTag}>即将推出</span>
-        </div>
+        </button>
       </div>
     </div>
+      {/* AI Learning Assistant Panel */}
+      {showAI && (
+        <AIChatWidget
+          position="inline"
+          context={`当前课程: ${courseTitle}`}
+          sessionId={`learn-${courseId}`}
+          placeholder="问关于这节课的任何问题..."
+        />
+      )}
+      {!showAI && (
+        <AIChatWidget
+          position="floating"
+          context={`当前课程: ${courseTitle}`}
+          sessionId={`learn-${courseId}`}
+        />
+      )}
+    </>
   );
 }

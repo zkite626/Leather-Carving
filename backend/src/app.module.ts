@@ -21,6 +21,10 @@ import { CartModule } from './modules/cart/cart.module';
 import { AddressModule } from './modules/address/address.module';
 import { OrderModule } from './modules/order/order.module';
 import { BannerModule } from './modules/banner/banner.module';
+import { CommunityModule } from './modules/community/community.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { AIModule } from './modules/ai/ai.module';
+import { GatewayModule } from './modules/gateway/gateway.module';
 
 @Module({
   imports: [
@@ -57,6 +61,10 @@ import { BannerModule } from './modules/banner/banner.module';
     AddressModule,
     OrderModule,
     BannerModule,
+    CommunityModule,
+    NotificationModule,
+    AIModule,
+    GatewayModule,
   ],
   providers: [
     {

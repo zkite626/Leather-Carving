@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { NotificationBell } from '@/components/notification/notification-bell';
 import styles from './site-header.module.css';
 
 const NAV_ITEMS = [
@@ -86,8 +87,9 @@ export function SiteHeader() {
           />
         </div>
 
-        {/* User Menu Placeholder */}
+        {/* User Menu */}
         <div className={styles.userMenu}>
+          <NotificationBell />
           <button className={styles.userButton} aria-label="User menu" type="button">
             <svg
               width="20"
