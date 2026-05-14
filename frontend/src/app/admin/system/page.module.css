@@ -1,0 +1,342 @@
+.page {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lc-space-5);
+}
+
+.pageTitle {
+  font-size: var(--lc-text-xl);
+  font-weight: 700;
+  color: var(--lc-text);
+}
+
+.subTabs {
+  display: flex;
+  gap: var(--lc-space-1);
+  background: var(--lc-bg-secondary);
+  border-radius: var(--lc-radius-md);
+  padding: 3px;
+  margin-bottom: var(--lc-space-5);
+}
+
+.subTab {
+  padding: var(--lc-space-2) var(--lc-space-4);
+  border-radius: var(--lc-radius-md);
+  border: none;
+  background: transparent;
+  color: var(--lc-text-muted);
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--lc-duration-fast) var(--lc-ease);
+}
+
+.subTab:hover { color: var(--lc-text); }
+.subTabActive { background: var(--lc-bg); color: var(--lc-text); box-shadow: var(--lc-shadow-sm); }
+
+/* ─── Card Grid ────────────────────────────────────────── */
+.configGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--lc-space-4);
+  margin-bottom: var(--lc-space-5);
+}
+
+.configCard {
+  background: var(--lc-bg);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-lg);
+  padding: var(--lc-space-5);
+  transition: box-shadow var(--lc-duration-fast) var(--lc-ease);
+}
+
+.configCard:hover {
+  box-shadow: var(--lc-shadow-md);
+}
+
+.configCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lc-space-3);
+}
+
+.configCardTitle {
+  font-size: var(--lc-text-base);
+  font-weight: 600;
+  color: var(--lc-text);
+}
+
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--lc-border);
+  border: none;
+  cursor: pointer;
+  transition: background var(--lc-duration-fast) var(--lc-ease);
+  padding: 0;
+}
+
+.toggleActive {
+  background: var(--lc-success);
+}
+
+.toggleDot {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--lc-radius-full);
+  background: #fff;
+  transition: transform var(--lc-duration-fast) var(--lc-ease);
+}
+
+.toggleActive .toggleDot {
+  transform: translateX(18px);
+}
+
+.configField {
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-2);
+  margin-bottom: var(--lc-space-2);
+}
+
+.configLabel {
+  font-size: var(--lc-text-xs);
+  color: var(--lc-text-muted);
+  min-width: 70px;
+}
+
+.configValue {
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-secondary);
+  font-family: var(--lc-font-mono);
+  word-break: break-all;
+}
+
+.configCardActions {
+  display: flex;
+  gap: var(--lc-space-2);
+  margin-top: var(--lc-space-4);
+  padding-top: var(--lc-space-3);
+  border-top: 1px solid var(--lc-divider);
+}
+
+.configBtn {
+  flex: 1;
+  height: 32px;
+  border-radius: var(--lc-radius-md);
+  border: 1px solid var(--lc-border);
+  background: var(--lc-bg);
+  color: var(--lc-text-secondary);
+  font-size: var(--lc-text-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--lc-duration-fast) var(--lc-ease);
+}
+
+.configBtn:hover {
+  background: var(--lc-bg-secondary);
+}
+
+.configBtnPrimary {
+  background: var(--lc-primary);
+  color: #fff;
+  border-color: var(--lc-primary);
+}
+
+.configBtnPrimary:hover {
+  background: var(--lc-primary-dark);
+}
+
+.configBtnDanger {
+  color: var(--lc-error);
+  border-color: rgba(217, 79, 79, 0.3);
+}
+
+.configBtnDanger:hover {
+  background: rgba(217, 79, 79, 0.08);
+}
+
+.testResult {
+  margin-top: var(--lc-space-2);
+  padding: var(--lc-space-2) var(--lc-space-3);
+  border-radius: var(--lc-radius-md);
+  font-size: var(--lc-text-xs);
+}
+
+.testSuccess {
+  background: rgba(123, 160, 91, 0.12);
+  color: var(--lc-success);
+}
+
+.testFail {
+  background: rgba(217, 79, 79, 0.12);
+  color: var(--lc-error);
+}
+
+/* ─── Banner Section ───────────────────────────────────── */
+.bannerList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-3);
+  margin-bottom: var(--lc-space-5);
+}
+
+.bannerItem {
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-4);
+  background: var(--lc-bg);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-lg);
+  padding: var(--lc-space-3) var(--lc-space-4);
+}
+
+.bannerImage {
+  width: 120px;
+  height: 60px;
+  border-radius: var(--lc-radius-md);
+  object-fit: cover;
+  background: var(--lc-bg-secondary);
+  flex-shrink: 0;
+}
+
+.bannerInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.bannerTitle {
+  font-size: var(--lc-text-sm);
+  font-weight: 600;
+  color: var(--lc-text);
+  margin-bottom: 2px;
+}
+
+.bannerMeta {
+  font-size: var(--lc-text-xs);
+  color: var(--lc-text-muted);
+}
+
+.bannerActions {
+  display: flex;
+  gap: var(--lc-space-2);
+  flex-shrink: 0;
+}
+
+/* ─── Add Form ─────────────────────────────────────────── */
+.addCard {
+  background: var(--lc-bg);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-lg);
+  padding: var(--lc-space-5);
+  margin-bottom: var(--lc-space-5);
+}
+
+.addCardTitle {
+  font-size: var(--lc-text-base);
+  font-weight: 600;
+  color: var(--lc-text);
+  margin-bottom: var(--lc-space-4);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lc-space-3);
+  margin-bottom: var(--lc-space-4);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-1);
+}
+
+.formLabel {
+  font-size: var(--lc-text-xs);
+  font-weight: 600;
+  color: var(--lc-text-secondary);
+}
+
+.formInput {
+  height: 36px;
+  padding: 0 var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+}
+
+.formInput:focus {
+  border-color: var(--lc-primary);
+}
+
+.formTextarea {
+  min-height: 60px;
+  padding: var(--lc-space-2) var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  resize: vertical;
+  font-family: var(--lc-font-mono);
+}
+
+.formSelect {
+  height: 36px;
+  padding: 0 var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.formActions {
+  display: flex;
+  gap: var(--lc-space-2);
+  justify-content: flex-end;
+}
+
+.formBtn {
+  height: 36px;
+  padding: 0 var(--lc-space-4);
+  border-radius: var(--lc-radius-md);
+  border: 1px solid var(--lc-border);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.formBtnPrimary {
+  background: var(--lc-primary);
+  color: #fff;
+  border-color: var(--lc-primary);
+}
+
+.empty {
+  text-align: center;
+  padding: var(--lc-space-8);
+  color: var(--lc-text-muted);
+  font-size: var(--lc-text-sm);
+}

@@ -25,6 +25,7 @@ import { CommunityModule } from './modules/community/community.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { AIModule } from './modules/ai/ai.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { GatewayModule } from './modules/gateway/gateway.module';
     NotificationModule,
     AIModule,
     GatewayModule,
+    AdminModule,
   ],
   providers: [
     {

@@ -805,35 +805,145 @@ Response 200:
 ### GET `/admin/dashboard` — 数据概览
 
 ```yaml
+Query:
+  period?: 'day' | 'week' | 'month' (default 'day')
 Response 200:
   data: {
     userCount, courseCount, orderCount, revenue,
     todayNewUsers, todayOrders, todayRevenue,
-    userGrowthChart, revenueChart, topCourses, topProducts
+    userGrowthChart: [{ date, count }],
+    revenueChart: [{ date, amount }],
+    topCourses: [{ id, title, enrollCount, coverImage }]
   }
+```
+
+### GET `/admin/dashboard/activities` — 近期系统活动
+
+```yaml
+Response 200:
+  data: Array<{ id, action, entityType, entityId, createdAt, user }>
 ```
 
 ### GET `/admin/users` — 用户管理列表
 
+```yaml
+Query:
+  page?, pageSize?, keyword?, role?: UserRole, status?: UserStatus
+Response 200:
+  data: {
+    items: Array<{ id, email, nickname, avatar, phone, role, status, createdAt, _count }>,
+    pagination
+  }
+```
+
 ### PATCH `/admin/users/:id/role` — 修改用户角色
+
+```yaml
+Request:
+  body: { role: UserRole }
+Response 200: data: User
+```
 
 ### PATCH `/admin/users/:id/status` — 封禁/解封
 
+```yaml
+Request:
+  body: { status: UserStatus, reason?: string }
+Response 200: data: User
+```
+
 ### GET `/admin/content/review` — 内容审核队列
 
-### POST `/admin/content/:id/approve` — 审核通过
+```yaml
+Query:
+  page?, pageSize?, status?: 'REVIEWING' | 'PUBLISHED' | 'REJECTED',
+  type?: 'course' | 'artwork' | 'post'
+Response 200:
+  data: {
+    items: Array<{ id, type, title, status, author, createdAt, updatedAt, content?, coverImage? }>,
+    pagination
+  }
+```
 
-### POST `/admin/content/:id/reject` — 审核驳回
+### POST `/admin/content/:type/:id/approve` — 审核通过
+
+### POST `/admin/content/:type/:id/reject` — 审核驳回
+
+```yaml
+Request:
+  body: { reason: string }
+```
+
+### POST `/admin/content/batch/approve` — 批量通过
+
+### POST `/admin/content/batch/reject` — 批量驳回
+
+```yaml
+Request:
+  body: { ids: string[], reason?: string }
+```
 
 ### CRUD `/admin/banners` — Banner 管理
 
-### CRUD `/admin/categories` — 分类管理
+Banner CRUD 通过 `/api/v1/banners` 端点（已存在），ADMIN 角色守卫。
 
 ### CRUD `/admin/ai-configs` — AI 模型配置
 
+```yaml
+GET `/ai/configs` — 列表 (ADMIN)
+POST `/ai/configs` — 创建 (ADMIN)
+PATCH `/ai/configs/:id` — 更新 (ADMIN)
+DELETE `/ai/configs/:id` — 删除 (ADMIN)
+POST `/ai/configs/:id/test` — 测试连通性 (ADMIN)
+```
+
 ### GET `/admin/orders` — 订单管理
 
+```yaml
+Query:
+  page?, pageSize?, status?: OrderStatus, keyword?
+Response 200:
+  data: {
+    items: Array<Order with user, items, payments>,
+    pagination
+  }
+```
+
+### PATCH `/admin/orders/:id/status` — 更新订单状态
+
+```yaml
+Request:
+  body: { status: string, trackingNo?: string }
+```
+
 ### GET `/admin/finance/summary` — 财务汇总
+
+```yaml
+Response 200:
+  data: { totalRevenue, monthlyRevenue, monthGrowth, orderCount, paidOrderCount, averageOrderValue }
+```
+
+### GET `/admin/finance/transactions` — 交易流水
+
+```yaml
+Query: page?, pageSize?, startDate?, endDate?
+```
+
+### GET `/admin/finance/settlements` — 商家结算
+
+### GET `/admin/finance/export` — 导出 CSV
+
+### GET `/admin/audit-logs` — 审计日志
+
+```yaml
+Query:
+  page?, pageSize?, action?, userId?, startDate?, endDate?
+Response 200:
+  data: {
+    items: Array<{ id, action, entityType, entityId, oldData, newData, ip, userAgent, createdAt, user }>,
+    pagination
+  }
+```
 
 ---
 

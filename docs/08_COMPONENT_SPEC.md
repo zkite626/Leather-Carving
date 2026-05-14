@@ -457,3 +457,100 @@ interface ProductCardProps {
 // 分页 + 空状态
 // 实现：frontend/src/app/my-orders/page.tsx
 ```
+
+---
+
+## 六、管理后台组件
+
+### AdminGuard
+
+```typescript
+interface AdminGuardProps {
+  children: React.ReactNode;
+}
+// 客户端角色守卫，非 ADMIN/SUPER_ADMIN 自动跳回首页
+// 未登录跳转 /login?redirect=/admin/dashboard
+// 路径: components/admin/admin-guard.tsx
+```
+
+### AdminLayout (`/admin/*`)
+
+```typescript
+// 左侧导航菜单（可折叠，带 SVG 图标，当前路由高亮，分组标题）
+// 顶部 Header：面包屑导航 + 全屏切换按钮 + 前台首页链接 + 用户菜单
+// 侧栏折叠按钮（收起/展开）
+// 路由分组：概览(仪表盘) / 管理(用户/审核/商城/财务) / 系统(配置/日志)
+// 实现: frontend/src/app/admin/layout.tsx
+```
+
+### /admin/dashboard — 数据仪表盘
+
+```typescript
+// 顶栏：4 个统计卡片（用户数/课程数/订单数/收入），含今日增量与增长箭头
+// 图表区：用户增长趋势折线图 + 收入趋势折线图（Recharts），支持日/周/月切换
+// 排名区：课程报名 TOP 10 水平柱状图（Recharts BarChart）
+// 动态区：近期系统活动流水（审计日志摘要）
+// 实现: frontend/src/app/admin/dashboard/page.tsx
+```
+
+### /admin/users — 用户管理
+
+```typescript
+// 筛选：搜索框（昵称/邮箱）+ 角色下拉 + 状态下拉
+// 表格：头像+昵称+邮箱 / 角色(可编辑下拉) / 状态标签 / 统计数字 / 注册时间 / 最后登录 / 操作
+// 操作：封禁/解封按钮（二次确认弹窗），SUPER_ADMIN 不可操作
+// 分页
+// 实现: frontend/src/app/admin/users/page.tsx
+```
+
+### /admin/content — 内容审核
+
+```typescript
+// Tab 切换：待审核 / 已通过 / 已驳回
+// 类型筛选：全部 / 课程 / 作品 / 帖子
+// 卡片网格：类型标签 + 标题 + 作者头像 + 预览文本 + 操作按钮
+// 批量操作：复选框多选 + 批量通过/驳回
+// 驳回弹窗：填写驳回原因（必填）
+// 实现: frontend/src/app/admin/content/page.tsx
+```
+
+### /admin/shop — 商城管理
+
+```typescript
+// 子页切换：订单管理
+// 筛选：搜索框 + 订单状态下拉
+// 表格：订单号+用户 / 商品列表 / 金额 / 状态标签 / 时间 / 操作
+// 操作：根据状态机显示可用转换（发货/完成/取消），二次确认弹窗
+// 实现: frontend/src/app/admin/shop/page.tsx
+```
+
+### /admin/finance — 财务管理
+
+```typescript
+// 顶部：3 个汇总卡片（总收入/本月收入+环比/平均客单价）
+// Tab：交易流水 / 商家结算
+// 交易流水：日期筛选 + 表格（交易号/订单号/用户/金额/方式/时间）+ 分页 + CSV 导出
+// 商家结算：表格（商家/邮箱/已结算金额/订单数）
+// 实现: frontend/src/app/admin/finance/page.tsx
+```
+
+### /admin/system — 系统配置
+
+```typescript
+// 子页切换：Banner 管理 / AI 模型配置
+// Banner：列表（图片+标题+位置+排序+启用状态）+ 添加表单 + 删除
+// AI 配置：卡片网格（显示名称+功能+Provider+模型+启用开关）+ 测试连通按钮 + 编辑/删除
+// 创建/编辑表单：capability/provider/displayName/modelName/baseUrl/apiKey(password field)
+// 实现: frontend/src/app/admin/system/page.tsx
+```
+
+### /admin/audit-log — 审计日志
+
+```typescript
+// 筛选：操作类型搜索 + 日期范围
+// 表格：时间 / 操作者头像+名称 / 操作类型(颜色标签) / 目标类型 / IP / 详情按钮
+// 展开行：JSON 格式展示 newData / oldData / userAgent
+// 操作类型颜色：CREATE=绿 / UPDATE=蓝 / DELETE=红 / FAIL=黄
+// 分页
+// 实现: frontend/src/app/admin/audit-log/page.tsx
+```
