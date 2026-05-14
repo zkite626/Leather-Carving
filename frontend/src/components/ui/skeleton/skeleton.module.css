@@ -1,0 +1,35 @@
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--lc-bg-secondary) 25%,
+    var(--lc-bg-tertiary) 50%,
+    var(--lc-bg-secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Variants */
+.variant-text {
+  width: 100%;
+  height: 1em;
+  border-radius: var(--lc-radius-sm);
+}
+
+.variant-circular {
+  border-radius: var(--lc-radius-full);
+  aspect-ratio: 1;
+}
+
+.variant-rectangular {
+  border-radius: var(--lc-radius-md);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

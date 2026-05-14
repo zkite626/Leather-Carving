@@ -1,0 +1,77 @@
+.card {
+  position: relative;
+  border-radius: var(--lc-radius-lg);
+  overflow: hidden;
+  transition:
+    transform var(--lc-duration-normal) var(--lc-ease),
+    box-shadow var(--lc-duration-normal) var(--lc-ease);
+}
+
+/* Variants */
+.variant-default {
+  background-color: var(--lc-bg-secondary);
+  box-shadow: var(--lc-shadow-md);
+}
+
+.variant-outlined {
+  background-color: var(--lc-bg);
+  border: 1px solid var(--lc-border);
+}
+
+.variant-elevated {
+  background-color: var(--lc-bg);
+  box-shadow: var(--lc-shadow-lg);
+}
+
+/* Padding */
+.padding-none {
+  padding: 0;
+}
+
+.padding-sm {
+  padding: var(--lc-space-3);
+}
+
+.padding-md {
+  padding: var(--lc-space-5);
+}
+
+.padding-lg {
+  padding: var(--lc-space-8);
+}
+
+/* Hoverable */
+.hoverable {
+  cursor: pointer;
+}
+
+.hoverable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--lc-shadow-lg);
+}
+
+/* Leather texture overlay */
+.leatherTexture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139, 69, 19, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139, 69, 19, 0.03) 0%, transparent 50%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 69, 19, 0.015) 2px,
+      rgba(139, 69, 19, 0.015) 4px
+    );
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.leatherTexture > * {
+  position: relative;
+  z-index: 2;
+}

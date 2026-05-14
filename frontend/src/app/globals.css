@@ -1,0 +1,323 @@
+/* ============================================
+   艺育皮韵 Design System
+   Leather Carving Education Platform
+   ============================================ */
+
+:root {
+  /* Primary - Leather warm */
+  --lc-primary: #B5651D;
+  --lc-primary-light: #D4944A;
+  --lc-primary-dark: #8B4513;
+  --lc-primary-50: #FFF8F0;
+  --lc-primary-100: #FDECD2;
+  --lc-primary-200: #F9D4A0;
+  --lc-primary-900: #3D1C00;
+
+  /* Accent */
+  --lc-accent: #C84B31;
+  --lc-accent-light: #E06B52;
+  --lc-accent-dark: #A33A22;
+
+  /* Auxiliary */
+  --lc-indigo: #2B4C7E;
+  --lc-gold: #D4A853;
+  --lc-sage: #7BA05B;
+  --lc-coral: #E8836B;
+
+  /* Neutrals */
+  --lc-bg: #FFFCF8;
+  --lc-bg-secondary: #F5EDE3;
+  --lc-bg-tertiary: #EDE3D5;
+  --lc-text: #2D1B0E;
+  --lc-text-secondary: #6B5B4F;
+  --lc-text-muted: #9B8E82;
+  --lc-border: #E0D5C8;
+  --lc-divider: #EDE3D5;
+
+  /* Semantic */
+  --lc-success: #7BA05B;
+  --lc-warning: #E8A634;
+  --lc-error: #D94F4F;
+  --lc-info: #5B9BD5;
+
+  /* Shadows */
+  --lc-shadow-sm: 0 1px 3px rgba(45, 27, 14, 0.06);
+  --lc-shadow-md: 0 4px 12px rgba(45, 27, 14, 0.08);
+  --lc-shadow-lg: 0 8px 30px rgba(45, 27, 14, 0.12);
+  --lc-shadow-xl: 0 16px 48px rgba(45, 27, 14, 0.16);
+
+  /* Typography */
+  --lc-font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --lc-font-serif: 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --lc-font-display: 'Outfit', 'Inter', sans-serif;
+  --lc-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --lc-text-xs: 0.75rem;
+  --lc-text-sm: 0.875rem;
+  --lc-text-base: 1rem;
+  --lc-text-lg: 1.125rem;
+  --lc-text-xl: 1.25rem;
+  --lc-text-2xl: 1.5rem;
+  --lc-text-3xl: 1.875rem;
+  --lc-text-4xl: 2.25rem;
+  --lc-text-5xl: 3rem;
+
+  /* Spacing */
+  --lc-space-1: 0.25rem;
+  --lc-space-2: 0.5rem;
+  --lc-space-3: 0.75rem;
+  --lc-space-4: 1rem;
+  --lc-space-5: 1.25rem;
+  --lc-space-6: 1.5rem;
+  --lc-space-8: 2rem;
+  --lc-space-10: 2.5rem;
+  --lc-space-12: 3rem;
+  --lc-space-16: 4rem;
+  --lc-space-20: 5rem;
+
+  /* Border Radius */
+  --lc-radius-sm: 6px;
+  --lc-radius-md: 10px;
+  --lc-radius-lg: 16px;
+  --lc-radius-xl: 24px;
+  --lc-radius-full: 9999px;
+
+  /* Animation */
+  --lc-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --lc-duration-fast: 150ms;
+  --lc-duration-normal: 250ms;
+  --lc-duration-slow: 400ms;
+
+  /* Z-index */
+  --lc-z-dropdown: 100;
+  --lc-z-sticky: 200;
+  --lc-z-modal-backdrop: 300;
+  --lc-z-modal: 400;
+  --lc-z-toast: 500;
+}
+
+[data-theme="dark"] {
+  --lc-bg: #1A1410;
+  --lc-bg-secondary: #252018;
+  --lc-bg-tertiary: #302920;
+  --lc-text: #F5EDE3;
+  --lc-text-secondary: #B8A89A;
+  --lc-text-muted: #7A6E62;
+  --lc-border: #3D3428;
+  --lc-divider: #302920;
+  --lc-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --lc-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+   CSS Reset
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--lc-text);
+  background-color: var(--lc-bg);
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-base);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--lc-duration-normal) var(--lc-ease),
+              color var(--lc-duration-normal) var(--lc-ease);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* ============================================
+   Container
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--lc-space-4);
+  padding-right: var(--lc-space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: var(--lc-space-6);
+    padding-right: var(--lc-space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: var(--lc-space-8);
+    padding-right: var(--lc-space-8);
+  }
+}
+
+/* ============================================
+   Keyframe Animations
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes patternSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   Focus Visible
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--lc-primary);
+  outline-offset: 2px;
+  border-radius: var(--lc-radius-sm);
+}
+
+/* ============================================
+   Scrollbar Styling
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--lc-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lc-border);
+  border-radius: var(--lc-radius-full);
+  border: 2px solid var(--lc-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lc-text-muted);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lc-border) var(--lc-bg-secondary);
+}
+
+/* ============================================
+   Responsive Breakpoints
+   ============================================ */
+
+/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px, 2xl: 1536px */
+
+@media (max-width: 639px) {
+  :root {
+    --lc-text-5xl: 2.25rem;
+    --lc-text-4xl: 1.875rem;
+    --lc-text-3xl: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --lc-text-5xl: 2.5rem;
+    --lc-text-4xl: 2rem;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

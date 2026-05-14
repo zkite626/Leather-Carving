@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <pattern id="zhuang" patternUnits="userSpaceOnUse" width="80" height="80">
+      <rect width="80" height="80" fill="#F5EDE3"/>
+      <path d="M0 40 L20 20 L40 40 L20 60 Z" fill="none" stroke="#D4A853" stroke-width="1.5" opacity="0.4"/>
+      <path d="M40 0 L60 20 L40 40 L20 20 Z" fill="none" stroke="#B5651D" stroke-width="1" opacity="0.3"/>
+      <path d="M40 40 L60 60 L40 80 L20 60 Z" fill="none" stroke="#D4A853" stroke-width="1.5" opacity="0.4"/>
+      <path d="M40 40 L60 20 L80 40 L60 60 Z" fill="none" stroke="#B5651D" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#zhuang)"/>
+  <rect x="16" y="16" width="992" height="992" rx="8" fill="none" stroke="#E0D5C8" stroke-width="2"/>
+  <text x="512" y="520" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20" fill="#9B8E82">纹样素材</text>
+</svg>

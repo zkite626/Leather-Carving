@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B4513"/>
+      <stop offset="50%" stop-color="#B5651D"/>
+      <stop offset="100%" stop-color="#D4944A"/>
+    </linearGradient>
+    <pattern id="leather" patternUnits="userSpaceOnUse" width="40" height="40">
+      <rect width="40" height="40" fill="none"/>
+      <circle cx="20" cy="20" r="1" fill="rgba(61,28,0,0.1)"/>
+      <circle cx="0" cy="0" r="0.8" fill="rgba(61,28,0,0.08)"/>
+      <circle cx="40" cy="0" r="0.8" fill="rgba(61,28,0,0.08)"/>
+      <circle cx="0" cy="40" r="0.8" fill="rgba(61,28,0,0.08)"/>
+      <circle cx="40" cy="40" r="0.8" fill="rgba(61,28,0,0.08)"/>
+    </pattern>
+    <pattern id="stitch" patternUnits="userSpaceOnUse" width="20" height="20">
+      <line x1="0" y1="10" x2="8" y2="10" stroke="rgba(212,168,83,0.15)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#leather)"/>
+  <rect x="60" y="60" width="1800" height="960" rx="8" fill="none" stroke="rgba(212,168,83,0.12)" stroke-width="2" stroke-dasharray="8,8"/>
+  <text x="960" y="480" text-anchor="middle" font-family="system-ui, sans-serif" font-size="72" font-weight="700" fill="rgba(255,255,255,0.85)">艺育皮韵</text>
+  <text x="960" y="550" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="rgba(255,255,255,0.5)" letter-spacing="8">非遗皮雕数字教育平台</text>
+</svg>

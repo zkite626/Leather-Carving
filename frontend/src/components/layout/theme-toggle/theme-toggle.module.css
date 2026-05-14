@@ -1,0 +1,47 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lc-radius-full);
+  color: var(--lc-text-secondary);
+  transition:
+    background-color var(--lc-duration-fast) var(--lc-ease),
+    color var(--lc-duration-fast) var(--lc-ease);
+  position: relative;
+}
+
+.toggle:hover {
+  background-color: var(--lc-bg-secondary);
+  color: var(--lc-text);
+}
+
+.icon {
+  position: absolute;
+  transition:
+    opacity var(--lc-duration-normal) var(--lc-ease),
+    transform var(--lc-duration-normal) var(--lc-ease);
+}
+
+/* Light mode: show moon icon */
+.sunIcon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.moonIcon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Dark mode: show sun icon */
+:global([data-theme="dark"]) .sunIcon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+:global([data-theme="dark"]) .moonIcon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EDE3D5"/>
+      <stop offset="100%" stop-color="#F5EDE3"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect x="20" y="20" width="760" height="960" rx="8" fill="none" stroke="#E0D5C8" stroke-width="2"/>
+  <path d="M350 400 L400 350 L450 400 L400 450 Z" fill="none" stroke="#B5651D" stroke-width="2" opacity="0.3"/>
+  <text x="400" y="550" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" fill="#9B8E82">作品图片</text>
+</svg>

@@ -1,0 +1,74 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-1);
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 var(--lc-space-2);
+  border-radius: var(--lc-radius-sm);
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-secondary);
+  transition:
+    background-color var(--lc-duration-fast) var(--lc-ease),
+    color var(--lc-duration-fast) var(--lc-ease),
+    box-shadow var(--lc-duration-fast) var(--lc-ease);
+}
+
+.pageButton:hover:not(:disabled):not(.active) {
+  background-color: var(--lc-bg-secondary);
+  color: var(--lc-text);
+}
+
+.active {
+  background-color: var(--lc-primary);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: var(--lc-shadow-sm);
+}
+
+.active:hover {
+  background-color: var(--lc-primary-dark);
+}
+
+.prev,
+.next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lc-radius-sm);
+  color: var(--lc-text-secondary);
+  transition:
+    background-color var(--lc-duration-fast) var(--lc-ease),
+    color var(--lc-duration-fast) var(--lc-ease);
+}
+
+.prev:hover:not(:disabled),
+.next:hover:not(:disabled) {
+  background-color: var(--lc-bg-secondary);
+  color: var(--lc-text);
+}
+
+.prev:disabled,
+.next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  color: var(--lc-text-muted);
+  font-size: var(--lc-text-sm);
+  user-select: none;
+}

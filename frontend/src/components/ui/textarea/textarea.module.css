@@ -1,0 +1,82 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-space-1);
+  width: 100%;
+}
+
+.label {
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  color: var(--lc-text);
+  display: flex;
+  align-items: center;
+  gap: var(--lc-space-1);
+}
+
+.required {
+  color: var(--lc-error);
+}
+
+.textareaWrapper {
+  display: flex;
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background-color: var(--lc-bg);
+  transition:
+    border-color var(--lc-duration-fast) var(--lc-ease),
+    box-shadow var(--lc-duration-fast) var(--lc-ease);
+}
+
+.textareaWrapper:focus-within {
+  border-color: var(--lc-primary);
+  box-shadow: 0 0 0 3px rgba(181, 101, 29, 0.12);
+}
+
+.hasError .textareaWrapper {
+  border-color: var(--lc-error);
+}
+
+.hasError .textareaWrapper:focus-within {
+  border-color: var(--lc-error);
+  box-shadow: 0 0 0 3px rgba(217, 79, 79, 0.12);
+}
+
+.disabled .textareaWrapper {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background-color: var(--lc-bg-secondary);
+}
+
+.textarea {
+  flex: 1;
+  width: 100%;
+  padding: var(--lc-space-3);
+  font-size: var(--lc-text-base);
+  color: var(--lc-text);
+  background: transparent;
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+.textarea::placeholder {
+  color: var(--lc-text-muted);
+}
+
+.textarea:disabled {
+  cursor: not-allowed;
+  resize: none;
+}
+
+.error {
+  font-size: var(--lc-text-xs);
+  color: var(--lc-error);
+  margin-top: var(--lc-space-1);
+}
+
+.hint {
+  font-size: var(--lc-text-xs);
+  color: var(--lc-text-muted);
+  margin-top: var(--lc-space-1);
+}
