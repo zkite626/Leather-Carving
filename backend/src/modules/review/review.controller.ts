@@ -19,6 +19,8 @@ import { CurrentUser } from '../../common/decorators/current-user.decorator';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
+  // ─── Course Reviews ─────────────────────────────────────────────────
+
   @Post('courses/:courseId')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -46,6 +48,38 @@ export class ReviewController {
   async getCourseReviewSummary(@Param('courseId') courseId: string) {
     return this.reviewService.getCourseReviewSummary(courseId);
   }
+
+  // ─── Product Reviews ───────────────────────────────────────────────
+
+  @Post('products/:productId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Create a product review' })
+  async createProductReview(
+    @Param('productId') productId: string,
+    @CurrentUser('sub') userId: string,
+    @Body() dto: CreateReviewDto,
+  ) {
+    return this.reviewService.createProductReview(userId, productId, dto);
+  }
+
+  @Get('products/:productId')
+  @ApiOperation({ summary: 'Get product reviews' })
+  async getProductReviews(
+    @Param('productId') productId: string,
+    @Query('page') page?: number,
+    @Query('pageSize') pageSize?: number,
+  ) {
+    return this.reviewService.getProductReviews(productId, page, pageSize);
+  }
+
+  @Get('products/:productId/summary')
+  @ApiOperation({ summary: 'Get product review summary' })
+  async getProductReviewSummary(@Param('productId') productId: string) {
+    return this.reviewService.getProductReviewSummary(productId);
+  }
+
+  // ─── Delete (shared) ───────────────────────────────────────────────
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)

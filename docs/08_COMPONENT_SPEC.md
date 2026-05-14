@@ -362,3 +362,84 @@ interface PatternGalleryProps {
 // 点击打开预览大图 Modal
 // 一键下载 + 下载计数
 ```
+
+---
+
+## Wave 4 — 商城系统组件
+
+### ProductCard
+
+```typescript
+interface ProductCardProps {
+  product: IProduct;
+  onAddToCart?: (product: IProduct) => void;
+}
+// 商品卡片：封面(1:1) → 名称(2行截断) → 价格(原价划线+现价高亮) → 评分+销量
+// 广西特色：金色渐变边框 + "广西非遗"金色角标
+// 售罄状态：居中半透明遮罩
+// 加入购物车按钮：hover 变色
+// Link 到 /shop/[slug]
+// 实现：frontend/src/components/product/product-card/
+```
+
+### CartStore (Zustand)
+
+```typescript
+// 购物车状态管理：localStorage 持久化 + 服务端同步
+// Actions: addItem, removeItem, updateQuantity, toggleSelect, selectAll, deselectAll, removeSelected, clearCart, syncFromServer
+// Computed: getSelectedCount, getSelectedTotal, getTotalCount, getSelectedItems
+// 实现：frontend/src/stores/cart-store.ts
+```
+
+### /shop — 商城首页
+
+```typescript
+// Banner 轮播（自动切换 5s，圆点导航）
+// 分类导航横栏（横向滚动，图标+名称）
+// 广西特色专区（金色背景色调，ProductCard 网格）
+// 热销好物 + 新品上架推荐区
+// 全部商品列表（左侧分类筛选侧栏 + 价格区间 + 关键词搜索 + 排序按钮 + 分页）
+// 实现：frontend/src/app/shop/page.tsx
+```
+
+### /shop/[slug] — 商品详情页
+
+```typescript
+// 面包屑导航
+// 左侧：多图轮播（大图 + 缩略图导航）
+// 右侧：商品名称、广西非遗徽章、价格展示、评分+销量、属性/规格展示、数量选择器、加入购物车+立即购买按钮
+// Tab 切换：商品详情(富文本) + 商品评价(评分统计柱状图 + 评价列表 + 分页)
+// 实现：frontend/src/app/shop/[slug]/page.tsx
+```
+
+### /cart — 购物车页面
+
+```typescript
+// 全选/取消全选 + 批量删除
+// 商品列表：复选框 + 缩略图 + 名称 + 单价 + 数量调整 + 小计 + 删除
+// 底部固定栏：已选件数 + 总价 + 去结算按钮
+// 空购物车状态：购物袋图标 + "购物车还是空的" + 去逛逛链接
+// 登录后自动同步服务端购物车
+// 实现：frontend/src/app/cart/page.tsx
+```
+
+### /checkout — 结算页
+
+```typescript
+// 步骤指示器（3步：确认订单/支付/完成）
+// 收货地址管理（选择/新增，设为默认）
+// 订单商品确认列表
+// 订单摘要：商品数量 + 金额 + 运费(免运费) + 合计 + 备注
+// 提交订单 → 创建订单 API → 清除已选购物车 → 跳转我的订单
+// 实现：frontend/src/app/checkout/page.tsx
+```
+
+### /my-orders — 我的订单
+
+```typescript
+// Tab 切换：全部/待付款/待发货/待收货/已完成（含计数徽章）
+// 订单卡片：订单号+日期+状态标签+商品列表+总金额+操作按钮
+// 操作按钮：去支付/取消订单(PENDING)、确认收货(SHIPPING)、评价/再次购买(COMPLETED)
+// 分页 + 空状态
+// 实现：frontend/src/app/my-orders/page.tsx
+```

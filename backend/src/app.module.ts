@@ -15,6 +15,12 @@ import { ArtworkModule } from './modules/artwork/artwork.module';
 import { FavoriteModule } from './modules/favorite/favorite.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { PatternModule } from './modules/pattern/pattern.module';
+import { CategoryModule } from './modules/category/category.module';
+import { ProductModule } from './modules/product/product.module';
+import { CartModule } from './modules/cart/cart.module';
+import { AddressModule } from './modules/address/address.module';
+import { OrderModule } from './modules/order/order.module';
+import { BannerModule } from './modules/banner/banner.module';
 
 @Module({
   imports: [
@@ -45,6 +51,12 @@ import { PatternModule } from './modules/pattern/pattern.module';
     FavoriteModule,
     CommentModule,
     PatternModule,
+    CategoryModule,
+    ProductModule,
+    CartModule,
+    AddressModule,
+    OrderModule,
+    BannerModule,
   ],
   providers: [
     {

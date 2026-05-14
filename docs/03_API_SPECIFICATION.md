@@ -436,64 +436,169 @@ Response 200: PaginatedResponse<IPatternAsset>
 
 ## 六、商城模块 `/api/v1/shop`
 
-### GET `/shop/products` — 商品列表
+### 商品管理
+
+#### GET `/shop/products` — 商品列表
 
 ```yaml
 Query:
   page?, pageSize?, categoryId?, isGuangxi?, minPrice?, maxPrice?,
-  keyword?, sortBy?: 'price' | 'sales' | 'rating' | 'createdAt'
+  keyword?, sortBy?: 'price' | 'sales' | 'rating' | 'createdAt', sortOrder?, status?
 Response 200: PaginatedResponse<IProduct>
 ```
 
-### GET `/shop/products/:slug` — 商品详情
+#### GET `/shop/products/:slug` — 商品详情（含图片列表、分类、评价摘要）
 
-### GET `/shop/categories` — 分类树
+#### GET `/shop/products/guangxi` — 广西特色商品（limit 8）
+
+#### GET `/shop/products/hot` — 热销商品（按销量排序，limit 8）
+
+#### GET `/shop/products/new` — 新品上架（按创建时间排序，limit 8）
+
+#### GET `/shop/products/my` — 我的商品（商家）🔒
+
+#### POST `/shop/products` — 创建商品 🔒
+
+```yaml
+Request:
+  body:
+    name: string, slug?: string, description?, categoryId: string,
+    price: number, originalPrice?, stock?, stockAlert?,
+    isGuangxi?, attributes?: Record<string,unknown>, tags?: string[]
+```
+
+#### PATCH `/shop/products/:id` — 更新商品 🔒
+
+#### DELETE `/shop/products/:id` — 删除商品（软删除）🔒
+
+#### POST `/shop/products/:id/images` — 添加商品图片（最多10张）🔒
+
+#### PATCH `/shop/products/:id/images/reorder` — 重排商品图片 🔒
+
+#### DELETE `/shop/products/:id/images/:imageId` — 删除商品图片 🔒
+
+#### PATCH `/shop/products/:id/status` — 更新商品状态 🔒
+
+### 分类管理
+
+#### GET `/shop/categories` — 分类树
 
 ```yaml
 Response 200:
-  data: IProductCategory[] (嵌套树形)
+  data: IProductCategory[] (嵌套树形，含 children 和 _count.products)
 ```
 
-### POST `/shop/cart` — 添加到购物车 🔒
+#### GET `/shop/categories/:id` — 分类详情
+
+#### POST `/shop/categories` — 创建分类 🔒 ADMIN
+
+#### PATCH `/shop/categories/:id` — 更新分类 🔒 ADMIN
+
+#### DELETE `/shop/categories/:id` — 删除分类 🔒 ADMIN
+
+### 购物车
+
+#### POST `/shop/cart` — 添加到购物车 🔒
 
 ```yaml
 Request:
   body:
     productId: string (required)
-    quantity: number (required, min 1)
+    quantity: number (1-99, default 1)
 Response 201: data: CartItem
+Constraints: 最多50种商品，库存校验，相同商品累加数量
 ```
 
-### GET `/shop/cart` — 获取购物车 🔒
+#### GET `/shop/cart` — 获取购物车 🔒
 
-### PATCH `/shop/cart/:id` — 更新购物车数量 🔒
+#### GET `/shop/cart/count` — 购物车数量 🔒
 
-### DELETE `/shop/cart/:id` — 删除购物车项 🔒
+#### PATCH `/shop/cart/:id` — 更新购物车数量 🔒
 
-### POST `/shop/orders` — 创建订单 🔒
+#### DELETE `/shop/cart/:id` — 删除购物车项 🔒
+
+#### DELETE `/shop/cart` — 清空购物车 🔒
+
+### 收货地址
+
+#### GET `/shop/addresses` — 地址列表 🔒
+
+#### GET `/shop/addresses/:id` — 地址详情 🔒
+
+#### POST `/shop/addresses` — 创建地址 🔒（最多10个）
 
 ```yaml
 Request:
   body:
-    items: Array<{ productId, quantity }>
-    address: { name, phone, province, city, district, detail, zipCode }
-    remark?: string
-Response 201:
-  data: IOrder & { paymentUrl?: string }
-Errors: 400 库存不足 | 400 商品下架
+    name: string, phone: string (手机号格式),
+    province: string, city: string, district: string, detail: string,
+    isDefault?: boolean
 ```
 
-### GET `/shop/orders` — 我的订单列表 🔒
+#### PATCH `/shop/addresses/:id` — 更新地址 🔒
 
-### GET `/shop/orders/:id` — 订单详情 🔒
+#### DELETE `/shop/addresses/:id` — 删除地址 🔒
 
-### POST `/shop/orders/:id/pay` — 支付订单 🔒
+### 订单管理
 
-### POST `/shop/orders/:id/cancel` — 取消订单 🔒
+#### POST `/shop/orders` — 创建订单 🔒
 
-### POST `/shop/orders/:id/confirm` — 确认收货 🔒
+```yaml
+Request:
+  body:
+    items: Array<{ productId: string, quantity: number }>
+    address: { name, phone, province, city, district, detail }
+    remark?: string
+Response 201: data: IOrder
+Errors: 400 库存不足 | 400 商品下架 | 400 版本冲突
+技术: Prisma $transaction + 乐观锁 (version字段) 保证原子性
+订单号: LCyyyyMMddXXXX 格式
+```
 
-### POST `/shop/products/:id/reviews` — 商品评价 🔒
+#### GET `/shop/orders` — 我的订单列表 🔒
+
+```yaml
+Query:
+  page?, pageSize?, status?: OrderStatus
+```
+
+#### GET `/shop/orders/:id` — 订单详情 🔒
+
+#### POST `/shop/orders/:id/pay` — 支付订单 🔒（Mock 支付，直接标记已支付）
+
+#### POST `/shop/orders/:id/cancel` — 取消订单 🔒（仅PENDING状态，库存回滚）
+
+#### POST `/shop/orders/:id/confirm` — 确认收货 🔒（仅SHIPPING状态）
+
+### 商品评价
+
+#### POST `/reviews/products/:productId` — 创建商品评价 🔒（仅已购买用户）
+
+```yaml
+Request:
+  body:
+    rating: number (1-5)
+    content?: string
+    images?: string[]
+```
+
+#### GET `/reviews/products/:productId` — 商品评价列表
+
+#### GET `/reviews/products/:productId/summary` — 评价统计（平均分、总数、分布）
+
+### Banner
+
+#### GET `/banners` — 获取有效 Banner
+
+```yaml
+Query: position?: string (如 'shop')
+```
+
+#### POST `/banners` — 创建 Banner 🔒 ADMIN
+
+#### PATCH `/banners/:id` — 更新 Banner 🔒 ADMIN
+
+#### DELETE `/banners/:id` — 删除 Banner 🔒 ADMIN
 
 ---
 

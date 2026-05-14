@@ -303,6 +303,7 @@ model Product {
   isGuangxi     Boolean       @default(false) @map("is_guangxi") // 广西特色标识
   attributes    Json?         @db.JsonB    // 商品属性（规格/材质/尺寸等）
   tags          String[]
+  version       Int           @default(1)  // 乐观锁版本号
   createdAt     DateTime      @default(now()) @map("created_at")
   updatedAt     DateTime      @updatedAt @map("updated_at")
   deletedAt     DateTime?     @map("deleted_at")
@@ -425,6 +426,25 @@ enum PaymentMethod {
   WECHAT
   ALIPAY
   MOCK      // 开发环境模拟支付
+}
+
+model Address {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  name      String   @db.VarChar(50)
+  phone     String   @db.VarChar(20)
+  province  String   @db.VarChar(50)
+  city      String   @db.VarChar(50)
+  district  String   @db.VarChar(50)
+  detail    String   @db.VarChar(200)
+  isDefault Boolean  @default(false) @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("addresses")
 }
 
 enum PaymentStatus {
