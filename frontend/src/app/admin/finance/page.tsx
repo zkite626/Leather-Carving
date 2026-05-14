@@ -18,8 +18,8 @@ export default function AdminFinancePage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    getFinanceSummary().then(setSummary).catch(() => {});
-    getMerchantSettlements().then(setSettlements).catch(() => {});
+    void getFinanceSummary().then(setSummary).catch(() => {});
+    void getMerchantSettlements().then(setSettlements).catch(() => {});
   }, []);
 
   const fetchTransactions = useCallback(async () => {
@@ -33,7 +33,8 @@ export default function AdminFinancePage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, startDate, endDate]);
 
-  useEffect(() => { fetchTransactions(); }, [fetchTransactions]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchTransactions(); }, [fetchTransactions]);
 
   const transactions = txData?.items ?? [];
   const totalPages = txData?.pagination.totalPages ?? 1;

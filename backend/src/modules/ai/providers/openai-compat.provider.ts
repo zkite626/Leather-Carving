@@ -1,10 +1,5 @@
 import { Logger } from '@nestjs/common';
-import {
-  BaseAIProvider,
-  ChatMessage,
-  ChatOptions,
-  ImageOptions,
-} from './base-ai.provider';
+import { BaseAIProvider, ChatMessage, ChatOptions } from './base-ai.provider';
 
 interface AIModelConfig {
   baseUrl: string;
@@ -69,7 +64,9 @@ export class OpenAICompatProvider extends BaseAIProvider {
         if (data === '[DONE]') return;
 
         try {
-          const parsed = JSON.parse(data);
+          const parsed = JSON.parse(data) as {
+            choices?: Array<{ delta?: { content?: string } }>;
+          };
           const content = parsed.choices?.[0]?.delta?.content;
           if (content) yield content;
         } catch {
@@ -79,10 +76,7 @@ export class OpenAICompatProvider extends BaseAIProvider {
     }
   }
 
-  async generateImage(
-    _prompt: string,
-    _options?: ImageOptions,
-  ): Promise<string> {
+  generateImage(): never {
     throw new Error(
       'Image generation not supported by OpenAI-compatible provider',
     );

@@ -45,7 +45,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    refreshUser().finally(() => setIsLoading(false));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching pattern
+    void refreshUser().finally(() => setIsLoading(false));
   }, [refreshUser]);
 
   const login = useCallback(

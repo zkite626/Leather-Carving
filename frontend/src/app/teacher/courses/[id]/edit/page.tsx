@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
@@ -125,7 +125,9 @@ export default function CourseEditorPage() {
   }
   completedSteps.add('pricing');
 
-  const currentStepIndex = STEPS.findIndex((s) => s.key === currentStep);
+  // ---------------------
+  // Load course
+  // ---------------------
 
   // ---------------------
   // Load course
@@ -157,10 +159,13 @@ export default function CourseEditorPage() {
     } finally {
       setLoading(false);
     }
-  }, [courseId, showError]);
+  }, [courseId, showError, setLoading, setCourse, setTitle, setSubtitle, setDescription,
+      setLevel, setCategory, setTags, setCoverImage, setPrice,
+      setOriginalPrice, setIsFree, setChapters]);
 
   useEffect(() => {
-    loadCourse();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching pattern
+    void loadCourse();
   }, [loadCourse]);
 
   // ---------------------
@@ -370,7 +375,7 @@ export default function CourseEditorPage() {
           };
         });
       });
-    } catch (err) {
+    } catch {
       showError('操作失败', '无法更新课时状态');
     }
   };

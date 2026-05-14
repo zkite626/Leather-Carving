@@ -24,7 +24,7 @@ export async function markAsRead(id: string) {
 }
 
 export async function markAllAsRead() {
-  const res = await apiClient.post<ApiResponse<any>>('/notifications/read-all');
+  const res = await apiClient.post<ApiResponse<null>>('/notifications/read-all');
   return res.data;
 }
 

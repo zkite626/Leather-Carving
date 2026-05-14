@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -14,7 +15,7 @@ export class NotificationService {
     const { page = 1, pageSize = 20, isRead } = params;
     const skip = (page - 1) * pageSize;
 
-    const where: any = { userId };
+    const where: Prisma.NotificationWhereInput = { userId };
     if (isRead !== undefined) where.isRead = isRead;
 
     const [notifications, total] = await Promise.all([

@@ -3,12 +3,10 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 import { RedisService } from '../redis/redis.service';
 import { DashboardQueryDto } from './dto';
-import { Prisma } from '@prisma/client';
 
 const DASHBOARD_CACHE_KEY = 'admin:dashboard';
 const DASHBOARD_CACHE_TTL = 300; // 5 minutes
 const TREND_CACHE_KEY = 'admin:trend';
-const TREND_CACHE_TTL = 3600; // 1 hour
 
 @Injectable()
 export class AdminService {
@@ -25,7 +23,7 @@ export class AdminService {
 
     try {
       const cached = await this.redis.get(cacheKey);
-      if (cached) return JSON.parse(cached);
+      if (cached) return JSON.parse(cached) as Record<string, unknown>;
     } catch {
       // Redis unavailable
     }
@@ -92,7 +90,6 @@ export class AdminService {
   }
 
   private async getUserGrowthChart(period: string) {
-    const days = period === 'month' ? 30 : period === 'week' ? 7 : 1;
     const points = period === 'month' ? 30 : period === 'week' ? 7 : 24;
     const results: Array<{ date: string; count: number }> = [];
 

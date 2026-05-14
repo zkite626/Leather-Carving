@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { Request } from 'express';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
 interface RequestWithUser extends Request {
@@ -30,7 +31,8 @@ export class AuditLogInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
-    const { method, path, body, ip, headers } = request;
+    const { method, path, ip, headers } = request;
+    const body = request.body as Prisma.InputJsonValue | undefined;
 
     if (
       !AUDIT_METHODS.includes(method) ||

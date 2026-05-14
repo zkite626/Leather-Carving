@@ -28,14 +28,14 @@ export default function CartPage() {
   const [mounted, setMounted] = useState(false);
 
   // Derive computed values from store
-  const selectedCount = useMemo(() => getSelectedCount(), [items]);
-  const selectedTotal = useMemo(() => getSelectedTotal(), [items]);
+  const selectedCount = useMemo(() => getSelectedCount(), [getSelectedCount]);
+  const selectedTotal = useMemo(() => getSelectedTotal(), [getSelectedTotal]);
   const allSelected = items.length > 0 && items.every((i) => i.selected);
   const hasSelected = selectedCount > 0;
 
   // Sync from server on mount when logged in
   useEffect(() => {
-    setMounted(true);
+    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
 
     async function fetchCart() {
       if (!isAuthenticated) return;
@@ -61,7 +61,7 @@ export default function CartPage() {
     }
 
     if (!authLoading) {
-      fetchCart();
+      void fetchCart();
     }
   }, [isAuthenticated, authLoading, syncFromServer, setLoading]);
 

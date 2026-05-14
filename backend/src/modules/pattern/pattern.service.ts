@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreatePatternDto,
@@ -34,14 +35,14 @@ export class PatternService {
     const pageSize = Math.min(50, Math.max(1, Number(query.pageSize) || 20));
     const skip = (page - 1) * pageSize;
 
-    const where: any = {};
+    const where: Prisma.PatternAssetWhereInput = {};
 
     if (query.category) {
       where.category = query.category;
     }
 
     if (query.keyword) {
-      where.OR = [
+      (where as Record<string, unknown>).OR = [
         { name: { contains: query.keyword, mode: 'insensitive' } },
         { description: { contains: query.keyword, mode: 'insensitive' } },
       ];

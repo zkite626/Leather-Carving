@@ -8,7 +8,6 @@ import {
   IsObject,
   MaxLength,
   Min,
-  Max,
   ArrayMaxSize,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';

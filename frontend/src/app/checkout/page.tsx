@@ -334,13 +334,13 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    loadAddresses();
+    void loadAddresses(); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [loadAddresses]);
 
   // Show form inline if no addresses and not loading
   useEffect(() => {
     if (!addressLoading && addresses.length === 0) {
-      setShowForm(true);
+      setShowForm(true); // eslint-disable-line react-hooks/set-state-in-effect -- conditional state initialization
     }
   }, [addressLoading, addresses.length]);
 

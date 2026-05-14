@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsArray, MaxLength, Max } from 'class-validator';
+import { IsString, IsOptional, IsArray, MaxLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateArtworkDto {

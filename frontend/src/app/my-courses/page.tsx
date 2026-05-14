@@ -52,7 +52,7 @@ export default function MyCoursesPage() {
   }, []);
 
   useEffect(() => {
-    fetchCourses();
+    void fetchCourses(); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [fetchCourses]);
 
   // Filter by tab status

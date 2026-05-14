@@ -31,7 +31,8 @@ export default function AdminContentPage() {
     } catch { /* handled */ } finally { setLoading(false); }
   }, [page, statusTab, typeFilter]);
 
-  useEffect(() => { fetchData(); setSelected(new Set()); }, [fetchData]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchData(); setSelected(new Set()); }, [fetchData]);
 
   const handleApprove = async (type: string, id: string) => {
     try { await approveContent(type, id); fetchData(); } catch { /* */ }

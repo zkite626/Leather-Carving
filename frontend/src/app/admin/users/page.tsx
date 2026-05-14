@@ -40,7 +40,8 @@ export default function AdminUsersPage() {
     }
   }, [page, keyword, roleFilter, statusFilter]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchData(); }, [fetchData]);
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {

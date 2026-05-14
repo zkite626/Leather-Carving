@@ -60,16 +60,16 @@ export async function deletePost(id: string) {
 }
 
 export async function getHotTopics() {
-  const res = await apiClient.get<ApiResponse<any[]>>('/community/posts/hot');
+  const res = await apiClient.get<ApiResponse<Array<{ id: string; title: string; likeCount: number }>>>('/community/posts/hot');
   return res.data;
 }
 
 export async function getCheckinStatus(postId: string) {
-  const res = await apiClient.get<ApiResponse<any>>(`/community/posts/${postId}/checkin`);
+  const res = await apiClient.get<ApiResponse<{ checkedIn: boolean; streak: number }>>(`/community/posts/${postId}/checkin`);
   return res.data;
 }
 
 export async function checkin(postId: string) {
-  const res = await apiClient.post<ApiResponse<any>>(`/community/posts/${postId}/checkin`);
+  const res = await apiClient.post<ApiResponse<{ checkedIn: boolean; streak: number }>>(`/community/posts/${postId}/checkin`);
   return res.data;
 }

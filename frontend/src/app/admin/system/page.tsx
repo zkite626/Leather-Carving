@@ -47,7 +47,8 @@ function BannerSection() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { fetchBanners(); }, [fetchBanners]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchBanners(); }, [fetchBanners]);
 
   const handleCreate = async () => {
     if (!form.title || !form.image) return;
@@ -151,7 +152,8 @@ function AiConfigSection() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { fetchConfigs(); }, [fetchConfigs]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchConfigs(); }, [fetchConfigs]);
 
   const handleSubmit = async () => {
     if (!form.capability || !form.displayName || !form.modelName) return;

@@ -64,7 +64,7 @@ export default function TeacherCoursesPage() {
   }, [showError]);
 
   useEffect(() => {
-    fetchCourses(currentPage);
+    void fetchCourses(currentPage); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [currentPage, fetchCourses]);
 
   const handlePageChange = (page: number) => {

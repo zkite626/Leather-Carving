@@ -4,11 +4,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { AIConfigService } from './ai-config.service';
-import {
-  BaseAIProvider,
-  ChatMessage,
-  ImageOptions,
-} from './providers/base-ai.provider';
+import { BaseAIProvider, ChatMessage } from './providers/base-ai.provider';
 import { OpenAICompatProvider } from './providers/openai-compat.provider';
 import { ImageGenProvider } from './providers/image-gen.provider';
 import { RedisService } from '../redis/redis.service';
@@ -41,8 +37,8 @@ export class AIService {
 
     if (config.providerType === 'openai_compat') {
       return new OpenAICompatProvider({
-        baseUrl: config.baseUrl,
-        apiKey: config.apiKey,
+        baseUrl: config.baseUrl!,
+        apiKey: config.apiKey!,
         modelName: config.modelName,
         extraParams: config.extraParams as Record<string, any> | undefined,
       });
@@ -50,8 +46,8 @@ export class AIService {
 
     if (capability === 'image_gen') {
       return new ImageGenProvider({
-        baseUrl: config.baseUrl,
-        apiKey: config.apiKey,
+        baseUrl: config.baseUrl!,
+        apiKey: config.apiKey!,
         modelName: config.modelName,
         extraParams: config.extraParams as Record<string, any> | undefined,
       });
@@ -75,7 +71,7 @@ export class AIService {
     let history: ChatMessage[] = [];
     try {
       const cached = await this.redis.get(historyKey);
-      if (cached) history = JSON.parse(cached);
+      if (cached) history = JSON.parse(cached) as ChatMessage[];
     } catch {
       // Redis unavailable
     }

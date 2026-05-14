@@ -102,8 +102,9 @@ export default function CreateArtworkPage() {
       // Submit for review
       await submitArtwork(newArtworkId);
       router.push('/my-artworks');
-    } catch (err: any) {
-      setError(err?.response?.data?.message || '发布失败，请重试');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      setError(axiosErr?.response?.data?.message || '发布失败，请重试');
     } finally {
       setSubmitting(false);
       setUploading(false);

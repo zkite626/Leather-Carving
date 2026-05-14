@@ -1,6 +1,4 @@
-import { Page, expect } from '@playwright/test';
-
-const BASE_URL = 'http://localhost:3000';
+import { Page } from '@playwright/test';
 
 // Test user credentials (from seed data)
 export const TEST_USERS = {

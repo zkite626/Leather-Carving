@@ -5,6 +5,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -42,12 +43,11 @@ export class CommentService {
     let currentId: string | null = parentId;
 
     while (currentId && depth < MAX_DEPTH) {
-      const row: { parentId: string | null } | null = await (
-        this.prisma as any
-      ).comment.findUnique({
-        where: { id: currentId },
-        select: { parentId: true },
-      });
+      const row: { parentId: string | null } | null =
+        await this.prisma.comment.findUnique({
+          where: { id: currentId },
+          select: { parentId: true },
+        });
       if (!row) break;
       currentId = row.parentId;
       depth++;
@@ -96,17 +96,14 @@ export class CommentService {
       }
     }
 
-    const data: any = {
-      userId,
+    const data: Prisma.CommentCreateInput = {
+      user: { connect: { id: userId } },
       content: dto.content,
-      parentId: dto.parentId || null,
+      ...(dto.parentId ? { parent: { connect: { id: dto.parentId } } } : {}),
+      ...(entityType === 'artwork'
+        ? { artwork: { connect: { id: entityId } } }
+        : { post: { connect: { id: entityId } } }),
     };
-
-    if (entityType === 'artwork') {
-      data.artworkId = entityId;
-    } else {
-      data.postId = entityId;
-    }
 
     const comment = await this.prisma.comment.create({
       data,
@@ -140,16 +137,13 @@ export class CommentService {
     await this.validateEntity(entityType, entityId);
 
     const skip = (page - 1) * pageSize;
-    const where: any = { deletedAt: null };
-
-    if (entityType === 'artwork') {
-      where.artworkId = entityId;
-    } else {
-      where.postId = entityId;
-    }
-
-    // Only fetch top-level comments; replies are nested
-    where.parentId = null;
+    const where: Prisma.CommentWhereInput = {
+      deletedAt: null,
+      parentId: null,
+      ...(entityType === 'artwork'
+        ? { artworkId: entityId }
+        : { postId: entityId }),
+    };
 
     const [comments, total] = await Promise.all([
       this.prisma.comment.findMany({

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import type { IChapter, ILesson, CourseLevel } from '@/shared/types/course';
+import type { IChapter } from '@/shared/types/course';
 import type { ILessonProgress } from '@/shared/types/course';
 import styles from './learning-panel.module.css';
 

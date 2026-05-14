@@ -7,14 +7,14 @@ interface NotificationState {
   unreadCount: number;
   isLoading: boolean;
   fetchUnreadCount: () => Promise<void>;
-  fetchNotifications: (page?: number) => Promise<{ data: INotification[]; pagination: any }>;
+  fetchNotifications: (page?: number) => Promise<{ data: INotification[]; pagination: Record<string, number> | null }>;
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   addNotification: (notification: INotification) => void;
   setUnreadCount: (count: number) => void;
 }
 
-export const useNotificationStore = create<NotificationState>((set, get) => ({
+export const useNotificationStore = create<NotificationState>((set) => ({
   notifications: [],
   unreadCount: 0,
   isLoading: false,
@@ -38,7 +38,7 @@ export const useNotificationStore = create<NotificationState>((set, get) => ({
       } else {
         set((state) => ({ notifications: [...state.notifications, ...data], isLoading: false }));
       }
-      return { data, pagination: (res as any).pagination };
+      return { data, pagination: (res as unknown as { pagination: Record<string, number> | null }).pagination };
     } catch {
       set({ isLoading: false });
       return { data: [], pagination: null };

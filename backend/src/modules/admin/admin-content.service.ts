@@ -190,6 +190,7 @@ export class AdminContentService {
     return 0;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async approveContent(id: string, type: string, dto: ApproveContentDto) {
     if (type === 'course') {
       const course = await this.prisma.course.findUnique({ where: { id } });
@@ -218,6 +219,7 @@ export class AdminContentService {
     throw new BadRequestException('Invalid content type');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async rejectContent(id: string, type: string, dto: RejectContentDto) {
     if (type === 'course') {
       const course = await this.prisma.course.findUnique({ where: { id } });
@@ -253,19 +255,19 @@ export class AdminContentService {
         // Try each type
         const course = await this.prisma.course.findUnique({ where: { id } });
         if (course) {
-          const result = await this.approveContent(id, 'course', {});
+          await this.approveContent(id, 'course', {});
           results.push({ id, type: 'course', success: true });
           continue;
         }
         const artwork = await this.prisma.artwork.findUnique({ where: { id } });
         if (artwork) {
-          const result = await this.approveContent(id, 'artwork', {});
+          await this.approveContent(id, 'artwork', {});
           results.push({ id, type: 'artwork', success: true });
           continue;
         }
         const post = await this.prisma.post.findUnique({ where: { id } });
         if (post) {
-          const result = await this.approveContent(id, 'post', {});
+          await this.approveContent(id, 'post', {});
           results.push({ id, type: 'post', success: true });
           continue;
         }

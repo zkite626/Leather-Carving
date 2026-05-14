@@ -5,7 +5,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
-import { ArtworkStatus } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   CreateArtworkDto,
@@ -175,7 +175,10 @@ export class ArtworkService {
     const pageSize = Math.min(50, Math.max(1, Number(query.pageSize) || 20));
     const skip = (page - 1) * pageSize;
 
-    const where: any = { status: 'PUBLISHED', deletedAt: null };
+    const where: Prisma.ArtworkWhereInput = {
+      status: 'PUBLISHED',
+      deletedAt: null,
+    };
 
     if (query.category) {
       where.category = query.category;
@@ -193,7 +196,7 @@ export class ArtworkService {
       where.techniques = { hasSome: techArr };
     }
 
-    let orderBy: any = { createdAt: 'desc' };
+    let orderBy: Prisma.ArtworkOrderByWithRelationInput = { createdAt: 'desc' };
     if (query.sortBy === 'likeCount') orderBy = { likeCount: 'desc' };
     if (query.sortBy === 'viewCount') orderBy = { viewCount: 'desc' };
 
@@ -289,7 +292,7 @@ export class ArtworkService {
     const pageSize = Math.min(50, Math.max(1, Number(query.pageSize) || 20));
     const skip = (page - 1) * pageSize;
 
-    const where: any = { userId, deletedAt: null };
+    const where: Prisma.ArtworkWhereInput = { userId, deletedAt: null };
 
     const [artworks, total] = await Promise.all([
       this.prisma.artwork.findMany({

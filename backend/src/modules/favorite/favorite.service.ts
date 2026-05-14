@@ -1,9 +1,5 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 const VALID_ENTITY_TYPES = ['course', 'artwork', 'post'] as const;
@@ -15,7 +11,11 @@ export class FavoriteService {
   constructor(private readonly prisma: PrismaService) {}
 
   async toggle(userId: string, entityType: string, entityId: string) {
-    if (!VALID_ENTITY_TYPES.includes(entityType as any)) {
+    if (
+      !VALID_ENTITY_TYPES.includes(
+        entityType as (typeof VALID_ENTITY_TYPES)[number],
+      )
+    ) {
       throw new NotFoundException(`Invalid entity type: ${entityType}`);
     }
 
@@ -86,7 +86,7 @@ export class FavoriteService {
     pageSize = 20,
   ) {
     const skip = (page - 1) * pageSize;
-    const where: any = { userId };
+    const where: Prisma.FavoriteWhereInput = { userId };
     if (entityType) where.entityType = entityType;
 
     const [favorites, total] = await Promise.all([

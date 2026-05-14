@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   Logger,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePostDto, PostType } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -32,10 +33,13 @@ export class CommunityService {
     } = params;
     const skip = (page - 1) * pageSize;
 
-    const where: any = { deletedAt: null, status: 'PUBLISHED' };
+    const where: Prisma.PostWhereInput = {
+      deletedAt: null,
+      status: 'PUBLISHED',
+    };
     if (type) where.type = type;
     if (keyword) {
-      where.OR = [
+      (where as Record<string, unknown>).OR = [
         { title: { contains: keyword, mode: 'insensitive' } },
         { content: { contains: keyword, mode: 'insensitive' } },
         { tags: { has: keyword } },

@@ -92,7 +92,7 @@ export class AIController {
   async chat(
     @CurrentUser('sub') userId: string,
     @Body() dto: ChatDto,
-    @Res() res: any,
+    @Res() res: import('express').Response,
   ) {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');

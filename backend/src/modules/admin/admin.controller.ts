@@ -3,21 +3,18 @@ import {
   Get,
   Post,
   Patch,
-  Delete,
   Body,
   Param,
   Query,
   UseGuards,
   UseInterceptors,
-  Req,
-  BadRequestException,
   Res,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
-import { CurrentUser } from '../../common/decorators/current-user.decorator';
+
 import { UserRole } from '@prisma/client';
 import { AdminService } from './admin.service';
 import { AdminUserService } from './admin-user.service';
@@ -189,7 +186,7 @@ export class AdminController {
     const rows = data.items
       .map(
         (p) =>
-          `"${p.transactionNo ?? ''}","${p.order.orderNo}",${p.amount},${p.method},${p.status},"${p.paidAt?.toISOString() ?? ''}","${p.order.user.nickname}"`,
+          `"${p.transactionNo ?? ''}","${p.order.orderNo}",${String(p.amount)},${p.method},${p.status},"${p.paidAt?.toISOString() ?? ''}","${p.order.user.nickname}"`,
       )
       .join('\n');
 

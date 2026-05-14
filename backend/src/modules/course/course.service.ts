@@ -216,7 +216,7 @@ export class CourseService {
   }
 
   async update(courseId: string, userId: string, dto: UpdateCourseDto) {
-    const course = await this.ensureOwnership(courseId, userId);
+    await this.ensureOwnership(courseId, userId);
 
     const data: Prisma.CourseUpdateInput = {};
     if (dto.title !== undefined) data.title = dto.title;
@@ -695,14 +695,18 @@ export class CourseService {
     } as const;
   }
 
-  private formatCourse(course: any) {
+  private formatCourse(course: Record<string, unknown>) {
     const { teacher, ...rest } = course;
+    const teacherObj = teacher as
+      | Record<string, unknown>
+      | { user?: Record<string, unknown> }
+      | undefined;
     return {
       ...rest,
       price: Number(rest.price),
       originalPrice: rest.originalPrice ? Number(rest.originalPrice) : null,
       rating: Number(rest.rating),
-      teacher: teacher?.user ?? teacher,
+      teacher: teacherObj?.user ?? teacherObj,
     };
   }
 

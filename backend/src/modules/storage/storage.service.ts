@@ -39,7 +39,7 @@ export class StorageService {
       this.config.get('LOCAL_UPLOAD_DIR', 'uploads'),
     );
 
-    const minioEndpoint = this.config.get('MINIO_ENDPOINT');
+    const minioEndpoint = this.config.get<string>('MINIO_ENDPOINT');
     if (!minioEndpoint) {
       this.logger.warn(
         'MINIO_ENDPOINT not set — using local filesystem storage',
@@ -54,7 +54,7 @@ export class StorageService {
     try {
       this.minioClient = new Minio.Client({
         endPoint: minioEndpoint,
-        port: parseInt(this.config.get('MINIO_PORT', '9000'), 10),
+        port: parseInt(this.config.get<string>('MINIO_PORT', '9000'), 10),
         useSSL: this.config.get('MINIO_USE_SSL', 'false') === 'true',
         accessKey: this.config.get('MINIO_ACCESS_KEY', 'minioadmin'),
         secretKey: this.config.get('MINIO_SECRET_KEY', 'minioadmin'),
@@ -126,7 +126,7 @@ export class StorageService {
     const objectName = `lessons/${uuidv4()}${ext}`;
 
     if (this.useLocalStorage) {
-      const result = await this.saveToLocal(file, bucket, objectName);
+      const result = this.saveToLocal(file, bucket, objectName);
       return { url: result.url, duration: 0 };
     }
 
@@ -184,11 +184,11 @@ export class StorageService {
     return this.minioClient.presignedGetObject(bucket, objectName, expiry);
   }
 
-  private async saveToLocal(
+  private saveToLocal(
     file: Express.Multer.File,
     bucket: string,
     objectName: string,
-  ): Promise<{ url: string }> {
+  ): { url: string } {
     const dir = path.join(this.localUploadDir, bucket);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });

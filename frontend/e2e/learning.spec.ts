@@ -26,9 +26,6 @@ test.describe('Course Browsing and Learning Flow', () => {
 
     if (await levelFilter.first().isVisible()) {
       // Get initial course count or first course text
-      const initialCourses = page.locator('[class*="course"], [class*="card"], article');
-      const initialCount = await initialCourses.count();
-
       // Click the filter
       await levelFilter.first().click();
       await page.waitForLoadState('networkidle');

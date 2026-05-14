@@ -63,10 +63,10 @@ export default function LearnLessonPage() {
 
   // refs used inside callbacks to avoid stale closures
   const lessonIdRef = useRef(lessonId);
-  lessonIdRef.current = lessonId;
 
-  const progressMapRef = useRef(lessonProgressMap);
-  progressMapRef.current = lessonProgressMap;
+  useEffect(() => {
+    lessonIdRef.current = lessonId;
+  }, [lessonId]);
 
   /* ---------- load course + progress ---------- */
 
@@ -115,7 +115,8 @@ export default function LearnLessonPage() {
   }, [courseId, lessonId, router]);
 
   useEffect(() => {
-    loadCourse();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching pattern
+    void loadCourse();
   }, [loadCourse]);
 
   /* ---------- navigation ---------- */
@@ -144,7 +145,7 @@ export default function LearnLessonPage() {
   /* ---------- progress tracking ---------- */
 
   const handleVideoProgress = useCallback(
-    (currentTime: number, duration: number) => {
+    (currentTime: number) => {
       updateLessonProgress(lessonIdRef.current, {
         watchedDuration: Math.floor(currentTime),
         lastPosition: Math.floor(currentTime),
@@ -229,7 +230,7 @@ export default function LearnLessonPage() {
     const flat = chapters.flatMap((c) => c.lessons);
     return flat.findIndex((l) => l.id === lessonId) > 0;
   })();
-  const resumePosition = progressMapRef.current[lessonId]?.lastPosition ?? 0;
+  const resumePosition = lessonProgressMap[lessonId]?.lastPosition ?? 0;
 
   /* ==================== render ==================== */
 

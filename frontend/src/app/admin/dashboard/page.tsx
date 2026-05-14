@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { getAdminDashboard, getRecentActivities, type AdminDashboardData, type RecentActivity } from '@/lib/admin-api';
 import styles from './page.module.css';
@@ -55,7 +55,7 @@ export default function AdminDashboardPage() {
   }, []);
 
   useEffect(() => {
-    fetchData(period);
+    void fetchData(period); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [period, fetchData]);
 
   if (loading && !data) {

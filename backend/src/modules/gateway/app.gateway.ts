@@ -9,6 +9,11 @@ import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import * as jwt from 'jsonwebtoken';
 
+interface JwtPayload {
+  sub: string;
+  [key: string]: unknown;
+}
+
 @WebSocketGateway({
   cors: { origin: '*' },
   namespace: '/ws',
@@ -21,9 +26,10 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     try {
-      const token =
+      const token = String(
         client.handshake.auth?.token ||
-        client.handshake.headers?.authorization?.replace('Bearer ', '');
+          client.handshake.headers?.authorization?.replace('Bearer ', ''),
+      );
 
       if (!token) {
         this.logger.warn(`Client ${client.id} connected without token`);
@@ -34,13 +40,14 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const payload = jwt.verify(
         token,
         process.env.JWT_SECRET || 'default-secret',
-      ) as any;
+      ) as unknown as JwtPayload;
       const userId = payload.sub;
 
-      client.data.userId = userId;
-      client.join(`user:${userId}`);
+      const clientData = client.data as Record<string, unknown>;
+      clientData.userId = userId;
+      void client.join(`user:${userId}`);
       this.logger.log(`Client ${client.id} connected as user ${userId}`);
-    } catch (error) {
+    } catch {
       this.logger.warn(`Client ${client.id} auth failed`);
       client.disconnect();
     }
@@ -52,8 +59,9 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('notification:read')
   handleNotificationRead(client: Socket, data: { notificationId: string }) {
+    const clientData = client.data as Record<string, unknown>;
     this.logger.debug(
-      `User ${client.data.userId} read notification ${data.notificationId}`,
+      `User ${String(clientData.userId)} read notification ${data.notificationId}`,
     );
   }
 

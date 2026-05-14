@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { AiModelConfig, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { RedisService } from '../redis/redis.service';
 
@@ -20,7 +20,7 @@ export class AIConfigService {
 
     try {
       const cached = await this.redis.get(cacheKey);
-      if (cached) return JSON.parse(cached);
+      if (cached) return JSON.parse(cached) as AiModelConfig;
     } catch {
       // Redis unavailable, fall through
     }

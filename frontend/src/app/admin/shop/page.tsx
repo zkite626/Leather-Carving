@@ -21,7 +21,6 @@ const transitionLabels: Record<string, string> = {
 };
 
 export default function AdminShopPage() {
-  const [subTab, setSubTab] = useState<'orders'>('orders');
   const [data, setData] = useState<PaginatedResult<AdminOrder> | null>(null);
   const [loading, setLoading] = useState(true);
   const [keyword, setKeyword] = useState('');
@@ -40,7 +39,8 @@ export default function AdminShopPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, keyword, statusFilter]);
 
-  useEffect(() => { fetchOrders(); }, [fetchOrders]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchOrders(); }, [fetchOrders]);
 
   const handleStatusUpdate = async () => {
     if (!statusModal) return;

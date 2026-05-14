@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { ArtworkCard } from '@/components/artwork/artwork-card/artwork-card';
 import { getArtworks, type ArtworkQuery } from '@/lib/artwork-api';
 import type { IArtwork } from '@/shared/types/community';
@@ -18,7 +18,6 @@ const SORT_OPTIONS: { value: string; label: string }[] = [
 
 export default function GalleryPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [artworks, setArtworks] = useState<IArtwork[]>([]);
   const [page, setPage] = useState(1);
@@ -60,8 +59,8 @@ export default function GalleryPage() {
   );
 
   useEffect(() => {
-    setPage(1);
-    fetchArtworks(1);
+    setPage(1); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
+    void fetchArtworks(1);
   }, [fetchArtworks]);
 
   // Infinite scroll

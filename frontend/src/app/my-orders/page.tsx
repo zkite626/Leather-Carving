@@ -76,7 +76,7 @@ export default function MyOrdersPage() {
 
   // Fetch orders on mount and when tab/page changes
   useEffect(() => {
-    fetchOrders(currentPage, activeStatus);
+    void fetchOrders(currentPage, activeStatus); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [currentPage, activeStatus, fetchOrders]);
 
   // Fetch counts for all statuses on mount
@@ -102,7 +102,7 @@ export default function MyOrdersPage() {
 
       setStatusCounts(counts);
     }
-    fetchCounts();
+    void fetchCounts();
   }, []);
 
   const handleTabChange = (status: OrderStatus | '') => {

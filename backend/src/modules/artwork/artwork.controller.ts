@@ -8,16 +8,8 @@ import {
   Param,
   Query,
   UseGuards,
-  UseInterceptors,
-  UploadedFiles,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiBearerAuth,
-  ApiConsumes,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { ArtworkService } from './artwork.service';
 import {
   CreateArtworkDto,

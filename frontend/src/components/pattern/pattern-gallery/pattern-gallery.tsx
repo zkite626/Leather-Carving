@@ -20,7 +20,7 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
   const fetchPatterns = useCallback(async () => {
     setLoading(true);
     try {
-      const query: any = { pageSize: 50 };
+      const query: { pageSize: number; category?: string } = { pageSize: 50 };
       if (category !== '全部') query.category = category;
       const res: PaginatedResponse<IPatternAsset> = await getPatterns(query) as PaginatedResponse<IPatternAsset>;
       setPatterns(res.data ?? []);
@@ -29,6 +29,7 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
   }, [category]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- standard data-fetching pattern
     fetchPatterns();
   }, [fetchPatterns]);
 

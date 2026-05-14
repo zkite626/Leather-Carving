@@ -75,8 +75,9 @@ export async function streamChat(params: {
     }
 
     onDone();
-  } catch (error: any) {
-    onError(error.message || 'Network error');
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Network error';
+    onError(message);
   }
 }
 

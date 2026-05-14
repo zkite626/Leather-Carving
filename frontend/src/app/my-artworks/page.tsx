@@ -40,7 +40,7 @@ export default function MyArtworksPage() {
   }, []);
 
   useEffect(() => {
-    fetchArtworks(page);
+    void fetchArtworks(page); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
   }, [page, fetchArtworks]);
 
   const handleDelete = async (id: string) => {

@@ -80,6 +80,7 @@ export function VideoPlayer({
   }, [playing]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- UI state sync for controls visibility
     resetHideTimer();
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);

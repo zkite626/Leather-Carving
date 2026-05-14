@@ -31,7 +31,7 @@ export default function NotificationsPage() {
     setHasMore(nextPage < (res.pagination?.totalPages ?? 1));
   };
 
-  const handleNotificationClick = async (notification: any) => {
+  const handleNotificationClick = async (notification: { id: string; isRead: boolean; link?: string }) => {
     if (!notification.isRead) {
       await markAsRead(notification.id);
     }

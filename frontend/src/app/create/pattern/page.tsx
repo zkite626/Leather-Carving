@@ -51,8 +51,9 @@ export default function PatternGeneratePage() {
         setResult(res.data);
         setHistory((prev) => [res.data!, ...prev]);
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || '生成失败，请稍后重试');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      setError(axiosErr?.response?.data?.message || '生成失败，请稍后重试');
     } finally {
       setGenerating(false);
     }

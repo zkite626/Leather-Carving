@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getPosts, getHotTopics } from '@/lib/community-api';
 import { toggleFavorite } from '@/lib/favorite-api';
@@ -34,9 +33,8 @@ const POST_TYPE_COLORS: Record<PostType, string> = {
 };
 
 export default function CommunityPage() {
-  const router = useRouter();
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [hotTopics, setHotTopics] = useState<any[]>([]);
+  const [hotTopics, setHotTopics] = useState<{ id: string; title: string; likeCount: number }[]>([]);
   const [activeTab, setActiveTab] = useState<PostType | 'ALL'>('ALL');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -47,7 +45,7 @@ export default function CommunityPage() {
   const fetchPosts = useCallback(async (pageNum: number, append = false) => {
     setLoading(true);
     try {
-      const params: any = { page: pageNum, pageSize: 20 };
+      const params: Record<string, string | number> = { page: pageNum, pageSize: 20 };
       if (activeTab !== 'ALL') params.type = activeTab;
       if (keyword) params.keyword = keyword;
 
@@ -63,12 +61,12 @@ export default function CommunityPage() {
   }, [activeTab, keyword]);
 
   useEffect(() => {
-    setPage(1);
-    fetchPosts(1);
+    setPage(1); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
+    void fetchPosts(1);
   }, [fetchPosts]);
 
   useEffect(() => {
-    getHotTopics().then((res) => setHotTopics(res.data ?? [])).catch(() => {});
+    void getHotTopics().then((res) => setHotTopics(res.data ?? [])).catch(() => {});
   }, []);
 
   // Infinite scroll
@@ -224,7 +222,7 @@ export default function CommunityPage() {
           <div className={styles.sidebarSection}>
             <h3 className={styles.sidebarTitle}>热门话题</h3>
             <div className={styles.hotList}>
-              {hotTopics.map((topic: any, i: number) => (
+              {hotTopics.map((topic, i) => (
                 <Link key={topic.id} href={`/community/${topic.id}`} className={styles.hotItem}>
                   <span className={styles.hotIndex}>{i + 1}</span>
                   <span className={styles.hotTitle}>{topic.title}</span>

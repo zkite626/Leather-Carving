@@ -1,18 +1,16 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { getArtworkById, getRelatedArtworks } from '@/lib/artwork-api';
 import { toggleFavorite, checkFavorite } from '@/lib/favorite-api';
 import { getArtworkComments, createArtworkComment, deleteComment } from '@/lib/comment-api';
 import { ArtworkCard } from '@/components/artwork/artwork-card/artwork-card';
 import type { IArtwork, IComment } from '@/shared/types/community';
-import type { PaginatedResponse } from '@/shared/types/api';
 import styles from './page.module.css';
 
 export default function ArtworkDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const id = params.id as string;
 
   const [artwork, setArtwork] = useState<IArtwork | null>(null);
@@ -62,10 +60,10 @@ export default function ArtworkDetailPage() {
   }, [id]);
 
   useEffect(() => {
-    fetchArtwork();
-    fetchComments();
-    fetchRelated();
-    fetchFavorite();
+    void fetchArtwork(); // eslint-disable-line react-hooks/set-state-in-effect -- data fetching pattern
+    void fetchComments();
+    void fetchRelated();
+    void fetchFavorite();
   }, [fetchArtwork, fetchComments, fetchRelated, fetchFavorite]);
 
   const handleToggleFavorite = async () => {

@@ -37,7 +37,8 @@ export default function AdminAuditLogPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, actionFilter, startDate, endDate]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- data fetching pattern
+  useEffect(() => { void fetchData(); }, [fetchData]);
 
   const logs = data?.items ?? [];
   const totalPages = data?.pagination.totalPages ?? 1;

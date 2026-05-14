@@ -2,13 +2,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useNotificationStore } from '@/stores/notification-store';
-import { connectSocket, disconnectSocket, getSocket } from '@/lib/socket';
+import { connectSocket, disconnectSocket } from '@/lib/socket';
 import { useAuth } from '@/contexts/auth-context';
 import type { INotification } from '@/shared/types/community';
 import styles from './notification-bell.module.css';
 
 export function NotificationBell() {
+  const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { unreadCount, notifications, fetchUnreadCount, fetchNotifications, markAsRead, markAllAsRead, addNotification } = useNotificationStore();
   const [open, setOpen] = useState(false);
@@ -68,7 +70,7 @@ export function NotificationBell() {
       markAsRead(notification.id);
     }
     if (notification.link) {
-      window.location.href = notification.link;
+      router.push(notification.link);
     }
     setOpen(false);
   };
