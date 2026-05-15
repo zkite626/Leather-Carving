@@ -1,0 +1,225 @@
+/* ── 静态 Hero（无 banner 时） ────────────────────── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  max-height: 720px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2d1b0e 0%, #5a3a1e 50%, #8b6914 100%);
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.05), transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255,255,255,0.03), transparent 50%);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 2rem;
+}
+
+.heroPre {
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 1rem;
+  color: #d4a853;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.heroSub {
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  opacity: 0.9;
+  line-height: 1.7;
+}
+
+/* ── 轮播容器 ────────────────────────────────────── */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  max-height: 720px;
+  min-height: 400px;
+  overflow: hidden;
+  background: #2d1b0e;
+}
+
+/* ── 单张 slide ──────────────────────────────────── */
+.slide,
+.slideActive {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 0;
+}
+
+.slideActive {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slideLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.slideImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.slideOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(45, 27, 14, 0.4) 0%,
+    rgba(45, 27, 14, 0.2) 40%,
+    rgba(45, 27, 14, 0.5) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.slideTitle {
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+  padding: 0 2rem;
+  pointer-events: none;
+}
+
+/* ── 箭头 ────────────────────────────────────────── */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.carousel:hover .arrow {
+  opacity: 1;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.arrowL {
+  left: 20px;
+}
+
+.arrowR {
+  right: 20px;
+}
+
+/* ── 圆点 ────────────────────────────────────────── */
+.dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+}
+
+.dot,
+.dotOn {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.dotOn {
+  background: #fff;
+  border-color: #fff;
+  transform: scale(1.2);
+}
+
+/* ── 移动端 ──────────────────────────────────────── */
+@media (max-width: 640px) {
+  .carousel,
+  .hero {
+    height: 50vh;
+    min-height: 300px;
+  }
+
+  .slideTitle {
+    bottom: 60px;
+    font-size: 1.25rem;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .arrowL {
+    left: 12px;
+  }
+
+  .arrowR {
+    right: 12px;
+  }
+}

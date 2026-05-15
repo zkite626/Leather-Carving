@@ -23,7 +23,7 @@
 ### 前置要求
 
 - Node.js >= 20
-- 后端 API 服务已启动 (默认 `http://localhost:3001`)
+- 后端 API 服务已启动 (默认 `http://localhost:5000`)
 
 ### 1. 安装依赖
 
@@ -40,7 +40,7 @@ cp .env.example .env.local
 编辑 `.env.local`，配置后端 API 地址:
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
+NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
 NEXT_PUBLIC_APP_NAME=艺育皮韵
 ```
 
@@ -58,7 +58,7 @@ npm run dev
 
 | 变量 | 必需 | 说明 | 默认值 |
 |------|------|------|--------|
-| `NEXT_PUBLIC_API_URL` | 是 | 后端 API 完整地址 (含 `/api/v1`) | `http://localhost:3001/api/v1` |
+| `NEXT_PUBLIC_API_URL` | 是 | 后端 API 完整地址 (含 `/api/v1`) | `http://localhost:5000/api/v1` |
 | `NEXT_PUBLIC_WS_URL` | 后端有 WebSocket 功能时 | WebSocket 地址 | 从 API_URL 自动推导 |
 | `NEXT_PUBLIC_APP_NAME` | 否 | 应用名称 | `艺育皮韵` |
 
@@ -73,8 +73,8 @@ npm run dev
 **本地开发 (前后端同机):**
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
-NEXT_PUBLIC_WS_URL=ws://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
+NEXT_PUBLIC_WS_URL=ws://localhost:5000
 ```
 
 **分开部署 (前端独立域名):**

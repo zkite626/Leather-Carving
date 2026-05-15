@@ -98,7 +98,7 @@ cd backend
 npm install
 npx prisma db push    # 同步数据库 schema
 npx prisma db seed    # 填充测试数据 (可选)
-npm run dev           # 启动后端 http://localhost:3001
+npm run dev           # 启动后端 http://localhost:5000
 
 # 前端 (新终端)
 cd frontend
@@ -109,8 +109,8 @@ npm run dev           # 启动前端 http://localhost:3000
 ### 5. 访问应用
 
 - 前端: http://localhost:3000
-- 后端 API: http://localhost:3001/api/v1
-- API 文档: http://localhost:3001/api/docs (Swagger)
+- 后端 API: http://localhost:5000/api/v1
+- API 文档: http://localhost:5000/api/docs (Swagger)
 
 ## 生产部署
 

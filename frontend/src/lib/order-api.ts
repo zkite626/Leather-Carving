@@ -31,10 +31,12 @@ export async function getOrders(query: OrderQuery = {}) {
   if (query.pageSize) params.set('pageSize', String(query.pageSize));
   if (query.status) params.set('status', query.status);
 
-  const res = await apiClient.get<PaginatedResponse<IOrder>>(
-    `/shop/orders?${params.toString()}`,
-  );
-  return res.data;
+  const res = await apiClient.get(`/shop/orders?${params.toString()}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 10, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getOrder(id: string) {

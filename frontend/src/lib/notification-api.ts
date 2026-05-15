@@ -9,8 +9,12 @@ export async function getNotifications(params: { page?: number; pageSize?: numbe
   if (params.isRead !== undefined) searchParams.set('isRead', String(params.isRead));
 
   const qs = searchParams.toString();
-  const res = await apiClient.get<PaginatedResponse<INotification>>(`/notifications${qs ? `?${qs}` : ''}`);
-  return res.data;
+  const res = await apiClient.get(`/notifications${qs ? `?${qs}` : ''}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getUnreadCount() {

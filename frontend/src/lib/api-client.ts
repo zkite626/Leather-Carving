@@ -12,15 +12,28 @@ function getAccessToken(): string | null {
   return localStorage.getItem('accessToken');
 }
 
+function setCookie(name: string, value: string, days: number): void {
+  if (typeof document === 'undefined') return;
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`;
+}
+
+function deleteCookie(name: string): void {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${name}=; path=/; max-age=0`;
+}
+
 function setAccessToken(token: string): void {
   if (typeof window === 'undefined') return;
   localStorage.setItem('accessToken', token);
+  setCookie('accessToken', token, 7);
 }
 
 function removeTokens(): void {
   if (typeof window === 'undefined') return;
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  deleteCookie('accessToken');
 }
 
 const apiClient: AxiosInstance = axios.create({

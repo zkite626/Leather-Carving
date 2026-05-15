@@ -101,10 +101,12 @@ export async function getCourses(query: CourseQuery = {}) {
   if (query.sortBy) params.set('sortBy', query.sortBy);
   if (query.sortOrder) params.set('sortOrder', query.sortOrder);
 
-  const res = await apiClient.get<PaginatedResponse<ICourse>>(
-    `/courses?${params.toString()}`,
-  );
-  return res.data;
+  const res = await apiClient.get(`/courses?${params.toString()}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 12, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getCourseBySlug(slug: string) {
@@ -207,10 +209,12 @@ export async function getEnrollment(courseId: string) {
 }
 
 export async function getMyCourses(page = 1, pageSize = 20) {
-  const res = await apiClient.get<
-    PaginatedResponse<IEnrollment & { course: ICourse }>
-  >(`/courses/my?page=${page}&pageSize=${pageSize}`);
-  return res.data;
+  const res = await apiClient.get(`/courses/my?page=${page}&pageSize=${pageSize}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 // ==================== Progress API ====================
@@ -248,10 +252,12 @@ export async function getTeacherCourses(query: CourseQuery = {}) {
   if (query.pageSize) params.set('pageSize', String(query.pageSize));
   if (query.keyword) params.set('keyword', query.keyword);
 
-  const res = await apiClient.get<PaginatedResponse<ICourse>>(
-    `/courses/my?${params.toString()}`,
-  );
-  return res.data;
+  const res = await apiClient.get(`/courses/my?${params.toString()}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getTeacherDashboard() {
@@ -262,10 +268,12 @@ export async function getTeacherDashboard() {
 // ==================== Review API ====================
 
 export async function getCourseReviews(courseId: string, page = 1, pageSize = 10) {
-  const res = await apiClient.get<PaginatedResponse<IReview>>(
-    `/reviews/courses/${courseId}?page=${page}&pageSize=${pageSize}`,
-  );
-  return res.data;
+  const res = await apiClient.get(`/reviews/courses/${courseId}?page=${page}&pageSize=${pageSize}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 10, total: 0, totalPages: 0 },
+  };
 }
 
 export async function createCourseReview(

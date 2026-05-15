@@ -12,8 +12,13 @@ export class BannerService {
     const now = new Date();
     const where = {
       isActive: true,
-      startAt: { lte: now },
-      OR: [{ endAt: null }, { endAt: { gte: now } }],
+      OR: [
+        { startAt: null },
+        { startAt: { lte: now } },
+      ],
+      AND: [
+        { OR: [{ endAt: null }, { endAt: { gte: now } }] },
+      ],
       ...(position ? { position } : {}),
     };
 
@@ -41,7 +46,7 @@ export class BannerService {
         title: dto.title,
         image: dto.image,
         link: dto.link,
-        position: dto.position ?? 'shop',
+        position: dto.position ?? 'home',
         sortOrder: dto.sortOrder ?? 0,
         isActive: dto.isActive ?? true,
         startAt: dto.startAt ? new Date(dto.startAt) : null,

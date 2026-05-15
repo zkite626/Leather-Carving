@@ -29,8 +29,12 @@ export async function getPatterns(query: PatternQuery = {}) {
   if (query.category) params.set('category', query.category);
   if (query.keyword) params.set('keyword', query.keyword);
 
-  const res = await apiClient.get<PaginatedResponse<IPatternAsset>>(`/patterns?${params}`);
-  return res.data;
+  const res = await apiClient.get(`/patterns?${params}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getPatternById(id: string) {

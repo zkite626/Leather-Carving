@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import * as path from 'path';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
@@ -26,11 +27,15 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { AIModule } from './modules/ai/ai.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { SystemSettingsModule } from './modules/system-settings/system-settings.module';
 
 @Module({
   imports: [
     // Global modules
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: path.resolve(__dirname, '..', '.env'),
+    }),
     CommonModule,
     PrismaModule,
     RedisModule,
@@ -66,6 +71,7 @@ import { AdminModule } from './modules/admin/admin.module';
     AIModule,
     GatewayModule,
     AdminModule,
+    SystemSettingsModule,
   ],
   providers: [
     {

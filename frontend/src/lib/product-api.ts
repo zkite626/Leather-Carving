@@ -44,15 +44,18 @@ export async function getProducts(query: ProductQuery = {}) {
   if (query.sortBy) params.set('sortBy', query.sortBy);
   if (query.sortOrder) params.set('sortOrder', query.sortOrder);
 
-  const res = await apiClient.get<PaginatedResponse<IProduct>>(
-    `/shop/products?${params.toString()}`,
-  );
-  return res.data;
+  const res = await apiClient.get(`/shop/products?${params.toString()}`);
+  const envelope = res.data; // { code, message, data: { data: [...], pagination } }
+  const inner = envelope?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 24, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getProductBySlug(slug: string) {
-  const res = await apiClient.get<ApiResponse<ProductDetail>>(`/shop/products/${slug}`);
-  return res.data.data;
+  const res = await apiClient.get(`/shop/products/${slug}`);
+  return res.data?.data?.data ?? res.data?.data ?? null;
 }
 
 export async function getCategories() {

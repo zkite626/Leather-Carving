@@ -101,3 +101,32 @@ export class DashboardQueryDto {
   @IsString()
   period?: string;
 }
+
+export class CourseQueryDto extends AdminPaginationDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  keyword?: string;
+
+  @ApiPropertyOptional({ enum: ['DRAFT', 'REVIEWING', 'PUBLISHED', 'ARCHIVED'] })
+  @IsOptional()
+  @IsString()
+  status?: string;
+
+  @ApiPropertyOptional({ enum: ['BEGINNER', 'INTERMEDIATE', 'ADVANCED', 'MASTER'] })
+  @IsOptional()
+  @IsString()
+  level?: string;
+}
+
+export class ProductQueryDto extends AdminPaginationDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  keyword?: string;
+
+  @ApiPropertyOptional({ enum: ['DRAFT', 'ACTIVE', 'INACTIVE', 'SOLD_OUT'] })
+  @IsOptional()
+  @IsString()
+  status?: string;
+}

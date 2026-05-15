@@ -7,6 +7,8 @@ import { AdminContentService } from './admin-content.service';
 import { AdminOrderService } from './admin-order.service';
 import { AdminFinanceService } from './admin-finance.service';
 import { AdminAuditService } from './admin-audit.service';
+import { AdminCourseService } from './admin-course.service';
+import { AdminProductService } from './admin-product.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { RedisModule } from '../redis/redis.module';
 
@@ -20,6 +22,8 @@ import { RedisModule } from '../redis/redis.module';
     AdminOrderService,
     AdminFinanceService,
     AdminAuditService,
+    AdminCourseService,
+    AdminProductService,
   ],
   exports: [AdminService],
 })

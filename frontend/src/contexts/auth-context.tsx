@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from 'react';
 import { authApi, type LoginRequest, type RegisterRequest } from '@/lib/auth-api';
-import { setAccessToken, removeTokens } from '@/lib/api-client';
+import { setAccessToken, removeTokens, getAccessToken } from '@/lib/api-client';
 import type { IUser } from '@/shared/types/user';
 
 interface AuthContextValue {
@@ -31,11 +31,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshUser = useCallback(async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = getAccessToken();
       if (!token) {
         setUser(null);
         return;
       }
+      // Sync localStorage token → cookie so the Next.js middleware can read it
+      setAccessToken(token);
       const currentUser = await authApi.getMe();
       setUser(currentUser);
     } catch {

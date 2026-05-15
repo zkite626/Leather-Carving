@@ -3,9 +3,11 @@ import {
   Get,
   Post,
   Patch,
+  Delete,
   Body,
   Param,
   Query,
+  Req,
   UseGuards,
   UseInterceptors,
   Res,
@@ -22,12 +24,16 @@ import { AdminContentService } from './admin-content.service';
 import { AdminOrderService } from './admin-order.service';
 import { AdminFinanceService } from './admin-finance.service';
 import { AdminAuditService } from './admin-audit.service';
+import { AdminCourseService } from './admin-course.service';
+import { AdminProductService } from './admin-product.service';
 import { AuditLogInterceptor } from './interceptors/audit-log.interceptor';
 import {
   DashboardQueryDto,
   UserQueryDto,
   UpdateUserRoleDto,
   UpdateUserStatusDto,
+  CreateUserDto,
+  UpdateUserDto,
   ContentReviewQueryDto,
   ApproveContentDto,
   RejectContentDto,
@@ -36,6 +42,8 @@ import {
   UpdateOrderStatusDto,
   FinanceQueryDto,
   AuditLogQueryDto,
+  CourseQueryDto,
+  ProductQueryDto,
 } from './dto';
 
 @ApiTags('Admin')
@@ -52,6 +60,8 @@ export class AdminController {
     private readonly adminOrderService: AdminOrderService,
     private readonly adminFinanceService: AdminFinanceService,
     private readonly adminAuditService: AdminAuditService,
+    private readonly adminCourseService: AdminCourseService,
+    private readonly adminProductService: AdminProductService,
   ) {}
 
   // ─── Dashboard ──────────────────────────────────────────────────
@@ -76,6 +86,24 @@ export class AdminController {
     return this.adminUserService.getUsers(query);
   }
 
+  @Post('users')
+  @ApiOperation({ summary: 'Create new user (admin)' })
+  async createUser(@Body() dto: CreateUserDto) {
+    return this.adminUserService.createUser(dto);
+  }
+
+  @Get('users/:id')
+  @ApiOperation({ summary: 'Get user detail (admin)' })
+  async getUserById(@Param('id') id: string) {
+    return this.adminUserService.getUserById(id);
+  }
+
+  @Patch('users/:id')
+  @ApiOperation({ summary: 'Update user info (admin)' })
+  async updateUser(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+    return this.adminUserService.updateUser(id, dto);
+  }
+
   @Patch('users/:id/role')
   @ApiOperation({ summary: 'Update user role' })
   async updateUserRole(
@@ -92,6 +120,97 @@ export class AdminController {
     @Body() dto: UpdateUserStatusDto,
   ) {
     return this.adminUserService.updateUserStatus(id, dto);
+  }
+
+  @Delete('users/:id')
+  @ApiOperation({ summary: 'Delete user (admin)' })
+  async deleteUser(@Param('id') id: string) {
+    return this.adminUserService.deleteUser(id);
+  }
+
+  // ─── Course Management ──────────────────────────────────────────
+
+  @Get('courses')
+  @ApiOperation({ summary: 'List all courses (admin)' })
+  async getCourses(@Query() query: CourseQueryDto) {
+    return this.adminCourseService.getCourses(query);
+  }
+
+  @Post('courses')
+  @ApiOperation({ summary: 'Create course (admin)' })
+  async createCourse(
+    @Body() dto: Record<string, unknown>,
+    @Req() req: { user: { sub: string } },
+  ) {
+    return this.adminCourseService.createCourse(req.user.sub, dto as never);
+  }
+
+  @Get('courses/:id')
+  @ApiOperation({ summary: 'Get course detail (admin)' })
+  async getCourseById(@Param('id') id: string) {
+    return this.adminCourseService.getCourseById(id);
+  }
+
+  @Patch('courses/:id/status')
+  @ApiOperation({ summary: 'Update course status' })
+  async updateCourseStatus(
+    @Param('id') id: string,
+    @Body() dto: { status: string },
+  ) {
+    return this.adminCourseService.updateCourseStatus(id, dto.status);
+  }
+
+  @Delete('courses/:id')
+  @ApiOperation({ summary: 'Delete course (admin)' })
+  async deleteCourse(@Param('id') id: string) {
+    return this.adminCourseService.deleteCourse(id);
+  }
+
+  // ─── Product Management ─────────────────────────────────────────
+
+  @Get('products')
+  @ApiOperation({ summary: 'List all products (admin)' })
+  async getProducts(@Query() query: ProductQueryDto) {
+    return this.adminProductService.getProducts(query);
+  }
+
+  @Get('products/categories')
+  @ApiOperation({ summary: 'List product categories' })
+  async getProductCategories() {
+    return this.adminProductService.getCategories();
+  }
+
+  @Post('products')
+  @ApiOperation({ summary: 'Create product (admin)' })
+  async createProduct(@Body() dto: Record<string, unknown>) {
+    return this.adminProductService.createProduct(dto as never);
+  }
+
+  @Get('products/:id')
+  @ApiOperation({ summary: 'Get product detail (admin)' })
+  async getProductById(@Param('id') id: string) {
+    return this.adminProductService.getProductById(id);
+  }
+
+  @Patch('products/:id')
+  @ApiOperation({ summary: 'Update product (admin)' })
+  async updateProduct(@Param('id') id: string, @Body() dto: Record<string, unknown>) {
+    return this.adminProductService.updateProduct(id, dto as never);
+  }
+
+  @Patch('products/:id/status')
+  @ApiOperation({ summary: 'Update product status' })
+  async updateProductStatus(
+    @Param('id') id: string,
+    @Body() dto: { status: string },
+  ) {
+    return this.adminProductService.updateProductStatus(id, dto.status);
+  }
+
+  @Delete('products/:id')
+  @ApiOperation({ summary: 'Delete product (admin)' })
+  async deleteProduct(@Param('id') id: string) {
+    return this.adminProductService.deleteProduct(id);
   }
 
   // ─── Content Review ─────────────────────────────────────────────

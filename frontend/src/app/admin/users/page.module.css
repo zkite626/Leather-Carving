@@ -70,7 +70,7 @@
 
 .table th {
   text-align: left;
-  padding: var(--lc-space-3) var(--lc-space-4);
+  padding: 10px 12px;
   font-size: var(--lc-text-xs);
   font-weight: 600;
   color: var(--lc-text-muted);
@@ -78,13 +78,15 @@
   letter-spacing: 0.05em;
   background: var(--lc-bg-secondary);
   border-bottom: 1px solid var(--lc-border);
+  white-space: nowrap;
 }
 
 .table td {
-  padding: var(--lc-space-3) var(--lc-space-4);
+  padding: 10px 12px;
   font-size: var(--lc-text-sm);
   color: var(--lc-text);
   border-bottom: 1px solid var(--lc-divider);
+  vertical-align: middle;
 }
 
 .table tr:last-child td {
@@ -99,7 +101,8 @@
 .userCell {
   display: flex;
   align-items: center;
-  gap: var(--lc-space-3);
+  gap: var(--lc-space-2);
+  max-width: 240px;
 }
 
 .userAvatar {
@@ -127,16 +130,24 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .userName {
   font-weight: 500;
   color: var(--lc-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .userEmail {
   font-size: var(--lc-text-xs);
   color: var(--lc-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ─── Status Tags ──────────────────────────────────────── */
@@ -177,34 +188,72 @@
 /* ─── Actions ──────────────────────────────────────────── */
 .actions {
   display: flex;
-  align-items: center;
-  gap: var(--lc-space-2);
+  gap: 6px;
 }
 
-.actionBtn {
-  height: 28px;
-  padding: 0 var(--lc-space-2);
-  border-radius: var(--lc-radius-sm);
+.iconBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--lc-radius-md);
   border: 1px solid var(--lc-border);
   background: var(--lc-bg);
   color: var(--lc-text-secondary);
-  font-size: var(--lc-text-xs);
   cursor: pointer;
   transition: all var(--lc-duration-fast) var(--lc-ease);
 }
 
-.actionBtn:hover {
+.iconBtn:hover {
   background: var(--lc-bg-secondary);
+  color: var(--lc-text);
   border-color: var(--lc-text-muted);
 }
 
-.actionBtnDanger {
+.iconBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.iconBtnPrimary {
+  color: var(--lc-primary);
+  border-color: rgba(91, 115, 72, 0.3);
+}
+
+.iconBtnPrimary:hover {
+  background: var(--lc-primary-50);
+  border-color: var(--lc-primary);
+}
+
+.iconBtnWarn {
+  color: var(--lc-gold);
+  border-color: rgba(212, 168, 83, 0.3);
+}
+
+.iconBtnWarn:hover {
+  background: rgba(212, 168, 83, 0.1);
+  border-color: var(--lc-gold);
+}
+
+.iconBtnSuccess {
+  color: var(--lc-success);
+  border-color: rgba(123, 160, 91, 0.3);
+}
+
+.iconBtnSuccess:hover {
+  background: rgba(123, 160, 91, 0.1);
+  border-color: var(--lc-success);
+}
+
+.iconBtnDanger {
   color: var(--lc-error);
   border-color: rgba(217, 79, 79, 0.3);
 }
 
-.actionBtnDanger:hover {
-  background: rgba(217, 79, 79, 0.08);
+.iconBtnDanger:hover {
+  background: rgba(217, 79, 79, 0.1);
+  border-color: var(--lc-error);
 }
 
 .roleSelect {
@@ -273,8 +322,10 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
   z-index: var(--lc-z-modal-backdrop);
   animation: fadeIn 150ms ease;
 }
@@ -283,8 +334,10 @@
   background: var(--lc-bg);
   border-radius: var(--lc-radius-lg);
   padding: var(--lc-space-6);
-  max-width: 400px;
-  width: 90%;
+  max-width: 520px;
+  width: 100%;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
   box-shadow: var(--lc-shadow-xl);
 }
 
@@ -365,4 +418,83 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* ─── Form Elements ────────────────────────────────────── */
+.formLabel {
+  display: block;
+  font-size: var(--lc-text-xs);
+  font-weight: 600;
+  color: var(--lc-text-secondary);
+  margin-bottom: var(--lc-space-1);
+}
+
+.formInput {
+  width: 100%;
+  height: 36px;
+  padding: 0 var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.formInput:focus {
+  border-color: var(--lc-primary);
+}
+
+.formSelect {
+  width: 100%;
+  height: 36px;
+  padding: 0 var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.formTextarea {
+  width: 100%;
+  min-height: 60px;
+  padding: var(--lc-space-2) var(--lc-space-3);
+  border: 1px solid var(--lc-border);
+  border-radius: var(--lc-radius-md);
+  background: var(--lc-bg);
+  color: var(--lc-text);
+  font-size: var(--lc-text-sm);
+  outline: none;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.formTextarea:focus {
+  border-color: var(--lc-primary);
+}
+
+/* ─── Stat Pills ───────────────────────────────────────── */
+.statPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px;
+  border-radius: var(--lc-radius-sm);
+  background: var(--lc-bg-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lc-text);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.statLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--lc-text-muted);
 }

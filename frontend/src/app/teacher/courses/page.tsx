@@ -15,7 +15,6 @@ import { Modal } from '@/components/ui/modal/modal';
 import { useToast } from '@/components/ui/toast/toast-provider';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
 import type { ICourse, CourseStatus } from '@/shared/types/course';
-import type { PaginatedResponse } from '@/shared/types/api';
 import Image from 'next/image';
 import styles from './page.module.css';
 
@@ -53,11 +52,12 @@ export default function TeacherCoursesPage() {
         page,
         pageSize: 10,
       };
-      const res: PaginatedResponse<ICourse> = await getTeacherCourses(query);
+      const res = await getTeacherCourses(query);
       setCourses(res.data);
       setPagination(res.pagination);
     } catch {
       setCourses([]);
+      setPagination({ page: 1, pageSize: 10, total: 0, totalPages: 0 });
       showError('加载失败', '无法获取课程列表，请稍后重试');
     } finally {
       setLoading(false);

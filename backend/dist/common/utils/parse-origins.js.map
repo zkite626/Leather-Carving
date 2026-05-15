@@ -1,0 +1,1 @@
+{"version":3,"file":"parse-origins.js","sourceRoot":"","sources":["../../../src/common/utils/parse-origins.ts"],"names":[],"mappings":";;AAIA,oCAKC;AALD,SAAgB,YAAY,CAAC,GAAW;IACtC,OAAO,GAAG;SACP,KAAK,CAAC,GAAG,CAAC;SACV,GAAG,CAAC,CAAC,CAAC,EAAE,EAAE,CAAC,CAAC,CAAC,IAAI,EAAE,CAAC,OAAO,CAAC,MAAM,EAAE,EAAE,CAAC,CAAC;SACxC,MAAM,CAAC,OAAO,CAAC,CAAC;AACrB,CAAC"}

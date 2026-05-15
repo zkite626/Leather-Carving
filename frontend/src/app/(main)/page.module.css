@@ -1,0 +1,817 @@
+/* =============================================================
+   Homepage - page.module.css
+   艺育皮韵 Leather Carving Education Platform
+   ============================================================= */
+
+/* ---------------------------------------------------------------
+   HERO
+   --------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: min(85vh, 720px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--lc-primary-900);
+}
+
+.heroImageWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(45, 27, 14, 0.55) 0%,
+    rgba(45, 27, 14, 0.35) 40%,
+    rgba(45, 27, 14, 0.65) 100%
+  );
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 0;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s var(--lc-ease), transform 0.8s var(--lc-ease);
+}
+
+.heroContent[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heroPretitle {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: var(--lc-space-4);
+  color: var(--lc-gold);
+}
+
+.heroTitle {
+  font-family: var(--lc-font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: var(--lc-space-4);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.heroSubtitle {
+  font-family: var(--lc-font-sans);
+  font-size: clamp(var(--lc-text-lg), 2.2vw, var(--lc-text-xl));
+  line-height: 1.7;
+  max-width: 560px;
+  opacity: 0.92;
+  margin-bottom: var(--lc-space-8);
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lc-space-4);
+}
+
+.heroCtaPrimary,
+.heroCtaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  border-radius: var(--lc-radius-full);
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-base);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background var(--lc-duration-normal) var(--lc-ease),
+              transform var(--lc-duration-fast) var(--lc-ease),
+              box-shadow var(--lc-duration-normal) var(--lc-ease);
+  cursor: pointer;
+}
+
+.heroCtaPrimary {
+  background: var(--lc-accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(200, 75, 49, 0.35);
+}
+
+.heroCtaPrimary:hover {
+  background: var(--lc-accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(200, 75, 49, 0.45);
+}
+
+.heroCtaSecondary {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.heroCtaSecondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------
+   ANIMATED STATS
+   --------------------------------------------------------------- */
+
+.statsSection {
+  padding: var(--lc-space-16) 0;
+  background: var(--lc-bg);
+  border-bottom: 1px solid var(--lc-divider);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--lc-space-6);
+  text-align: center;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lc-space-2);
+  padding: var(--lc-space-6) var(--lc-space-4);
+}
+
+.statValue {
+  font-family: var(--lc-font-display);
+  font-size: clamp(var(--lc-text-3xl), 4vw, var(--lc-text-5xl));
+  font-weight: 700;
+  color: var(--lc-primary);
+  line-height: 1.1;
+}
+
+.statSuffix {
+  font-size: 0.6em;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+.statLabel {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-secondary);
+  letter-spacing: 0.04em;
+}
+
+/* ---------------------------------------------------------------
+   SHARED SECTION STYLES
+   --------------------------------------------------------------- */
+
+.section {
+  padding: var(--lc-space-20) 0;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: var(--lc-space-12);
+  gap: var(--lc-space-3);
+}
+
+.sectionTitle {
+  font-family: var(--lc-font-display);
+  font-size: clamp(var(--lc-text-2xl), 3vw, var(--lc-text-4xl));
+  font-weight: 700;
+  color: var(--lc-text);
+  line-height: 1.3;
+}
+
+.sectionSubtitle {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-base);
+  color: var(--lc-text-secondary);
+  max-width: 560px;
+  line-height: 1.7;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lc-space-2);
+  margin-top: var(--lc-space-2);
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
+  color: var(--lc-primary);
+  transition: color var(--lc-duration-fast) var(--lc-ease);
+}
+
+.viewAll svg {
+  transition: transform var(--lc-duration-fast) var(--lc-ease);
+}
+
+.viewAll:hover {
+  color: var(--lc-primary-dark);
+}
+
+.viewAll:hover svg {
+  transform: translateX(3px);
+}
+
+/* ---------------------------------------------------------------
+   FOUR CORE SECTIONS
+   --------------------------------------------------------------- */
+
+.coreSection {
+  padding: var(--lc-space-20) 0;
+  background: var(--lc-bg-secondary);
+}
+
+.coreGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--lc-space-6);
+}
+
+.coreCard {
+  position: relative;
+  height: 320px;
+  perspective: 800px;
+  text-decoration: none;
+  color: var(--lc-text);
+}
+
+.coreCardFront,
+.coreCardBack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--lc-space-8) var(--lc-space-6);
+  border-radius: var(--lc-radius-lg);
+  backface-visibility: hidden;
+  transition: transform 0.6s var(--lc-ease),
+              background var(--lc-duration-normal) var(--lc-ease);
+}
+
+.coreCardFront {
+  background: #fff;
+  border: 1px solid var(--lc-border);
+  box-shadow: var(--lc-shadow-md);
+  gap: var(--lc-space-4);
+  transform: rotateY(0deg);
+}
+
+.coreCardBack {
+  background: var(--lc-primary);
+  color: #fff;
+  transform: rotateY(180deg);
+  gap: var(--lc-space-4);
+  text-align: center;
+}
+
+.coreCard:hover .coreCardFront {
+  transform: rotateY(-180deg);
+}
+
+.coreCard:hover .coreCardBack {
+  transform: rotateY(0deg);
+}
+
+.coreIcon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--lc-radius-lg);
+  background: var(--lc-primary-50);
+  color: var(--lc-primary);
+  transition: background var(--lc-duration-normal) var(--lc-ease);
+}
+
+.coreCard:hover .coreIcon {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.coreTitle {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-2xl);
+  font-weight: 700;
+}
+
+.coreSubtitle {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.coreBackTitle {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-2xl);
+  font-weight: 700;
+  color: var(--lc-gold);
+}
+
+.coreDescription {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  line-height: 1.8;
+  opacity: 0.9;
+  max-width: 260px;
+}
+
+.coreCta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lc-space-2);
+  margin-top: var(--lc-space-2);
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  font-weight: 600;
+  color: var(--lc-gold);
+}
+
+.coreCta svg {
+  transition: transform var(--lc-duration-fast) var(--lc-ease);
+}
+
+.coreCard:hover .coreCta svg {
+  transform: translateX(4px);
+}
+
+/* ---------------------------------------------------------------
+   GUANGXI SPECIALTY (Horizontal Scroll)
+   --------------------------------------------------------------- */
+
+.guangxiSection {
+  padding: var(--lc-space-20) 0 var(--lc-space-12);
+  background: var(--lc-bg);
+}
+
+.guangxiBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25em 0.75em;
+  margin-right: var(--lc-space-3);
+  font-size: var(--lc-text-xs);
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, var(--lc-accent), var(--lc-accent-dark));
+  border-radius: var(--lc-radius-full);
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+}
+
+.guangxiScroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: var(--lc-space-2) 0 var(--lc-space-8);
+}
+
+/* Add horizontal padding to the scroll container via pseudo-elements */
+.guangxiScroll::before,
+.guangxiScroll::after {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+}
+
+.guangxiTrack {
+  display: flex;
+  gap: var(--lc-space-6);
+  justify-content: center;
+  padding: 0 max(var(--lc-space-8), calc((100vw - 1280px) / 2 + 2rem));
+}
+
+.guangxiItem {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+}
+
+/* Hide scrollbar but keep functionality */
+.guangxiScroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lc-border) transparent;
+}
+
+/* ---------------------------------------------------------------
+   COURSE GRID
+   --------------------------------------------------------------- */
+
+.courseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lc-space-6);
+}
+
+/* ---------------------------------------------------------------
+   ARTWORK GRID
+   --------------------------------------------------------------- */
+
+.artworkGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--lc-space-5);
+}
+
+/* ---------------------------------------------------------------
+   PRODUCT GRID
+   --------------------------------------------------------------- */
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lc-space-6);
+}
+
+/* ---------------------------------------------------------------
+   HERITAGE TEACHERS
+   --------------------------------------------------------------- */
+
+.teachersSection {
+  padding: var(--lc-space-20) 0;
+  background: var(--lc-bg-secondary);
+}
+
+.teacherGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lc-space-6);
+}
+
+.teacherCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--lc-space-8) var(--lc-space-6);
+  background: #fff;
+  border-radius: var(--lc-radius-lg);
+  border: 1px solid var(--lc-border);
+  box-shadow: var(--lc-shadow-sm);
+  text-align: center;
+  transition: transform var(--lc-duration-normal) var(--lc-ease),
+              box-shadow var(--lc-duration-normal) var(--lc-ease);
+}
+
+.teacherCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lc-shadow-lg);
+}
+
+.teacherAvatar {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--lc-space-4);
+}
+
+.teacherAvatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lc-primary-100), var(--lc-primary-200));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-2xl);
+  font-weight: 700;
+  color: var(--lc-primary-dark);
+  border: 3px solid var(--lc-primary-50);
+}
+
+.teacherInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lc-space-2);
+}
+
+.teacherName {
+  font-family: var(--lc-font-display);
+  font-size: var(--lc-text-lg);
+  font-weight: 700;
+  color: var(--lc-text);
+}
+
+.teacherTitle {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-sm);
+  color: var(--lc-text-secondary);
+}
+
+.teacherMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lc-space-2);
+  justify-content: center;
+  margin-top: var(--lc-space-1);
+}
+
+.teacherSpecialty {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  font-size: var(--lc-text-xs);
+  font-weight: 500;
+  color: var(--lc-primary);
+  background: var(--lc-primary-50);
+  border-radius: var(--lc-radius-full);
+}
+
+.teacherYears {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  font-size: var(--lc-text-xs);
+  font-weight: 500;
+  color: var(--lc-gold);
+  background: rgba(212, 168, 83, 0.12);
+  border-radius: var(--lc-radius-full);
+}
+
+.teacherQuote {
+  margin-top: var(--lc-space-3);
+  font-family: var(--lc-font-serif);
+  font-size: var(--lc-text-sm);
+  font-style: italic;
+  color: var(--lc-text-muted);
+  line-height: 1.7;
+  max-width: 240px;
+  border: none;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------
+   CTA BANNER
+   --------------------------------------------------------------- */
+
+.ctaBanner {
+  padding: var(--lc-space-20) 0;
+  background: var(--lc-bg);
+}
+
+.ctaInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--lc-space-16) var(--lc-space-8);
+  border-radius: var(--lc-radius-xl);
+  background: linear-gradient(
+    135deg,
+    var(--lc-primary-dark) 0%,
+    var(--lc-primary) 50%,
+    var(--lc-primary-light) 100%
+  );
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle pattern overlay for leather texture feel */
+.ctaInner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.ctaTitle {
+  font-family: var(--lc-font-display);
+  font-size: clamp(var(--lc-text-2xl), 3.5vw, var(--lc-text-4xl));
+  font-weight: 700;
+  margin-bottom: var(--lc-space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.ctaDescription {
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-base);
+  max-width: 500px;
+  opacity: 0.9;
+  line-height: 1.7;
+  margin-bottom: var(--lc-space-8);
+  position: relative;
+  z-index: 1;
+}
+
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lc-space-4);
+  position: relative;
+  z-index: 1;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2.25rem;
+  border-radius: var(--lc-radius-full);
+  font-family: var(--lc-font-sans);
+  font-size: var(--lc-text-base);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background var(--lc-duration-normal) var(--lc-ease),
+              transform var(--lc-duration-fast) var(--lc-ease),
+              box-shadow var(--lc-duration-normal) var(--lc-ease);
+  cursor: pointer;
+}
+
+.ctaPrimary {
+  background: #fff;
+  color: var(--lc-primary-dark);
+}
+
+.ctaPrimary:hover {
+  background: var(--lc-bg-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.ctaSecondary {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------
+   RESPONSIVE - TABLET (max-width: 1024px)
+   --------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .coreGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .courseGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .artworkGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .productGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .teacherGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .guangxiItem {
+    flex: 0 0 260px;
+  }
+}
+
+/* ---------------------------------------------------------------
+   RESPONSIVE - MOBILE (max-width: 640px)
+   --------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: min(90vh, 600px);
+  }
+
+  .heroContent {
+    padding: 4rem 0 3rem;
+  }
+
+  .statsSection {
+    padding: var(--lc-space-10) 0;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--lc-space-4);
+  }
+
+  .statCard {
+    padding: var(--lc-space-4) var(--lc-space-3);
+  }
+
+  .section {
+    padding: var(--lc-space-12) 0;
+  }
+
+  .coreSection {
+    padding: var(--lc-space-12) 0;
+  }
+
+  .coreGrid {
+    grid-template-columns: 1fr;
+    gap: var(--lc-space-4);
+  }
+
+  .coreCard {
+    height: auto;
+    perspective: none;
+  }
+
+  .coreCardFront,
+  .coreCardBack {
+    position: relative;
+    backface-visibility: visible;
+    transform: none !important;
+  }
+
+  /* On mobile, show both front and back in a stacked layout */
+  .coreCardFront {
+    gap: var(--lc-space-3);
+    padding: var(--lc-space-6);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .coreCardBack {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    padding: var(--lc-space-6);
+  }
+
+  .coreCard:hover .coreCardFront,
+  .coreCard:hover .coreCardBack {
+    transform: none;
+  }
+
+  .courseGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .artworkGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--lc-space-3);
+  }
+
+  .productGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacherGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacherCard {
+    flex-direction: row;
+    text-align: left;
+    padding: var(--lc-space-5);
+    gap: var(--lc-space-4);
+  }
+
+  .teacherAvatar {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .teacherInfo {
+    align-items: flex-start;
+  }
+
+  .teacherMeta {
+    justify-content: flex-start;
+  }
+
+  .ctaInner {
+    padding: var(--lc-space-10) var(--lc-space-5);
+  }
+
+  .guangxiItem {
+    flex: 0 0 240px;
+  }
+}

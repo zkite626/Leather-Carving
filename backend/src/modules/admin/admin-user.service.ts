@@ -3,16 +3,98 @@ import {
   NotFoundException,
   Logger,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserQueryDto, UpdateUserRoleDto, UpdateUserStatusDto } from './dto';
+import { UserQueryDto, UpdateUserRoleDto, UpdateUserStatusDto, CreateUserDto, UpdateUserDto } from './dto';
 import { Prisma, UserRole } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AdminUserService {
   private readonly logger = new Logger(AdminUserService.name);
 
   constructor(private readonly prisma: PrismaService) {}
+
+  async createUser(dto: CreateUserDto) {
+    const existing = await this.prisma.user.findUnique({ where: { email: dto.email } });
+    if (existing) throw new ConflictException('该邮箱已被注册');
+
+    const passwordHash = await bcrypt.hash(dto.password, 10);
+    const user = await this.prisma.user.create({
+      data: {
+        email: dto.email,
+        passwordHash,
+        nickname: dto.nickname,
+        role: dto.role ?? UserRole.LEARNER,
+        phone: dto.phone,
+      },
+      select: {
+        id: true, email: true, nickname: true, role: true, status: true, phone: true, createdAt: true,
+      },
+    });
+
+    this.logger.log(`Admin created user: ${user.email} (${user.role})`);
+    return user;
+  }
+
+  async getUserById(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true, email: true, nickname: true, avatar: true, phone: true, bio: true,
+        role: true, status: true, emailVerified: true, lastLoginAt: true, createdAt: true,
+        _count: {
+          select: {
+            artworks: { where: { deletedAt: null } },
+            orders: true,
+            enrollments: true,
+            products: { where: { deletedAt: null } },
+          },
+        },
+      },
+    });
+    if (!user) throw new NotFoundException('用户不存在');
+    return user;
+  }
+
+  async updateUser(id: string, dto: UpdateUserDto) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('用户不存在');
+
+    const updated = await this.prisma.user.update({
+      where: { id },
+      data: {
+        ...(dto.nickname !== undefined && { nickname: dto.nickname }),
+        ...(dto.phone !== undefined && { phone: dto.phone }),
+        ...(dto.bio !== undefined && { bio: dto.bio }),
+        ...(dto.avatar !== undefined && { avatar: dto.avatar }),
+      },
+      select: {
+        id: true, email: true, nickname: true, avatar: true, phone: true, bio: true,
+        role: true, status: true, createdAt: true,
+      },
+    });
+
+    this.logger.log(`Admin updated user: ${id}`);
+    return updated;
+  }
+
+  async deleteUser(id: string) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new NotFoundException('用户不存在');
+    if (user.role === UserRole.SUPER_ADMIN) {
+      throw new BadRequestException('不能删除超级管理员');
+    }
+
+    await this.prisma.user.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+
+    this.logger.log(`Admin deleted user: ${id}`);
+    return { message: '用户已删除' };
+  }
 
   async getUsers(query: UserQueryDto) {
     const page = query.page ?? 1;

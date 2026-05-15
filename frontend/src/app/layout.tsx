@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Noto_Sans_SC, Outfit } from 'next/font/google';
 import { cookies } from 'next/headers';
+import { AuthProvider } from '@/contexts/auth-context';
 import './globals.css';
 
 const inter = Inter({
@@ -62,9 +63,12 @@ export default async function RootLayout({
     <html
       lang="zh-CN"
       data-theme={theme}
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${notoSansSC.variable} ${outfit.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }

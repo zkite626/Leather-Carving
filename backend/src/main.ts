@@ -7,8 +7,7 @@ import helmet from 'helmet';
 import * as path from 'path';
 import { AppModule } from './app.module';
 import { GlobalValidationPipe } from './common/pipes/validation.pipe';
-import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { parseOrigins } from './common/utils/parse-origins';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -29,23 +28,31 @@ async function bootstrap(): Promise<void> {
   // Global prefix
   app.setGlobalPrefix('api/v1');
 
-  // CORS
+  // CORS — parse comma-separated origins into a matcher function
+  const allowedOrigins = parseOrigins(process.env.CORS_ORIGIN ?? 'http://localhost:3000');
   app.enableCors({
-    origin: process.env.CORS_ORIGIN ?? 'http://localhost:3000',
+    origin(origin, callback) {
+      // Allow requests with no origin (server-to-server, curl, mobile apps)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin ${origin} not allowed by CORS`));
+      }
+    },
     credentials: true,
   });
 
-  // Security
-  app.use(helmet());
+  // Security — disable cross-origin policies that break local dev and API calls
+  app.use(
+    helmet({
+      crossOriginOpenerPolicy: false,
+      crossOriginResourcePolicy: false,
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
 
   // Global pipes
   app.useGlobalPipes(GlobalValidationPipe);
-
-  // Global exception filter
-  app.useGlobalFilters(new HttpExceptionFilter());
-
-  // Global response transform interceptor
-  app.useGlobalInterceptors(new TransformInterceptor());
 
   // Swagger
   const swaggerConfig = new DocumentBuilder()
@@ -58,7 +65,7 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = parseInt(process.env.PORT ?? '3001', 10);
+  const port = parseInt(process.env.PORT ?? '5000', 10);
   await app.listen(port);
 
   logger.log(`Application is running on: http://localhost:${port}`);

@@ -40,8 +40,12 @@ export async function getArtworks(query: ArtworkQuery = {}) {
   if (query.techniques) params.set('techniques', query.techniques);
   if (query.sortBy) params.set('sortBy', query.sortBy);
 
-  const res = await apiClient.get<PaginatedResponse<IArtwork>>(`/artworks?${params}`);
-  return res.data;
+  const res = await apiClient.get(`/artworks?${params}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getArtworkById(id: string) {
@@ -59,8 +63,12 @@ export async function getMyArtworks(query: ArtworkQuery = {}) {
   if (query.page) params.set('page', String(query.page));
   if (query.pageSize) params.set('pageSize', String(query.pageSize));
 
-  const res = await apiClient.get<PaginatedResponse<IArtwork>>(`/artworks/my?${params}`);
-  return res.data;
+  const res = await apiClient.get(`/artworks/my?${params}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 12, total: 0, totalPages: 0 },
+  };
 }
 
 export async function createArtwork(data: CreateArtworkData) {

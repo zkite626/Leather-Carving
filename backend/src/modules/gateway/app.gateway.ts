@@ -6,6 +6,7 @@ import {
   SubscribeMessage,
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Server, Socket } from 'socket.io';
 import * as jwt from 'jsonwebtoken';
 
@@ -20,6 +21,11 @@ interface JwtPayload {
 })
 export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(AppGateway.name);
+  private readonly jwtSecret: string;
+
+  constructor(private readonly config: ConfigService) {
+    this.jwtSecret = config.get<string>('JWT_SECRET', 'dev-jwt-secret-change-in-production');
+  }
 
   @WebSocketServer()
   server!: Server;
@@ -39,7 +45,7 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       const payload = jwt.verify(
         token,
-        process.env.JWT_SECRET || 'default-secret',
+        this.jwtSecret,
       ) as unknown as JwtPayload;
       const userId = payload.sub;
 

@@ -19,7 +19,7 @@ export default function AdminFinancePage() {
 
   useEffect(() => {
     void getFinanceSummary().then(setSummary).catch(() => {});
-    void getMerchantSettlements().then(setSettlements).catch(() => {});
+    void getMerchantSettlements().then((d) => setSettlements(Array.isArray(d) ? d : [])).catch(() => {});
   }, []);
 
   const fetchTransactions = useCallback(async () => {

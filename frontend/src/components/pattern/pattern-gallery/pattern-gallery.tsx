@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { getPatterns, incrementPatternDownload, type IPatternAsset } from '@/lib/pattern-api';
-import type { PaginatedResponse } from '@/shared/types/api';
 import styles from './pattern-gallery.module.css';
 
 const CATEGORIES = ['全部', '壮锦', '瑶族', '喀斯特', '现代'];
@@ -23,8 +22,8 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
     try {
       const query: { pageSize: number; category?: string } = { pageSize: 50 };
       if (category !== '全部') query.category = category;
-      const res: PaginatedResponse<IPatternAsset> = await getPatterns(query) as PaginatedResponse<IPatternAsset>;
-      setPatterns(res.data ?? []);
+      const res = await getPatterns(query);
+      setPatterns(res.data);
     } catch {}
     setLoading(false);
   }, [category]);

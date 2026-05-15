@@ -62,10 +62,10 @@ npm run build
 npm run start:prod
 ```
 
-服务默认运行在 `http://localhost:3001`
+服务默认运行在 `http://localhost:5000`
 
-- API 根路径: `http://localhost:3001/api/v1`
-- Swagger 文档: `http://localhost:3001/api/docs`
+- API 根路径: `http://localhost:5000/api/v1`
+- Swagger 文档: `http://localhost:5000/api/docs`
 
 ## 环境变量说明
 
@@ -93,7 +93,7 @@ npm run start:prod
 | `MINIO_USE_SSL` | MinIO SSL | `false` | - |
 | `MINIO_PUBLIC_URL` | MinIO 公开 URL | `http://localhost:9000` | - |
 | `LOCAL_UPLOAD_DIR` | 本地上传目录 | `uploads` | - |
-| `PORT` | 服务端口 | `3001` | - |
+| `PORT` | 服务端口 | `5000` | - |
 | `NODE_ENV` | 运行环境 | `development` | - |
 
 ### 降级机制
@@ -145,7 +145,7 @@ docker build -t leather-carving-api .
 # 2. 运行 (使用 --env-file 或 -e 传入环境变量)
 docker run -d \
   --name lc-api \
-  -p 3001:3001 \
+  -p 5000:5000 \
   --env-file .env \
   leather-carving-api
 ```
@@ -182,7 +182,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 
 ## API 文档
 
-启动服务后访问 Swagger 文档: `http://localhost:3001/api/docs`
+启动服务后访问 Swagger 文档: `http://localhost:5000/api/docs`
 
 ### 主要 API 模块
 

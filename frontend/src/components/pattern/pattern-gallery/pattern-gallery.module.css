@@ -18,28 +18,33 @@
 .tabs {
   display: flex;
   gap: var(--lc-space-1);
+  background-color: var(--lc-bg-secondary);
+  border-radius: var(--lc-radius-md);
+  padding: var(--lc-space-1);
 }
 
 .tab {
-  padding: var(--lc-space-1) var(--lc-space-3);
-  border: 1px solid var(--lc-border);
-  border-radius: var(--lc-radius-full);
+  padding: var(--lc-space-2) var(--lc-space-4);
+  border: none;
+  border-radius: var(--lc-radius-sm);
   background: transparent;
   color: var(--lc-text-secondary);
-  font-size: var(--lc-text-xs);
+  font-size: var(--lc-text-sm);
+  font-weight: 500;
   cursor: pointer;
   transition: all var(--lc-duration-fast) var(--lc-ease);
+  white-space: nowrap;
 }
 
 .tab:hover {
-  border-color: var(--lc-primary);
-  color: var(--lc-primary);
+  color: var(--lc-text);
 }
 
 .tabActive {
-  background: var(--lc-primary);
-  border-color: var(--lc-primary);
-  color: #fff;
+  background: var(--lc-bg);
+  color: var(--lc-primary);
+  box-shadow: var(--lc-shadow-sm);
+  font-weight: 600;
 }
 
 .loading,
@@ -52,22 +57,30 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: var(--lc-space-3);
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--lc-space-5);
 }
 
 .compact .grid {
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: var(--lc-space-2);
+  gap: var(--lc-space-3);
 }
 
 .item {
   position: relative;
   aspect-ratio: 1;
-  border-radius: var(--lc-radius-md);
+  border-radius: var(--lc-radius-lg);
   overflow: hidden;
   cursor: pointer;
   background: var(--lc-bg-secondary);
+  box-shadow: var(--lc-shadow-sm);
+  transition: box-shadow var(--lc-duration-normal) var(--lc-ease),
+              transform var(--lc-duration-normal) var(--lc-ease);
+}
+
+.item:hover {
+  box-shadow: var(--lc-shadow-lg);
+  transform: translateY(-2px);
 }
 
 .item:hover .thumb {
@@ -88,17 +101,17 @@
 .itemOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.6));
+  background: linear-gradient(transparent 40%, rgba(45, 27, 14, 0.7));
   opacity: 0;
-  transition: opacity var(--lc-duration-fast) var(--lc-ease);
+  transition: opacity var(--lc-duration-normal) var(--lc-ease);
   display: flex;
   align-items: flex-end;
-  padding: var(--lc-space-2);
+  padding: var(--lc-space-3);
 }
 
 .itemName {
   color: #fff;
-  font-size: var(--lc-text-xs);
+  font-size: var(--lc-text-sm);
   font-weight: 500;
 }
 
@@ -121,8 +134,9 @@
   max-width: 900px;
   max-height: 90vh;
   background: var(--lc-bg);
-  border-radius: var(--lc-radius-lg);
+  border-radius: var(--lc-radius-xl);
   overflow: hidden;
+  box-shadow: var(--lc-shadow-xl);
 }
 
 @media (max-width: 700px) {
@@ -135,11 +149,11 @@
 
 .previewClose {
   position: absolute;
-  top: var(--lc-space-3);
-  right: var(--lc-space-3);
+  top: var(--lc-space-4);
+  right: var(--lc-space-4);
   z-index: 1;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--lc-radius-full);
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
@@ -149,6 +163,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background var(--lc-duration-fast) var(--lc-ease);
+}
+
+.previewClose:hover {
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .previewImage {
@@ -165,16 +184,17 @@
 }
 
 .previewInfo {
-  padding: var(--lc-space-6);
+  padding: var(--lc-space-8);
   display: flex;
   flex-direction: column;
-  gap: var(--lc-space-3);
-  min-width: 240px;
+  gap: var(--lc-space-4);
+  min-width: 260px;
 }
 
 .previewName {
+  font-family: var(--lc-font-display);
   font-size: var(--lc-text-xl);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--lc-text);
   margin: 0;
 }
@@ -211,18 +231,20 @@
   display: inline-flex;
   align-items: center;
   gap: var(--lc-space-2);
-  padding: var(--lc-space-2) var(--lc-space-4);
+  padding: var(--lc-space-3) var(--lc-space-5);
   background: var(--lc-primary);
   color: #fff;
   border: none;
-  border-radius: var(--lc-radius-md);
+  border-radius: var(--lc-radius-full);
   font-size: var(--lc-text-sm);
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background var(--lc-duration-fast) var(--lc-ease);
+  transition: background var(--lc-duration-fast) var(--lc-ease),
+              transform var(--lc-duration-fast) var(--lc-ease);
   align-self: flex-start;
 }
 
 .downloadBtn:hover {
   background: var(--lc-primary-dark);
+  transform: translateY(-1px);
 }

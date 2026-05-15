@@ -46,7 +46,7 @@ export default function AdminDashboardPage() {
         getRecentActivities(),
       ]);
       setData(dashboard);
-      setActivities(acts);
+      setActivities(Array.isArray(acts) ? acts : []);
     } catch {
       // error handled by interceptor
     } finally {
@@ -127,7 +127,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <div className={styles.chartContainer}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={280} minWidth={0}>
               <LineChart data={stats.userGrowthChart}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--lc-divider)" />
                 <XAxis dataKey="date" tick={{ fontSize: 12, fill: 'var(--lc-text-muted)' }} />
@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
             </div>
           </div>
           <div className={styles.chartContainer}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={280} minWidth={0}>
               <LineChart data={stats.revenueChart}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--lc-divider)" />
                 <XAxis dataKey="date" tick={{ fontSize: 12, fill: 'var(--lc-text-muted)' }} />
@@ -180,7 +180,7 @@ export default function AdminDashboardPage() {
             <h3 className={styles.listTitle}>课程报名 TOP 10</h3>
           </div>
           <div className={styles.chartContainer}>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={280} minWidth={0}>
               <BarChart data={stats.topCourses} layout="vertical" margin={{ left: 20, right: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--lc-divider)" />
                 <XAxis type="number" tick={{ fontSize: 12, fill: 'var(--lc-text-muted)' }} />

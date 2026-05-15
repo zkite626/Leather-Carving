@@ -321,8 +321,10 @@
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
   z-index: var(--lc-z-modal-backdrop);
 }
 
@@ -331,7 +333,9 @@
   border-radius: var(--lc-radius-lg);
   padding: var(--lc-space-6);
   max-width: 400px;
-  width: 90%;
+  width: 100%;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
   box-shadow: var(--lc-shadow-xl);
 }
 

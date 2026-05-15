@@ -54,3 +54,49 @@ export class BatchContentActionDto {
   @IsString()
   reason?: string;
 }
+
+export class CreateUserDto {
+  @ApiProperty({ example: 'user@example.com' })
+  @IsString()
+  email!: string;
+
+  @ApiProperty({ example: 'Password123!' })
+  @IsString()
+  password!: string;
+
+  @ApiProperty({ example: '张三' })
+  @IsString()
+  nickname!: string;
+
+  @ApiPropertyOptional({ enum: UserRole, default: UserRole.LEARNER })
+  @IsOptional()
+  @IsEnum(UserRole)
+  role?: UserRole;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  phone?: string;
+}
+
+export class UpdateUserDto {
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  nickname?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  bio?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+}

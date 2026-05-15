@@ -248,3 +248,180 @@ export async function testAiConfig(id: string): Promise<{ success: boolean; mess
   const res = await apiClient.post(`/ai/configs/${id}/test`);
   return res.data.data;
 }
+
+// ─── Users CRUD ─────────────────────────────────────────────────
+
+export async function createUser(data: { email: string; password: string; nickname: string; role?: string; phone?: string }) {
+  const res = await apiClient.post('/admin/users', data);
+  return res.data.data;
+}
+
+export async function getAdminUserById(id: string) {
+  const res = await apiClient.get(`/admin/users/${id}`);
+  return res.data.data;
+}
+
+export async function updateAdminUser(id: string, data: Record<string, unknown>) {
+  const res = await apiClient.patch(`/admin/users/${id}`, data);
+  return res.data.data;
+}
+
+export async function deleteAdminUser(id: string) {
+  await apiClient.delete(`/admin/users/${id}`);
+}
+
+// ─── Courses (Admin) ────────────────────────────────────────────
+
+export interface AdminCourse {
+  id: string; title: string; slug: string; subtitle: string | null;
+  coverImage: string | null; level: string; status: string; price: string;
+  originalPrice: string | null; enrollCount: number; rating: string;
+  teacherName: string; createdAt: string;
+  _count: { enrollments: number; chapters: number };
+}
+
+export async function getAdminCourses(params: Record<string, string | number | undefined>): Promise<PaginatedResult<AdminCourse>> {
+  const res = await apiClient.get('/admin/courses', { params });
+  return res.data.data;
+}
+
+export async function getAdminCourseById(id: string) {
+  const res = await apiClient.get(`/admin/courses/${id}`);
+  return res.data.data;
+}
+
+export async function updateAdminCourseStatus(id: string, status: string) {
+  const res = await apiClient.patch(`/admin/courses/${id}/status`, { status });
+  return res.data.data;
+}
+
+export async function deleteAdminCourse(id: string) {
+  await apiClient.delete(`/admin/courses/${id}`);
+}
+
+export async function createAdminCourse(data: Record<string, unknown>) {
+  const res = await apiClient.post('/admin/courses', data);
+  return res.data.data;
+}
+
+export async function updateAdminCourse(id: string, data: Record<string, unknown>) {
+  const res = await apiClient.patch(`/admin/courses/${id}`, data);
+  return res.data.data;
+}
+
+// ─── Products (Admin) ───────────────────────────────────────────
+
+export interface AdminProduct {
+  id: string; name: string; slug: string; price: string; originalPrice: string | null;
+  stock: number; sales: number; status: string; isGuangxi: boolean; rating: string;
+  coverImage: string | null; createdAt: string;
+  merchant: { id: string; nickname: string; avatar: string | null };
+  category: { id: string; name: string };
+  images: Array<{ id: string; url: string }>;
+  _count: { orderItems: number; reviews: number };
+}
+
+export async function getAdminProducts(params: Record<string, string | number | undefined>): Promise<PaginatedResult<AdminProduct>> {
+  const res = await apiClient.get('/admin/products', { params });
+  return res.data.data;
+}
+
+export async function getAdminProductById(id: string) {
+  const res = await apiClient.get(`/admin/products/${id}`);
+  return res.data.data;
+}
+
+export async function updateAdminProductStatus(id: string, status: string) {
+  const res = await apiClient.patch(`/admin/products/${id}/status`, { status });
+  return res.data.data;
+}
+
+export async function deleteAdminProduct(id: string) {
+  await apiClient.delete(`/admin/products/${id}`);
+}
+
+export async function createAdminProduct(data: Record<string, unknown>) {
+  const res = await apiClient.post('/admin/products', data);
+  return res.data.data;
+}
+
+export async function updateAdminProduct(id: string, data: Record<string, unknown>) {
+  const res = await apiClient.patch(`/admin/products/${id}`, data);
+  return res.data.data;
+}
+
+export interface ProductCategory {
+  id: string; name: string; parentId: string | null; icon: string | null;
+}
+
+export async function getProductCategories(): Promise<ProductCategory[]> {
+  const res = await apiClient.get('/admin/products/categories');
+  return res.data.data;
+}
+
+// ─── Image Upload ───────────────────────────────────────────────
+
+export async function uploadImage(file: File, type = 'product'): Promise<{ url: string; thumbnailUrl?: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('type', type);
+  const res = await apiClient.post('/upload/image', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data.data;
+}
+
+// ─── Categories ─────────────────────────────────────────────────
+
+export interface CategoryItem {
+  id: string; name: string; slug: string; parentId: string | null;
+  icon: string | null; sortOrder: number; _count: { products: number };
+  children?: CategoryItem[];
+}
+
+export async function getCategories(): Promise<CategoryItem[]> {
+  const res = await apiClient.get('/shop/categories');
+  return res.data.data;
+}
+
+export async function createCategory(data: { name: string; slug: string; icon?: string; parentId?: string; sortOrder?: number }) {
+  const res = await apiClient.post('/shop/categories', data);
+  return res.data.data;
+}
+
+export async function updateCategory(id: string, data: Record<string, unknown>) {
+  const res = await apiClient.patch(`/shop/categories/${id}`, data);
+  return res.data.data;
+}
+
+export async function deleteCategory(id: string) {
+  await apiClient.delete(`/shop/categories/${id}`);
+}
+
+// ─── SMTP Config ────────────────────────────────────────────────
+
+export interface SmtpConfig {
+  host: string;
+  port: string;
+  username: string;
+  password: string;
+  fromAddress: string;
+  fromName: string;
+  encryption: string;
+  isActive: string;
+}
+
+export async function getSmtpConfig(): Promise<SmtpConfig> {
+  const res = await apiClient.get('/system-settings/smtp');
+  return res.data;
+}
+
+export async function updateSmtpConfig(data: Record<string, unknown>): Promise<SmtpConfig> {
+  const res = await apiClient.put('/system-settings/smtp', data);
+  return res.data;
+}
+
+export async function verifySmtp(): Promise<{ success: boolean; message: string }> {
+  const res = await apiClient.post('/system-settings/smtp/verify');
+  return res.data;
+}

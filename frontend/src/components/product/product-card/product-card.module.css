@@ -5,15 +5,19 @@
   color: inherit;
   background: var(--lc-bg);
   border: 1px solid var(--lc-border);
-  border-radius: var(--lc-radius-lg);
+  border-radius: var(--lc-radius-xl);
   overflow: hidden;
+  box-shadow: var(--lc-shadow-sm);
+  height: 100%;
   transition: transform var(--lc-duration-normal) var(--lc-ease),
-    box-shadow var(--lc-duration-normal) var(--lc-ease);
+    box-shadow var(--lc-duration-normal) var(--lc-ease),
+    border-color var(--lc-duration-normal) var(--lc-ease);
 }
 
 .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--lc-shadow-lg);
+  border-color: var(--lc-primary-200);
 }
 
 /* Guangxi specialty - gold border */
@@ -26,7 +30,7 @@
 /* Cover */
 .coverWrapper {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: var(--lc-bg-tertiary);
 }
@@ -44,16 +48,16 @@
 
 .guangxiBadge {
   position: absolute;
-  top: var(--lc-space-2);
-  left: var(--lc-space-2);
+  top: var(--lc-space-3);
+  left: var(--lc-space-3);
   background: linear-gradient(135deg, #d4a853, #b8860b);
   color: #fff;
   font-size: var(--lc-text-xs);
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: var(--lc-radius-sm);
+  padding: var(--lc-space-1) var(--lc-space-2);
+  border-radius: var(--lc-radius-full);
   letter-spacing: 0.05em;
-  box-shadow: 0 2px 4px rgba(184, 134, 11, 0.3);
+  box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
 }
 
 .soldOutBadge {
@@ -73,10 +77,10 @@
 
 /* Info */
 .info {
-  padding: var(--lc-space-3) var(--lc-space-4) var(--lc-space-4);
+  padding: var(--lc-space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--lc-space-2);
+  gap: var(--lc-space-3);
   flex: 1;
 }
 
@@ -97,7 +101,8 @@
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  padding-top: var(--lc-space-2);
+  padding-top: var(--lc-space-3);
+  border-top: 1px solid var(--lc-divider);
 }
 
 .price {
@@ -109,7 +114,7 @@
 .currentPrice {
   font-size: var(--lc-text-lg);
   font-weight: 700;
-  color: var(--lc-accent);
+  color: var(--lc-primary-dark);
 }
 
 .originalPrice {
@@ -149,7 +154,7 @@
   color: var(--lc-primary);
   background: transparent;
   border: 1px solid var(--lc-primary);
-  border-radius: var(--lc-radius-md);
+  border-radius: var(--lc-radius-full);
   cursor: pointer;
   transition: all var(--lc-duration-fast) var(--lc-ease);
 }
@@ -158,7 +163,7 @@
   color: #fff;
   background: var(--lc-primary);
   transform: translateY(-1px);
-  box-shadow: var(--lc-shadow-sm);
+  box-shadow: 0 2px 8px rgba(181, 101, 29, 0.25);
 }
 
 .addButton:active {

@@ -32,13 +32,13 @@ export const useNotificationStore = create<NotificationState>((set) => ({
     set({ isLoading: true });
     try {
       const res = await notificationApi.getNotifications({ page, pageSize: 20 });
-      const data = res.data ?? [];
+      const data = res.data;
       if (page === 1) {
         set({ notifications: data, isLoading: false });
       } else {
         set((state) => ({ notifications: [...state.notifications, ...data], isLoading: false }));
       }
-      return { data, pagination: (res as unknown as { pagination: Record<string, number> | null }).pagination };
+      return { data, pagination: res.pagination ?? null };
     } catch {
       set({ isLoading: false });
       return { data: [], pagination: null };

@@ -23,7 +23,7 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   return (
     <Link href={`/shop/${product.slug}`} className={`${styles.card} ${product.isGuangxi ? styles.guangxi : ''}`}>
       <div className={styles.coverWrapper}>
-        <div style={{ position: 'relative' }}><Image src={coverUrl} alt={product.name} className={styles.cover} fill unoptimized /></div>
+        <div style={{ position: 'absolute', inset: 0 }}><Image src={coverUrl} alt={product.name} className={styles.cover} fill unoptimized /></div>
         {product.isGuangxi && (
           <span className={styles.guangxiBadge}>广西非遗</span>
         )}

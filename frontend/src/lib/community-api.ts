@@ -35,8 +35,12 @@ export async function getPosts(params: {
   if (params.sortOrder) searchParams.set('sortOrder', params.sortOrder);
 
   const qs = searchParams.toString();
-  const res = await apiClient.get<PaginatedResponse<IPost>>(`/community/posts${qs ? `?${qs}` : ''}`);
-  return res.data;
+  const res = await apiClient.get(`/community/posts${qs ? `?${qs}` : ''}`);
+  const inner = res.data?.data ?? {};
+  return {
+    data: Array.isArray(inner.data) ? inner.data : [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
 }
 
 export async function getPostDetail(id: string) {

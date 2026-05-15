@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from '@prisma/client';
+import { UserRole, UserStatus } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import { PrismaService } from '../prisma/prisma.service';
@@ -25,6 +25,20 @@ export interface TokenResponse {
   accessToken: string;
   refreshToken: string;
   expiresIn: string;
+  user: {
+    id: string;
+    email: string;
+    nickname: string;
+    avatar?: string | null;
+    role: string;
+    phone?: string | null;
+    bio?: string | null;
+    emailVerified: boolean;
+    status: string;
+    createdAt: Date;
+    updatedAt: Date;
+    lastLoginAt?: Date | null;
+  };
 }
 
 @Injectable()
@@ -65,6 +79,7 @@ export class AuthService {
     return {
       ...tokens,
       expiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? '2h',
+      user: this.formatUser(user),
     };
   }
 
@@ -100,6 +115,7 @@ export class AuthService {
     return {
       ...tokens,
       expiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? '2h',
+      user: this.formatUser(user),
     };
   }
 
@@ -137,12 +153,43 @@ export class AuthService {
     return {
       ...tokens,
       expiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? '2h',
+      user: this.formatUser(user),
     };
   }
 
   async logout(userId: string): Promise<void> {
     await this.redis.del(`${REDIS_REFRESH_PREFIX}${userId}`);
     this.logger.log(`User logged out: ${userId}`);
+  }
+
+  private formatUser(user: {
+    id: string;
+    email: string;
+    nickname: string;
+    avatar?: string | null;
+    role: UserRole;
+    phone?: string | null;
+    bio?: string | null;
+    emailVerified: boolean;
+    status: UserStatus;
+    createdAt: Date;
+    updatedAt: Date;
+    lastLoginAt?: Date | null;
+  }) {
+    return {
+      id: user.id,
+      email: user.email,
+      nickname: user.nickname,
+      avatar: user.avatar ?? null,
+      role: user.role,
+      phone: user.phone ?? null,
+      bio: user.bio ?? null,
+      emailVerified: user.emailVerified,
+      status: user.status,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+      lastLoginAt: user.lastLoginAt ?? null,
+    };
   }
 
   private async generateTokens(

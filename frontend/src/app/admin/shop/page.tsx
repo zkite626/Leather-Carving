@@ -118,8 +118,15 @@ export default function AdminShopPage() {
                 <td>
                   <div className={styles.actions}>
                     {(validTransitions[o.status] ?? []).map((s) => (
-                      <button key={s} className={styles.actionBtn} onClick={() => setStatusModal({ orderId: o.id, newStatus: s })}>
-                        {transitionLabels[s]}
+                      <button
+                        key={s}
+                        className={`${styles.iconBtn} ${s === 'CANCELLED' ? styles.iconBtnDanger : s === 'COMPLETED' ? styles.iconBtnSuccess : styles.iconBtnPrimary}`}
+                        title={transitionLabels[s]}
+                        onClick={() => setStatusModal({ orderId: o.id, newStatus: s })}
+                      >
+                        {s === 'SHIPPING' && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>}
+                        {s === 'COMPLETED' && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>}
+                        {s === 'CANCELLED' && <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>}
                       </button>
                     ))}
                   </div>

@@ -1,0 +1,173 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { ContentReviewQueryDto, ApproveContentDto, RejectContentDto, BatchContentActionDto } from './dto';
+export declare class AdminContentService {
+    private readonly prisma;
+    private readonly logger;
+    constructor(prisma: PrismaService);
+    getReviewQueue(query: ContentReviewQueryDto): Promise<{
+        items: {
+            id: string;
+            type: string;
+            title: string;
+            status: string;
+            author: {
+                id: string;
+                nickname: string;
+                avatar: string | null;
+            };
+            createdAt: Date;
+            updatedAt: Date;
+            content?: string;
+            coverImage?: string | null;
+        }[];
+        pagination: {
+            page: number;
+            pageSize: number;
+            total: number;
+            totalPages: number;
+        };
+    }>;
+    private getTotalCount;
+    approveContent(id: string, type: string, dto: ApproveContentDto): Promise<{
+        id: string;
+        status: import("@prisma/client").$Enums.CourseStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        slug: string;
+        originalPrice: import("@prisma/client-runtime-utils").Decimal | null;
+        description: string | null;
+        coverImage: string | null;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        rating: import("@prisma/client-runtime-utils").Decimal;
+        tags: string[];
+        category: string | null;
+        subtitle: string | null;
+        level: import("@prisma/client").$Enums.CourseLevel;
+        isFree: boolean;
+        enrollCount: number;
+        totalDuration: number;
+        totalLessons: number;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        publishedAt: Date | null;
+        teacherId: string;
+    } | {
+        id: string;
+        status: import("@prisma/client").$Enums.ArtworkStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        title: string;
+        description: string | null;
+        coverImage: string | null;
+        tags: string[];
+        category: string | null;
+        techniques: string[];
+        materials: string[];
+        story: string | null;
+        likeCount: number;
+        viewCount: number;
+        is3D: boolean;
+        modelUrl: string | null;
+    } | {
+        id: string;
+        status: import("@prisma/client").$Enums.PostStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        title: string;
+        tags: string[];
+        images: string[];
+        type: import("@prisma/client").$Enums.PostType;
+        content: string;
+        likeCount: number;
+        viewCount: number;
+        commentCount: number;
+        isPinned: boolean;
+    }>;
+    rejectContent(id: string, type: string, dto: RejectContentDto): Promise<{
+        id: string;
+        status: import("@prisma/client").$Enums.CourseStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        title: string;
+        slug: string;
+        originalPrice: import("@prisma/client-runtime-utils").Decimal | null;
+        description: string | null;
+        coverImage: string | null;
+        price: import("@prisma/client-runtime-utils").Decimal;
+        rating: import("@prisma/client-runtime-utils").Decimal;
+        tags: string[];
+        category: string | null;
+        subtitle: string | null;
+        level: import("@prisma/client").$Enums.CourseLevel;
+        isFree: boolean;
+        enrollCount: number;
+        totalDuration: number;
+        totalLessons: number;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+        publishedAt: Date | null;
+        teacherId: string;
+    } | {
+        id: string;
+        status: import("@prisma/client").$Enums.ArtworkStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        title: string;
+        description: string | null;
+        coverImage: string | null;
+        tags: string[];
+        category: string | null;
+        techniques: string[];
+        materials: string[];
+        story: string | null;
+        likeCount: number;
+        viewCount: number;
+        is3D: boolean;
+        modelUrl: string | null;
+    } | {
+        id: string;
+        status: import("@prisma/client").$Enums.PostStatus;
+        deletedAt: Date | null;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        title: string;
+        tags: string[];
+        images: string[];
+        type: import("@prisma/client").$Enums.PostType;
+        content: string;
+        likeCount: number;
+        viewCount: number;
+        commentCount: number;
+        isPinned: boolean;
+    }>;
+    batchApprove(dto: BatchContentActionDto): Promise<({
+        id: string;
+        type: string;
+        success: boolean;
+        error?: undefined;
+    } | {
+        id: string;
+        success: boolean;
+        error: string;
+        type?: undefined;
+    })[]>;
+    batchReject(dto: BatchContentActionDto): Promise<({
+        id: string;
+        type: string;
+        success: boolean;
+        error?: undefined;
+    } | {
+        id: string;
+        success: boolean;
+        error: string;
+        type?: undefined;
+    })[]>;
+}
