@@ -1,5 +1,5 @@
 import { apiClient } from './api-client';
-import type { ApiResponse, PaginatedResponse } from '@/shared/types/api';
+import type { ApiResponse } from '@/shared/types/api';
 import type { IArtwork, IArtworkImage } from '@/shared/types/community';
 
 export interface ArtworkQuery {

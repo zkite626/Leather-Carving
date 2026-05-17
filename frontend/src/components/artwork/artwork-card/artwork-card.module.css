@@ -111,3 +111,51 @@
 .likeCount svg {
   color: var(--lc-accent-light);
 }
+
+/* 2026 visual refresh */
+.card {
+  border-radius: var(--lc-radius-lg);
+  background: var(--lc-surface);
+  box-shadow: var(--lc-shadow-soft);
+  transition:
+    transform var(--lc-duration-normal) var(--lc-ease),
+    box-shadow var(--lc-duration-normal) var(--lc-ease);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--lc-shadow-card);
+}
+
+.imageWrapper {
+  border-radius: var(--lc-radius-lg);
+  border: 1px solid rgba(181, 101, 29, 0.16);
+}
+
+.imageWrapper::before {
+  content: '';
+  display: block;
+  aspect-ratio: 4 / 5;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.overlay {
+  opacity: 1;
+  background:
+    linear-gradient(to top, rgba(36, 20, 11, 0.78) 0%, rgba(36, 20, 11, 0.2) 42%, transparent 72%);
+}
+
+@media (hover: hover) {
+  .overlay {
+    opacity: 0;
+  }
+
+  .card:hover .overlay {
+    opacity: 1;
+  }
+}

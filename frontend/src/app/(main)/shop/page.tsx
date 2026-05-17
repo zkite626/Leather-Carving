@@ -23,7 +23,6 @@ export default function ShopPage() {
   const [categories, setCategories] = useState<IProductCategory[]>([]);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const categoriesRef = useRef<IProductCategory[]>([]);
-  categoriesRef.current = categories;
 
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,6 +46,10 @@ export default function ShopPage() {
       .catch(() => {});
     return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    categoriesRef.current = categories;
+  }, [categories]);
 
   // URL sync
   const syncSearchParams = useCallback(
@@ -95,7 +98,7 @@ export default function ShopPage() {
           setProducts(res.data);
           setPagination(res.pagination);
         }
-      } catch (e) {
+      } catch {
         if (!cancelled) {
           setProducts([]);
           setError('获取商品失败，请稍后重试');

@@ -33,11 +33,6 @@ export function SiteHeader() {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [menuOpen]);
 
-  // Close menu on route change
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
@@ -81,6 +76,11 @@ export function SiteHeader() {
 
         {/* User Menu + Mobile Hamburger */}
         <div className={styles.userMenu}>
+          <button type="button" className={styles.mobileSearch} aria-label="搜索">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M11.25 11.25L14 14M6.5 12C3.46243 12 1 9.53757 1 6.5C1 3.46243 3.46243 1 6.5 1C9.53757 1 12 3.46243 12 6.5C12 9.53757 9.53757 12 6.5 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
           <NotificationBell />
           <UserMenu />
           <button

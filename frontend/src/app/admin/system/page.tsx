@@ -73,7 +73,9 @@ function BannerSection() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { void fetchBanners(); }, [fetchBanners]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchBanners());
+  }, [fetchBanners]);
 
   const openCreate = () => {
     setEditingBanner(null);
@@ -239,7 +241,9 @@ function AiConfigSection() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { void fetchConfigs(); }, [fetchConfigs]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchConfigs());
+  }, [fetchConfigs]);
 
   const openCreate = () => {
     setEditingConfig(null);
@@ -414,7 +418,9 @@ function SmtpSection() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { void fetchConfig(); }, [fetchConfig]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchConfig());
+  }, [fetchConfig]);
 
   const openEdit = () => {
     setForm({

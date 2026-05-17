@@ -17,6 +17,186 @@
   background: var(--lc-primary-900);
 }
 
+/* 2026 visual refresh */
+.statsSection {
+  position: relative;
+  margin-top: -1px;
+  padding: var(--lc-space-5) 0;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.96), rgba(251, 243, 232, 0.94));
+  border-block: 1px solid rgba(181, 101, 29, 0.16);
+}
+
+.statsSection::before,
+.statsSection::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(24vw, 320px);
+  opacity: 0.12;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(45deg, var(--lc-primary) 0 1px, transparent 1px 14px),
+    repeating-linear-gradient(-45deg, var(--lc-gold) 0 1px, transparent 1px 14px);
+}
+
+.statsSection::before {
+  left: 0;
+}
+
+.statsSection::after {
+  right: 0;
+}
+
+.statCard {
+  position: relative;
+  padding: var(--lc-space-4);
+  border-right: 1px solid rgba(181, 101, 29, 0.16);
+}
+
+.statCard:last-child {
+  border-right: 0;
+}
+
+.statValue {
+  color: var(--lc-primary-dark);
+}
+
+.coreSection,
+.teachersSection {
+  background:
+    linear-gradient(180deg, rgba(245, 237, 227, 0.84), rgba(251, 243, 232, 0.92)),
+    repeating-linear-gradient(45deg, rgba(61, 28, 0, 0.02) 0 1px, transparent 1px 8px);
+}
+
+.sectionHeader {
+  margin-bottom: var(--lc-space-10);
+}
+
+.sectionTitle,
+.ctaTitle {
+  font-family: var(--lc-font-serif);
+  letter-spacing: 0.02em;
+}
+
+.coreCard {
+  height: 176px;
+  perspective: none;
+}
+
+.coreCardFront,
+.coreCardBack {
+  border-radius: var(--lc-radius-lg);
+  border: 1px solid rgba(181, 101, 29, 0.18);
+  box-shadow: var(--lc-shadow-soft);
+}
+
+.coreCardFront {
+  align-items: flex-start;
+  padding: var(--lc-space-6);
+  background: rgba(255, 253, 249, 0.92);
+}
+
+.coreCardBack {
+  display: none;
+}
+
+.coreCard:hover .coreCardFront {
+  transform: translateY(-4px);
+  box-shadow: var(--lc-shadow-card);
+}
+
+.coreIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lc-primary-50), var(--lc-primary-100));
+}
+
+.coreTitle {
+  font-size: var(--lc-text-xl);
+}
+
+.guangxiSection {
+  color: rgba(255, 252, 248, 0.92);
+  background:
+    linear-gradient(135deg, rgba(36, 20, 11, 0.96), rgba(85, 39, 14, 0.94)),
+    repeating-linear-gradient(45deg, rgba(212, 168, 83, 0.08) 0 1px, transparent 1px 12px);
+  border-block: 1px solid rgba(212, 168, 83, 0.26);
+}
+
+.guangxiSection .sectionTitle,
+.guangxiSection .sectionSubtitle,
+.guangxiSection .viewAll {
+  color: inherit;
+}
+
+.teacherCard {
+  background: rgba(255, 253, 249, 0.92);
+  border: 1px solid rgba(181, 101, 29, 0.18);
+  box-shadow: var(--lc-shadow-soft);
+}
+
+.ctaInner {
+  border-radius: var(--lc-radius-lg);
+  background:
+    linear-gradient(135deg, rgba(139, 69, 19, 0.96), rgba(200, 75, 49, 0.88)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 14px);
+  box-shadow: var(--lc-shadow-card);
+}
+
+@media (max-width: 640px) {
+  .statsSection {
+    padding: var(--lc-space-4) 0;
+  }
+
+  .statsGrid {
+    gap: 0;
+  }
+
+  .statCard {
+    border-right: 0;
+    border-bottom: 1px solid rgba(181, 101, 29, 0.12);
+  }
+
+  .coreGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .coreCard {
+    height: 148px;
+  }
+
+  .coreCardFront {
+    border-radius: var(--lc-radius-md);
+    padding: var(--lc-space-4);
+  }
+
+  .coreIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .coreIcon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .coreTitle {
+    font-size: var(--lc-text-base);
+  }
+
+  .coreSubtitle {
+    font-size: 0.68rem;
+  }
+
+  .teacherCard {
+    align-items: flex-start;
+  }
+}
+
 .heroImageWrap {
   position: absolute;
   inset: 0;
@@ -366,7 +546,21 @@
 
 .guangxiSection {
   padding: var(--lc-space-20) 0 var(--lc-space-12);
-  background: var(--lc-bg);
+  color: rgba(255, 252, 248, 0.94);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(212, 168, 83, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(36, 20, 11, 0.98), rgba(85, 39, 14, 0.96)),
+    repeating-linear-gradient(45deg, rgba(212, 168, 83, 0.08) 0 1px, transparent 1px 12px);
+  border-block: 1px solid rgba(212, 168, 83, 0.3);
+}
+
+.guangxiSection .sectionTitle {
+  color: #fffaf2;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.26);
+}
+
+.guangxiSection .sectionSubtitle {
+  color: rgba(255, 247, 235, 0.78);
 }
 
 .guangxiBadge {
@@ -384,10 +578,7 @@
 }
 
 .guangxiScroll {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  overflow: visible;
   padding: var(--lc-space-2) 0 var(--lc-space-8);
 }
 
@@ -400,15 +591,42 @@
 }
 
 .guangxiTrack {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--lc-space-6);
-  justify-content: center;
+  max-width: 1280px;
+  margin: 0 auto;
   padding: 0 max(var(--lc-space-8), calc((100vw - 1280px) / 2 + 2rem));
 }
 
 .guangxiItem {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
+  min-width: 0;
+}
+
+.guangxiItem:nth-child(n + 4),
+.productGrid > :nth-child(n + 4),
+.teacherGrid > :nth-child(n + 5) {
+  display: none;
+}
+
+@media (min-width: 641px) {
+  .productGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .teacherGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .productGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .teacherGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 /* Hide scrollbar but keep functionality */
@@ -458,7 +676,7 @@
 
 .teacherGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--lc-space-6);
 }
 
@@ -693,8 +911,14 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .guangxiItem {
-    flex: 0 0 260px;
+  .guangxiTrack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .guangxiItem:nth-child(n + 3),
+  .productGrid > :nth-child(n + 3),
+  .teacherGrid > :nth-child(n + 3) {
+    display: none;
   }
 }
 
@@ -785,6 +1009,18 @@
     grid-template-columns: 1fr;
   }
 
+  .guangxiTrack {
+    grid-template-columns: 1fr;
+    gap: var(--lc-space-4);
+    padding: 0 var(--lc-space-4);
+  }
+
+  .guangxiItem:nth-child(n + 2),
+  .productGrid > :nth-child(n + 2),
+  .teacherGrid > :nth-child(n + 2) {
+    display: none;
+  }
+
   .teacherCard {
     flex-direction: row;
     text-align: left;
@@ -810,8 +1046,3 @@
   .ctaInner {
     padding: var(--lc-space-10) var(--lc-space-5);
   }
-
-  .guangxiItem {
-    flex: 0 0 240px;
-  }
-}

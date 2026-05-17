@@ -38,7 +38,9 @@ export default function AdminOrdersPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, keyword, statusFilter]);
 
-  useEffect(() => { void fetchOrders(); }, [fetchOrders]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchOrders());
+  }, [fetchOrders]);
 
   const handleStatusUpdate = async () => {
     if (!statusModal) return;

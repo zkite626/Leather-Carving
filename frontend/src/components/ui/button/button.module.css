@@ -3,8 +3,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--lc-space-2);
-  border-radius: var(--lc-radius-md);
-  font-weight: 500;
+  border-radius: var(--lc-radius-full);
+  font-weight: 700;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   user-select: none;
   position: relative;
@@ -49,9 +50,9 @@
 
 /* Variants */
 .variant-primary {
-  background-color: var(--lc-primary);
+  background: linear-gradient(135deg, var(--lc-primary-dark), var(--lc-primary));
   color: #fff;
-  box-shadow: var(--lc-shadow-sm);
+  box-shadow: 0 10px 22px rgba(181, 101, 29, 0.22);
 }
 
 .variant-primary:hover:not(:disabled) {
@@ -60,9 +61,9 @@
 }
 
 .variant-accent {
-  background-color: var(--lc-accent);
+  background: linear-gradient(135deg, var(--lc-accent-dark), var(--lc-accent));
   color: #fff;
-  box-shadow: var(--lc-shadow-sm);
+  box-shadow: 0 10px 22px rgba(200, 75, 49, 0.2);
 }
 
 .variant-accent:hover:not(:disabled) {
@@ -71,9 +72,9 @@
 }
 
 .variant-ghost {
-  background-color: transparent;
-  color: var(--lc-text);
-  border: 1px solid var(--lc-border);
+  background-color: rgba(255, 253, 249, 0.66);
+  color: var(--lc-primary-dark);
+  border: 1px solid rgba(181, 101, 29, 0.26);
 }
 
 .variant-ghost:hover:not(:disabled) {
@@ -90,7 +91,7 @@
 }
 
 .variant-text:hover:not(:disabled) {
-  background-color: var(--lc-primary-50);
+  background-color: rgba(181, 101, 29, 0.08);
 }
 
 .variant-danger {

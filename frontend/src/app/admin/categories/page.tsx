@@ -19,7 +19,9 @@ export default function AdminCategoriesPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { void fetchData(); }, [fetchData]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchData());
+  }, [fetchData]);
 
   const openCreate = (parentId?: string) => {
     setEditingId(null);

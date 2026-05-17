@@ -136,8 +136,6 @@ export default function CoursesPage() {
 
   const hasActiveFilters = level || isFree !== undefined || keyword;
 
-  const activeLevelName = level ? LEVEL_OPTIONS.find((o) => o.value === level)?.label : null;
-
   return (
     <div className={styles.page}>
       <section className={styles.hero}>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import type { IBanner } from '@/lib/banner-api';
 import styles from './banner-carousel.module.css';
 
@@ -53,10 +54,10 @@ export function BannerCarousel({ banners }: Props) {
         >
           {b.link ? (
             <a href={b.link} className={styles.slideLink}>
-              <img src={b.image} alt={b.title} className={styles.slideImg} />
+              <Image src={b.image} alt={b.title} fill sizes="100vw" className={styles.slideImg} priority={idx === 0} unoptimized />
             </a>
           ) : (
-            <img src={b.image} alt={b.title} className={styles.slideImg} />
+            <Image src={b.image} alt={b.title} fill sizes="100vw" className={styles.slideImg} priority={idx === 0} unoptimized />
           )}
           <div className={styles.slideOverlay} />
           {b.title && (

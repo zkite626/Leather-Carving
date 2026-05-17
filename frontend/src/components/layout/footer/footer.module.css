@@ -1,6 +1,8 @@
 .footer {
-  background-color: var(--lc-bg-secondary);
-  border-top: 1px solid var(--lc-divider);
+  background:
+    linear-gradient(180deg, rgba(245, 237, 227, 0.88), rgba(237, 227, 213, 0.96)),
+    repeating-linear-gradient(45deg, rgba(61, 28, 0, 0.025) 0 1px, transparent 1px 8px);
+  border-top: 1px solid rgba(181, 101, 29, 0.16);
   margin-top: auto;
 }
 
@@ -81,8 +83,7 @@
   font-size: var(--lc-text-sm);
   font-weight: 600;
   color: var(--lc-text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .linkList {
@@ -120,7 +121,21 @@
   justify-content: center;
   padding-top: var(--lc-space-8);
   margin-top: var(--lc-space-8);
-  border-top: 1px solid var(--lc-divider);
+  border-top: 1px solid rgba(181, 101, 29, 0.14);
+}
+
+@media (max-width: 639px) {
+  .inner {
+    padding-top: var(--lc-space-8);
+  }
+
+  .grid {
+    gap: var(--lc-space-6);
+  }
+
+  .brandDesc {
+    max-width: none;
+  }
 }
 
 .copyright {

@@ -42,7 +42,7 @@
   color: #fff;
   background: linear-gradient(135deg, var(--lc-primary), var(--lc-primary-dark));
   border-radius: var(--lc-radius-full);
-  box-shadow: 0 2px 8px rgba(181, 101, 29, 0.2);
+  box-shadow: 0 10px 20px rgba(181, 101, 29, 0.2);
   transition: transform var(--lc-duration-fast) var(--lc-ease),
               box-shadow var(--lc-duration-fast) var(--lc-ease);
 }
@@ -99,8 +99,8 @@
   top: calc(100% + 8px);
   right: 0;
   width: 240px;
-  background: var(--lc-bg);
-  border: 1px solid var(--lc-border);
+  background: var(--lc-surface);
+  border: 1px solid rgba(181, 101, 29, 0.18);
   border-radius: var(--lc-radius-lg);
   box-shadow: var(--lc-shadow-xl);
   z-index: var(--lc-z-dropdown);
@@ -242,9 +242,12 @@
     gap: var(--lc-space-1);
   }
 
-  .loginBtn,
+  .loginBtn {
+    display: none;
+  }
+
   .registerBtn {
-    height: 30px;
+    height: 32px;
     padding: 0 var(--lc-space-3);
     font-size: var(--lc-text-xs);
   }

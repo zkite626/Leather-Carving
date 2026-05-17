@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { getAdminCourses, createAdminCourse, updateAdminCourseStatus, deleteAdminCourse, uploadImage, type AdminCourse, type PaginatedResult } from '@/lib/admin-api';
 import styles from '../products/page.module.css';
 
@@ -44,7 +45,9 @@ export default function AdminCoursesPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, keyword, statusFilter]);
 
-  useEffect(() => { void fetchData(); }, [fetchData]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchData());
+  }, [fetchData]);
 
   const handleStatusChange = async (courseId: string, status: string) => {
     try { await updateAdminCourseStatus(courseId, status); setConfirmModal(null); fetchData(); } catch { /* */ }
@@ -243,7 +246,7 @@ export default function AdminCoursesPage() {
                     <input type="file" accept="image/*" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageUpload(f); }} />
                   </label>
                 </div>
-                {form.coverImage && <img src={form.coverImage} alt="封面预览" style={{ marginTop: 8, maxHeight: 80, borderRadius: 'var(--lc-radius-md)', objectFit: 'cover' }} />}
+                {form.coverImage && <Image src={form.coverImage} alt="封面预览" width={120} height={80} style={{ marginTop: 8, maxHeight: 80, borderRadius: 'var(--lc-radius-md)', objectFit: 'cover' }} unoptimized />}
               </div>
               <div className={`${styles.formField} ${styles.formFieldFull}`}>
                 <label className={styles.formLabel}>课程描述</label>

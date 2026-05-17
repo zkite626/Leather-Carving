@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import {
   getAdminProducts, createAdminProduct, updateAdminProduct, uploadImage,
   updateAdminProductStatus, deleteAdminProduct, getProductCategories,
@@ -46,7 +47,9 @@ export default function AdminProductsPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, keyword, statusFilter]);
 
-  useEffect(() => { void fetchData(); }, [fetchData]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchData());
+  }, [fetchData]);
   useEffect(() => { getProductCategories().then(setCategories).catch(() => {}); }, []);
 
   const handleStatusChange = async (productId: string, status: string) => {
@@ -264,7 +267,7 @@ export default function AdminProductsPage() {
                     }} />
                   </label>
                 </div>
-                {form.coverImage && <img src={form.coverImage} alt="封面预览" style={{ marginTop: 8, maxHeight: 80, borderRadius: 'var(--lc-radius-md)', objectFit: 'cover' }} />}
+                {form.coverImage && <Image src={form.coverImage} alt="封面预览" width={120} height={80} style={{ marginTop: 8, maxHeight: 80, borderRadius: 'var(--lc-radius-md)', objectFit: 'cover' }} unoptimized />}
               </div>
               <div className={`${styles.formField} ${styles.formFieldFull}`}>
                 <label className={styles.formLabel}>商品描述</label>

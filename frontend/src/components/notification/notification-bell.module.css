@@ -13,12 +13,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--lc-radius-md);
+  border-radius: var(--lc-radius-full);
+  border: 1px solid rgba(181, 101, 29, 0.14);
+  background: rgba(255, 253, 249, 0.72);
   transition: all var(--lc-duration-fast) var(--lc-ease);
 }
 
 .bellBtn:hover {
-  background: var(--lc-bg-secondary);
+  background: rgba(181, 101, 29, 0.08);
   color: var(--lc-primary);
 }
 
@@ -47,8 +49,8 @@
   right: 0;
   width: 360px;
   max-height: 480px;
-  background: var(--lc-bg-card);
-  border: 1px solid var(--lc-border);
+  background: var(--lc-surface);
+  border: 1px solid rgba(181, 101, 29, 0.18);
   border-radius: var(--lc-radius-lg);
   box-shadow: var(--lc-shadow-xl);
   z-index: var(--lc-z-dropdown);

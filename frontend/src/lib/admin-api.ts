@@ -275,7 +275,7 @@ export async function deleteAdminUser(id: string) {
 export interface AdminCourse {
   id: string; title: string; slug: string; subtitle: string | null;
   coverImage: string | null; level: string; status: string; price: string;
-  originalPrice: string | null; enrollCount: number; rating: string;
+  originalPrice: string | null; isFree: boolean; enrollCount: number; rating: string;
   teacherName: string; createdAt: string;
   _count: { enrollments: number; chapters: number };
 }

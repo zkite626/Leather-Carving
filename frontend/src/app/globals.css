@@ -28,6 +28,11 @@
   --lc-bg: #FFFCF8;
   --lc-bg-secondary: #F5EDE3;
   --lc-bg-tertiary: #EDE3D5;
+  --lc-surface: #FFFDF9;
+  --lc-surface-raised: #FFFFFF;
+  --lc-leather-deep: #24140B;
+  --lc-leather: #6F3716;
+  --lc-paper: #FBF3E8;
   --lc-text: #2D1B0E;
   --lc-text-secondary: #6B5B4F;
   --lc-text-muted: #9B8E82;
@@ -45,6 +50,8 @@
   --lc-shadow-md: 0 4px 12px rgba(45, 27, 14, 0.08);
   --lc-shadow-lg: 0 8px 30px rgba(45, 27, 14, 0.12);
   --lc-shadow-xl: 0 16px 48px rgba(45, 27, 14, 0.16);
+  --lc-shadow-card: 0 18px 40px rgba(67, 35, 13, 0.10);
+  --lc-shadow-soft: 0 10px 28px rgba(67, 35, 13, 0.08);
 
   /* Typography */
   --lc-font-sans: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
@@ -141,6 +148,10 @@ body {
   flex-direction: column;
   color: var(--lc-text);
   background-color: var(--lc-bg);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(181, 101, 29, 0.045), transparent 26rem),
+    radial-gradient(circle at 88% 16%, rgba(212, 168, 83, 0.04), transparent 24rem),
+    repeating-linear-gradient(45deg, rgba(61, 28, 0, 0.018) 0 1px, transparent 1px 7px);
   font-family: var(--lc-font-sans);
   font-size: var(--lc-text-base);
   line-height: 1.6;
@@ -148,6 +159,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--lc-duration-normal) var(--lc-ease),
               color var(--lc-duration-normal) var(--lc-ease);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(255, 248, 240, 0.88), transparent 30rem),
+    repeating-linear-gradient(90deg, rgba(139, 69, 19, 0.012) 0 1px, transparent 1px 5px);
+  opacity: 0.8;
 }
 
 a {
@@ -165,6 +188,15 @@ svg {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+main {
+  min-width: 0;
+}
+
+::selection {
+  color: #fff;
+  background: var(--lc-primary);
 }
 
 button,
@@ -198,6 +230,12 @@ table {
   margin-right: auto;
   padding-left: var(--lc-space-4);
   padding-right: var(--lc-space-4);
+}
+
+.lc-stitch-divider {
+  height: 1px;
+  background:
+    repeating-linear-gradient(90deg, rgba(181, 101, 29, 0.34) 0 12px, transparent 12px 20px);
 }
 
 @media (min-width: 640px) {

@@ -318,6 +318,71 @@
   opacity: 0.5;
 }
 
+/* 2026 visual refresh */
+.page,
+.skeletonPage {
+  background:
+    linear-gradient(180deg, rgba(251, 243, 232, 0.96), rgba(245, 237, 227, 0.88)),
+    repeating-linear-gradient(45deg, rgba(61, 28, 0, 0.02) 0 1px, transparent 1px 8px);
+}
+
+.title,
+.enrollmentsTitle,
+.sectionTitle {
+  font-family: var(--lc-font-serif);
+}
+
+.statCard,
+.enrollmentsSection,
+.skeletonStatCard,
+.skeletonEnrollmentSection {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.98), rgba(251, 243, 232, 0.9));
+  border-color: rgba(181, 101, 29, 0.16);
+  box-shadow: var(--lc-shadow-soft);
+}
+
+.statCard:hover {
+  box-shadow: var(--lc-shadow-card);
+}
+
+.statIcon {
+  border-radius: var(--lc-radius-lg);
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: var(--lc-space-4) var(--lc-space-3);
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: var(--lc-text-2xl);
+  }
+
+  .headerActions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .enrollmentItem {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: var(--lc-space-2);
+    padding: var(--lc-space-4);
+  }
+
+  .enrollmentCourse,
+  .enrollmentDate {
+    white-space: normal;
+  }
+}
+
 .emptyEnrollmentsText {
   font-size: var(--lc-text-sm);
 }

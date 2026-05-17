@@ -52,7 +52,9 @@ export default function AdminUsersPage() {
     } catch { /* */ } finally { setLoading(false); }
   }, [page, keyword, roleFilter, statusFilter]);
 
-  useEffect(() => { void fetchData(); }, [fetchData]);
+  useEffect(() => {
+    queueMicrotask(() => void fetchData());
+  }, [fetchData]);
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try { await updateUserRole(userId, newRole); fetchData(); } catch { /* */ }

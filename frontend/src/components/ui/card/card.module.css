@@ -9,18 +9,21 @@
 
 /* Variants */
 .variant-default {
-  background-color: var(--lc-bg-secondary);
-  box-shadow: var(--lc-shadow-md);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 249, 0.98), rgba(251, 243, 232, 0.92));
+  border: 1px solid rgba(181, 101, 29, 0.16);
+  box-shadow: var(--lc-shadow-soft);
 }
 
 .variant-outlined {
-  background-color: var(--lc-bg);
-  border: 1px solid var(--lc-border);
+  background-color: var(--lc-surface);
+  border: 1px solid rgba(181, 101, 29, 0.18);
 }
 
 .variant-elevated {
-  background-color: var(--lc-bg);
-  box-shadow: var(--lc-shadow-lg);
+  background-color: var(--lc-surface-raised);
+  border: 1px solid rgba(181, 101, 29, 0.14);
+  box-shadow: var(--lc-shadow-card);
 }
 
 /* Padding */
@@ -47,7 +50,7 @@
 
 .hoverable:hover {
   transform: translateY(-2px);
-  box-shadow: var(--lc-shadow-lg);
+  box-shadow: var(--lc-shadow-card);
 }
 
 /* Leather texture overlay */

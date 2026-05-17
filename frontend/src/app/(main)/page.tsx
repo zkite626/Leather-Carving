@@ -117,6 +117,10 @@ const HERITAGE_TEACHERS = [
   },
 ];
 
+const MAX_GUANGXI_PRODUCTS = 3;
+const MAX_HOT_PRODUCTS = 3;
+const MAX_HERITAGE_TEACHERS = 4;
+
 /* ------------------------------------------------------------------ */
 /* Page (Server Component)                                             */
 /* ------------------------------------------------------------------ */
@@ -140,6 +144,9 @@ export default async function HomePage() {
   const hotProducts: IProduct[] =
     hotProductsRes.status === 'fulfilled' && Array.isArray(hotProductsRes.value?.data) ? hotProductsRes.value.data : [];
   const banners = bannersRes.status === 'fulfilled' ? bannersRes.value : [];
+  const visibleGuangxiProducts = guangxiProducts.slice(0, MAX_GUANGXI_PRODUCTS);
+  const visibleHotProducts = hotProducts.slice(0, MAX_HOT_PRODUCTS);
+  const visibleTeachers = HERITAGE_TEACHERS.slice(0, MAX_HERITAGE_TEACHERS);
 
   return (
     <>
@@ -188,7 +195,7 @@ export default async function HomePage() {
         </section>
 
         {/* ========== 4. GUANGXI SPECIALTY (horizontal scroll) ========== */}
-        {guangxiProducts.length > 0 && (
+        {visibleGuangxiProducts.length > 0 && (
           <section className={styles.guangxiSection} aria-label="广西非遗专区">
             <div className="container">
               <div className={styles.sectionHeader}>
@@ -203,7 +210,7 @@ export default async function HomePage() {
             </div>
             <div className={styles.guangxiScroll}>
               <div className={styles.guangxiTrack}>
-                {guangxiProducts.map((product) => (
+                {visibleGuangxiProducts.map((product) => (
                   <div key={product.id} className={styles.guangxiItem}>
                     <ProductCard product={product} />
                   </div>
@@ -264,7 +271,7 @@ export default async function HomePage() {
         )}
 
         {/* ========== 7. HOT PRODUCTS ========== */}
-        {hotProducts.length > 0 && (
+        {visibleHotProducts.length > 0 && (
           <section className={styles.section} aria-label="热门好物">
             <div className="container">
               <div className={styles.sectionHeader}>
@@ -280,7 +287,7 @@ export default async function HomePage() {
                 </Link>
               </div>
               <div className={styles.productGrid}>
-                {hotProducts.map((product) => (
+                {visibleHotProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
@@ -298,7 +305,7 @@ export default async function HomePage() {
               </p>
             </div>
             <div className={styles.teacherGrid}>
-              {HERITAGE_TEACHERS.map((teacher) => (
+              {visibleTeachers.map((teacher) => (
                 <div key={teacher.name} className={styles.teacherCard}>
                   <div className={styles.teacherAvatar}>
                     <div className={styles.teacherAvatarPlaceholder}>
