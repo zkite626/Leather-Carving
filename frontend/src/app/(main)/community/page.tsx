@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { PageHero } from '@/components/ui/page-hero/page-hero';
 import { getPosts, getHotTopics } from '@/lib/community-api';
 import { toggleFavorite } from '@/lib/favorite-api';
 import type { IPost, PostType } from '@/shared/types/community';
@@ -112,13 +113,7 @@ export default function CommunityPage() {
 
   return (
     <div className={styles.page}>
-      {/* Hero Header */}
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>皮雕社区</h1>
-          <p className={styles.heroSubtitle}>与万千皮雕爱好者交流分享，共同成长</p>
-        </div>
-      </section>
+      <PageHero title="皮雕社区" subtitle="与万千皮雕爱好者交流分享，共同成长" />
 
       <div className={styles.container}>
         {/* Main Content */}

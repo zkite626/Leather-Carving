@@ -1,4 +1,5 @@
 import { apiClient } from './api-client';
+import type { IPatternAsset } from './pattern-api';
 
 // ─── Dashboard ──────────────────────────────────────────────────
 
@@ -348,6 +349,76 @@ export async function createAdminProduct(data: Record<string, unknown>) {
 export async function updateAdminProduct(id: string, data: Record<string, unknown>) {
   const res = await apiClient.patch(`/admin/products/${id}`, data);
   return res.data.data;
+}
+
+// ─── Artworks (Admin) ───────────────────────────────────────────
+
+export interface AdminArtwork {
+  id: string;
+  title: string;
+  description: string | null;
+  coverImage: string | null;
+  category: string | null;
+  tags: string[];
+  techniques: string[];
+  materials: string[];
+  status: string;
+  viewCount: number;
+  likeCount: number;
+  story: string | null;
+  createdAt: string;
+  updatedAt: string;
+  user: { id: string; nickname: string; avatar: string | null };
+  images: Array<{ id: string; url: string; caption: string | null; sortOrder: number }>;
+}
+
+export async function getAdminArtworks(params: Record<string, string | number | undefined>): Promise<PaginatedResult<AdminArtwork>> {
+  const res = await apiClient.get('/admin/artworks', { params });
+  return res.data.data;
+}
+
+export async function createAdminArtwork(data: Record<string, unknown>): Promise<AdminArtwork> {
+  const res = await apiClient.post('/admin/artworks', data);
+  return res.data.data;
+}
+
+export async function updateAdminArtwork(id: string, data: Record<string, unknown>): Promise<AdminArtwork> {
+  const res = await apiClient.patch(`/admin/artworks/${id}`, data);
+  return res.data.data;
+}
+
+export async function updateAdminArtworkStatus(id: string, status: string) {
+  const res = await apiClient.patch(`/admin/artworks/${id}/status`, { status });
+  return res.data.data;
+}
+
+export async function deleteAdminArtwork(id: string) {
+  await apiClient.delete(`/admin/artworks/${id}`);
+}
+
+// ─── Patterns (Admin) ───────────────────────────────────────────
+
+export async function getAdminPatterns(params: Record<string, string | number | undefined>): Promise<PaginatedResult<IPatternAsset>> {
+  const res = await apiClient.get('/patterns', { params });
+  const inner = res.data.data;
+  return {
+    items: inner.data ?? [],
+    pagination: inner.pagination ?? { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+  };
+}
+
+export async function createAdminPattern(data: Record<string, unknown>): Promise<IPatternAsset> {
+  const res = await apiClient.post('/patterns', data);
+  return res.data.data;
+}
+
+export async function updateAdminPattern(id: string, data: Record<string, unknown>): Promise<IPatternAsset> {
+  const res = await apiClient.patch(`/patterns/${id}`, data);
+  return res.data.data;
+}
+
+export async function deleteAdminPattern(id: string) {
+  await apiClient.delete(`/patterns/${id}`);
 }
 
 export interface ProductCategory {

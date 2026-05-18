@@ -130,6 +130,21 @@ docker compose -f infra/docker-compose.prod.yml logs -f
 
 生产环境包含 6 个服务：Nginx 反向代理、Next.js 前端、NestJS 后端、PostgreSQL、Redis、MinIO。
 
+### 后端源码部署
+
+```bash
+cd backend
+npm ci
+npm run prisma:db:push
+npm run build
+npm run start:prod
+```
+
+在 1Panel 等 Node 源码部署面板中，请将运行目录设为 `backend`，安装命令设为
+`npm ci`，构建命令设为 `npm run build`，启动命令设为 `npm run start:prod`。
+安装、构建和生产启动都会自动生成并校验 Prisma Client，避免旧 client 导致
+`Property 'user' does not exist on type 'PrismaService'`。
+
 ### 启用 HTTPS
 
 1. 将 SSL 证书放置到 `infra/nginx/ssl/`

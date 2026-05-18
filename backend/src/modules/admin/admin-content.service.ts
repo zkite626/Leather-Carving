@@ -11,13 +11,176 @@ import {
   RejectContentDto,
   BatchContentActionDto,
 } from './dto';
-import { CourseStatus, ArtworkStatus, PostStatus } from '@prisma/client';
+import {
+  ArtworkStatus,
+  CourseStatus,
+  PostStatus,
+  Prisma,
+} from '@prisma/client';
 
 @Injectable()
 export class AdminContentService {
   private readonly logger = new Logger(AdminContentService.name);
 
   constructor(private readonly prisma: PrismaService) {}
+
+  async getArtworks(query: Record<string, string | number | undefined>) {
+    const page = Math.max(1, Number(query.page) || 1);
+    const pageSize = Math.min(50, Math.max(1, Number(query.pageSize) || 20));
+    const skip = (page - 1) * pageSize;
+
+    const where: Prisma.ArtworkWhereInput = { deletedAt: null };
+    if (typeof query.status === 'string' && query.status) {
+      where.status = query.status as ArtworkStatus;
+    }
+    if (typeof query.category === 'string' && query.category) {
+      where.category = query.category;
+    }
+    if (typeof query.keyword === 'string' && query.keyword) {
+      where.OR = [
+        { title: { contains: query.keyword, mode: 'insensitive' } },
+        { description: { contains: query.keyword, mode: 'insensitive' } },
+      ];
+    }
+
+    const [artworks, total] = await Promise.all([
+      this.prisma.artwork.findMany({
+        where,
+        skip,
+        take: pageSize,
+        orderBy: { createdAt: 'desc' },
+        include: {
+          images: { orderBy: { sortOrder: 'asc' } },
+          user: { select: { id: true, nickname: true, avatar: true } },
+        },
+      }),
+      this.prisma.artwork.count({ where }),
+    ]);
+
+    return {
+      items: artworks,
+      pagination: {
+        page,
+        pageSize,
+        total,
+        totalPages: Math.ceil(total / pageSize),
+      },
+    };
+  }
+
+  async createArtwork(userId: string, dto: Record<string, unknown>) {
+    if (typeof dto.title !== 'string' || !dto.title.trim()) {
+      throw new BadRequestException('Artwork title is required');
+    }
+
+    const imageUrls = this.toStringArray(dto.imageUrls);
+    const artwork = await this.prisma.artwork.create({
+      data: {
+        userId,
+        title: dto.title.trim(),
+        description:
+          typeof dto.description === 'string' ? dto.description : undefined,
+        category: typeof dto.category === 'string' ? dto.category : undefined,
+        techniques: this.toStringArray(dto.techniques),
+        materials: this.toStringArray(dto.materials),
+        tags: this.toStringArray(dto.tags),
+        story: typeof dto.story === 'string' ? dto.story : undefined,
+        status: this.toArtworkStatus(dto.status, ArtworkStatus.PUBLISHED),
+        coverImage: imageUrls[0] ?? undefined,
+        images:
+          imageUrls.length > 0
+            ? {
+                create: imageUrls.map((url, index) => ({
+                  url,
+                  sortOrder: index,
+                })),
+              }
+            : undefined,
+      },
+      include: {
+        images: { orderBy: { sortOrder: 'asc' } },
+        user: { select: { id: true, nickname: true, avatar: true } },
+      },
+    });
+
+    this.logger.log(`Admin artwork created: ${artwork.id}`);
+    return artwork;
+  }
+
+  async updateArtwork(id: string, dto: Record<string, unknown>) {
+    const artwork = await this.prisma.artwork.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!artwork) throw new NotFoundException('Artwork not found');
+
+    const imageUrls = Array.isArray(dto.imageUrls)
+      ? this.toStringArray(dto.imageUrls)
+      : null;
+
+    const updated = await this.prisma.$transaction(async (tx) => {
+      if (imageUrls) {
+        await tx.artworkImage.deleteMany({ where: { artworkId: id } });
+      }
+
+      return tx.artwork.update({
+        where: { id },
+        data: {
+          ...(typeof dto.title === 'string' && { title: dto.title.trim() }),
+          ...(typeof dto.description === 'string' && {
+            description: dto.description,
+          }),
+          ...(typeof dto.category === 'string' && { category: dto.category }),
+          ...(Array.isArray(dto.techniques) && {
+            techniques: this.toStringArray(dto.techniques),
+          }),
+          ...(Array.isArray(dto.materials) && {
+            materials: this.toStringArray(dto.materials),
+          }),
+          ...(Array.isArray(dto.tags) && { tags: this.toStringArray(dto.tags) }),
+          ...(typeof dto.story === 'string' && { story: dto.story }),
+          ...(typeof dto.status === 'string' && {
+            status: this.toArtworkStatus(dto.status, artwork.status),
+          }),
+          ...(imageUrls && { coverImage: imageUrls[0] ?? null }),
+          ...(imageUrls && {
+            images: {
+              create: imageUrls.map((url, index) => ({ url, sortOrder: index })),
+            },
+          }),
+        },
+        include: {
+          images: { orderBy: { sortOrder: 'asc' } },
+          user: { select: { id: true, nickname: true, avatar: true } },
+        },
+      });
+    });
+
+    return updated;
+  }
+
+  async updateArtworkStatus(id: string, status: string) {
+    const artwork = await this.prisma.artwork.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!artwork) throw new NotFoundException('Artwork not found');
+
+    return this.prisma.artwork.update({
+      where: { id },
+      data: { status: this.toArtworkStatus(status, artwork.status) },
+    });
+  }
+
+  async deleteArtwork(id: string) {
+    const artwork = await this.prisma.artwork.findUnique({
+      where: { id, deletedAt: null },
+    });
+    if (!artwork) throw new NotFoundException('Artwork not found');
+
+    await this.prisma.artwork.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+  }
 
   async getReviewQueue(query: ContentReviewQueryDto) {
     const page = query.page ?? 1;
@@ -158,6 +321,23 @@ export class AdminContentService {
         totalPages: Math.ceil((type === 'all' ? total : totalAll) / pageSize),
       },
     };
+  }
+
+  private toStringArray(value: unknown): string[] {
+    if (!Array.isArray(value)) return [];
+    return value.filter((item): item is string => typeof item === 'string');
+  }
+
+  private toArtworkStatus(value: unknown, fallback: ArtworkStatus) {
+    if (
+      value === ArtworkStatus.DRAFT ||
+      value === ArtworkStatus.REVIEWING ||
+      value === ArtworkStatus.PUBLISHED ||
+      value === ArtworkStatus.REJECTED
+    ) {
+      return value;
+    }
+    return fallback;
   }
 
   private async getTotalCount(type: string, status: string): Promise<number> {

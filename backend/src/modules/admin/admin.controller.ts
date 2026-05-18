@@ -213,6 +213,47 @@ export class AdminController {
     return this.adminProductService.deleteProduct(id);
   }
 
+  // ─── Artwork Management ────────────────────────────────────────
+
+  @Get('artworks')
+  @ApiOperation({ summary: 'List all artworks (admin)' })
+  async getArtworks(@Query() query: Record<string, string | number>) {
+    return this.adminContentService.getArtworks(query);
+  }
+
+  @Post('artworks')
+  @ApiOperation({ summary: 'Create artwork (admin)' })
+  async createArtwork(
+    @Body() dto: Record<string, unknown>,
+    @Req() req: { user: { sub: string } },
+  ) {
+    return this.adminContentService.createArtwork(req.user.sub, dto);
+  }
+
+  @Patch('artworks/:id')
+  @ApiOperation({ summary: 'Update artwork (admin)' })
+  async updateArtwork(
+    @Param('id') id: string,
+    @Body() dto: Record<string, unknown>,
+  ) {
+    return this.adminContentService.updateArtwork(id, dto);
+  }
+
+  @Patch('artworks/:id/status')
+  @ApiOperation({ summary: 'Update artwork status (admin)' })
+  async updateArtworkStatus(
+    @Param('id') id: string,
+    @Body() dto: { status: string },
+  ) {
+    return this.adminContentService.updateArtworkStatus(id, dto.status);
+  }
+
+  @Delete('artworks/:id')
+  @ApiOperation({ summary: 'Delete artwork (admin)' })
+  async deleteArtwork(@Param('id') id: string) {
+    return this.adminContentService.deleteArtwork(id);
+  }
+
   // ─── Content Review ─────────────────────────────────────────────
 
   @Get('content/review')

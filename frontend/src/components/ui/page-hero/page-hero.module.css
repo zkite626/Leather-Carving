@@ -1,0 +1,113 @@
+.hero {
+  min-height: 248px;
+  padding: var(--lc-space-12) 0 var(--lc-space-10);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(251, 243, 232, 0.96), rgba(255, 253, 249, 0.76)),
+    url('/images/placeholders/hero-workshop-placeholder.png');
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(181, 101, 29, 0.14);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 25% 45%, rgba(181, 101, 29, 0.08) 0%, transparent 48%),
+    radial-gradient(circle at 75% 55%, rgba(212, 168, 83, 0.08) 0%, transparent 48%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background:
+    repeating-linear-gradient(45deg, rgba(181, 101, 29, 0.18) 0 1px, transparent 1px 14px);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--lc-space-4);
+}
+
+.hero[data-align='left'] {
+  text-align: left;
+}
+
+.hero[data-align='left'] .inner {
+  max-width: 1180px;
+}
+
+.title {
+  font-family: var(--lc-font-serif);
+  font-size: var(--lc-text-4xl);
+  font-weight: 700;
+  color: var(--lc-text);
+  margin: 0 0 var(--lc-space-3);
+  letter-spacing: 0;
+}
+
+.subtitle {
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: var(--lc-text-lg);
+  color: var(--lc-text-secondary);
+  line-height: 1.6;
+}
+
+.hero[data-align='left'] .subtitle {
+  margin-left: 0;
+}
+
+.actions {
+  margin-top: var(--lc-space-5);
+  display: flex;
+  justify-content: center;
+  gap: var(--lc-space-3);
+  flex-wrap: wrap;
+}
+
+.hero[data-align='left'] .actions {
+  justify-content: flex-start;
+}
+
+@media (max-width: 639px) {
+  .hero {
+    min-height: 188px;
+    padding: var(--lc-space-8) 0 var(--lc-space-7);
+    text-align: left;
+    background-position: center right;
+  }
+
+  .inner {
+    margin: 0;
+    max-width: none;
+  }
+
+  .title {
+    font-size: var(--lc-text-3xl);
+  }
+
+  .subtitle {
+    max-width: 15rem;
+    margin-left: 0;
+    font-size: var(--lc-text-sm);
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+}

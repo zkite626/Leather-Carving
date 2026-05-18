@@ -127,7 +127,40 @@ NODE_ENV=development
 
 ---
 
-## 四、CI/CD (GitHub Actions)
+## 四、源码部署（Node.js / 1Panel）
+
+后端源码部署必须以 `backend/` 为运行目录，确保 Prisma Client 由当前
+`backend/prisma/schema.prisma` 生成。
+
+```bash
+cd backend
+npm ci
+npm run prisma:db:push
+npm run build
+npm run start:prod
+```
+
+1Panel Node 运行环境建议：
+
+```bash
+安装命令: npm ci
+构建命令: npm run build
+启动命令: npm run start:prod
+运行目录: backend
+```
+
+`npm ci`、`npm run build`、`npm run start:prod` 都会触发
+`npm run prisma:generate`，并校验生成后的 `@prisma/client` 是否包含
+`UserRole`、`OrderStatus`、`user`、`product`、`systemSetting` 等项目模型。
+如果日志出现 `Property 'user' does not exist on type 'PrismaService'`，删除
+服务器上的 `backend/node_modules` 后重新执行上述命令。
+
+当前仓库尚未提交 `prisma/migrations/`，首次部署使用 `npm run prisma:db:push`
+同步数据库结构；后续采用迁移制后，再切换为 `npm run prisma:migrate:deploy`。
+
+---
+
+## 五、CI/CD (GitHub Actions)
 
 ```yaml
 # .github/workflows/ci.yml
@@ -172,7 +205,7 @@ jobs:
 
 ---
 
-## 五、监控与日志
+## 六、监控与日志
 
 | 组件 | 工具 | 说明 |
 |------|------|------|
@@ -184,7 +217,7 @@ jobs:
 
 ---
 
-## 六、备份策略
+## 七、备份策略
 
 | 数据 | 频率 | 保留 | 方式 |
 |------|------|------|------|

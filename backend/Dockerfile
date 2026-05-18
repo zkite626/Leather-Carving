@@ -13,6 +13,8 @@ WORKDIR /app/backend
 
 # Copy package files first for optimal layer caching
 COPY backend/package.json backend/package-lock.json* ./
+COPY backend/prisma ./prisma
+COPY backend/scripts ./scripts
 
 # Install all dependencies (including devDeps for build)
 RUN npm ci

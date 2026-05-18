@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArtworkCard } from '@/components/artwork/artwork-card/artwork-card';
+import { PageHero } from '@/components/ui/page-hero/page-hero';
 import { getArtworks, type ArtworkQuery } from '@/lib/artwork-api';
 import type { IArtwork } from '@/shared/types/community';
 import styles from './page.module.css';
@@ -92,13 +93,7 @@ export default function GalleryPage() {
 
   return (
     <div className={styles.page}>
-      {/* Hero Header */}
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>作品画廊</h1>
-          <p className={styles.heroSubtitle}>探索非遗皮雕艺术的魅力</p>
-        </div>
-      </section>
+      <PageHero title="作品画廊" subtitle="探索非遗皮雕艺术的魅力" />
 
       {/* Content */}
       <div className={styles.container}>

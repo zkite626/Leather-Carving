@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getProducts, getCategories, type ProductQuery } from '@/lib/product-api';
 import { ProductCard } from '@/components/product/product-card/product-card';
+import { PageHero } from '@/components/ui/page-hero/page-hero';
 import { Pagination } from '@/components/ui/pagination/pagination';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
 import type { IProduct, IProductCategory } from '@/shared/types/product';
@@ -159,12 +160,7 @@ export default function ShopPage() {
 
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>匠心商城</h1>
-          <p className={styles.heroSubtitle}>精选手工皮雕艺术品，传承非遗匠心之美</p>
-        </div>
-      </section>
+      <PageHero title="匠心商城" subtitle="精选手工皮雕艺术品，传承非遗匠心之美" />
 
       <div className={styles.container}>
         {/* Category Filter Bar */}

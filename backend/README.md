@@ -42,7 +42,7 @@ cp .env.example .env
 
 ```bash
 # 生成 Prisma Client
-npx prisma generate
+npm run prisma:generate
 
 # 执行数据库迁移 (开发环境)
 npx prisma migrate dev
@@ -113,14 +113,32 @@ npm ci
 cp .env.example .env
 vim .env  # 填入生产环境配置
 
-# 3. 数据库迁移
-npx prisma generate
-npx prisma migrate deploy
+# 3. 生成 Prisma Client 并同步数据库结构
+npm run prisma:generate
+npm run prisma:db:push
 
-# 4. 构建并启动
+# 4. 构建并启动（build 会再次生成 Prisma Client，避免旧类型残留）
 npm run build
 npm run start:prod
 ```
+
+1Panel / 宝塔等源码部署面板建议配置：
+
+```bash
+安装命令: npm ci
+构建命令: npm run build
+启动命令: npm run start:prod
+运行目录: backend
+```
+
+当前仓库尚未提交 `prisma/migrations/`，首次部署请使用 `npm run prisma:db:push`
+同步数据库结构；后续如果改为迁移制，再使用 `npm run prisma:migrate:deploy`。
+
+> 如果部署日志出现 `Property 'user' does not exist on type 'PrismaService'` 或
+> `@prisma/client has no exported member 'User'`，说明当前服务器上的 Prisma Client
+> 不是由本仓库的 `prisma/schema.prisma` 生成的。现在 `npm ci`、`npm run build`
+> 和 `npm run start:prod` 都会自动重新生成并校验 Prisma Client；如果仍失败，请删除
+> 服务器上的 `backend/node_modules` 后重新部署。
 
 建议使用 PM2 管理进程:
 

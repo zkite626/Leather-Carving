@@ -24,6 +24,11 @@ export interface RefreshRequest {
   refreshToken: string;
 }
 
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export const authApi = {
   async login(data: LoginRequest): Promise<TokenResponse> {
     const response = await apiClient.post<ApiResponse<TokenResponse>>('/auth/login', data);
@@ -49,8 +54,12 @@ export const authApi = {
     return response.data.data;
   },
 
-  async updateProfile(data: Partial<Pick<IUser, 'nickname' | 'avatar' | 'bio'>>): Promise<IUser> {
+  async updateProfile(data: Partial<Pick<IUser, 'nickname' | 'avatar' | 'bio' | 'phone'>>): Promise<IUser> {
     const response = await apiClient.patch<ApiResponse<IUser>>('/users/me', data);
     return response.data.data;
+  },
+
+  async changePassword(data: ChangePasswordRequest): Promise<void> {
+    await apiClient.patch('/users/me/password', data);
   },
 };

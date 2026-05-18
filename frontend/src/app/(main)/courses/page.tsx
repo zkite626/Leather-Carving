@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getCourses, type CourseQuery } from '@/lib/course-api';
 import { CourseCard } from '@/components/course/course-card/course-card';
+import { PageHero } from '@/components/ui/page-hero/page-hero';
 import { Pagination } from '@/components/ui/pagination/pagination';
 import { Skeleton } from '@/components/ui/skeleton/skeleton';
 import type { ICourse, CourseLevel } from '@/shared/types/course';
@@ -138,12 +139,7 @@ export default function CoursesPage() {
 
   return (
     <div className={styles.page}>
-      <section className={styles.hero}>
-        <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>课程中心</h1>
-          <p className={styles.heroSubtitle}>探索非遗皮雕技艺，从入门到精通</p>
-        </div>
-      </section>
+      <PageHero title="课程中心" subtitle="探索非遗皮雕技艺，从入门到精通" />
 
       <div className={styles.container}>
         {/* Level Filter Bar */}

@@ -73,6 +73,29 @@ const navSections: NavSection[] = [
         ),
       },
       {
+        label: '作品画廊',
+        href: '/admin/artworks',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
+        ),
+      },
+      {
+        label: '纹样素材',
+        href: '/admin/patterns',
+        icon: (
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+            <path d="M12 3a9 9 0 1 0 9 9" />
+            <path d="M12 3a9 9 0 0 1 9 9" />
+            <path d="M12 7a5 5 0 1 0 5 5" />
+            <path d="M12 7a5 5 0 0 1 5 5" />
+          </svg>
+        ),
+      },
+      {
         label: '分类管理',
         href: '/admin/categories',
         icon: (
@@ -183,13 +206,14 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
       content: '内容审核',
       courses: '课程管理',
       products: '商品管理',
+      artworks: '作品画廊',
+      patterns: '纹样素材',
       categories: '分类管理',
       orders: '订单管理',
       shop: '商城管理',
       finance: '财务管理',
       system: '系统配置',
       'audit-log': '审计日志',
-      profile: '个人信息',
     };
     return segments.map((s) => labelMap[s] ?? s);
   }, [pathname]);
@@ -314,12 +338,12 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
                     </div>
                   </div>
                   <div className={styles.dropdownDivider} />
-                  <button className={styles.dropdownItem} onClick={() => { setMenuOpen(false); router.push('/admin/profile'); }}>
+                  <button className={styles.dropdownItem} onClick={() => { setMenuOpen(false); router.push('/profile'); }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                       <circle cx="12" cy="7" r="4" />
                     </svg>
-                    个人信息
+                    个人中心
                   </button>
                   <button className={styles.dropdownItem} onClick={() => { setMenuOpen(false); router.push('/'); }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
