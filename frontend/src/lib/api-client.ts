@@ -76,10 +76,9 @@ function processQueue(error: unknown): void {
 function processUploadsUrls(data: any): any {
   if (data === null || data === undefined) return data;
   
-  const backendOrigin = API_BASE_URL.replace(/\/api\/v1\/?$/, '');
-
   if (typeof data === 'string' && data.startsWith('/uploads/')) {
-    return `${backendOrigin}${data}`;
+    // As requested, explicitly use http://api:3001
+    return `http://api:3001${data}`;
   }
 
   if (Array.isArray(data)) {

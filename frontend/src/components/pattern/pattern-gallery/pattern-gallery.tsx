@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { getPatterns, incrementPatternDownload, type IPatternAsset } from '@/lib/pattern-api';
 import styles from './pattern-gallery.module.css';
 
-const CATEGORIES = ['全部', '壮锦', '瑶族', '喀斯特', '现代'];
+const CATEGORIES = ['全部', '壮锦', '瑶族', '现代'];
 
 interface PatternGalleryProps {
   compact?: boolean;

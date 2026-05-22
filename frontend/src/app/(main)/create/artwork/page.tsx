@@ -17,7 +17,7 @@ import styles from './page.module.css';
 
 const TECHNIQUES = ['镂刻', '印花', '染色', '烙烫', '浮雕', '编织', '镶嵌', '彩绘'];
 const MATERIALS = ['牛皮', '羊皮', '马皮', '猪皮', '植鞣皮', '铬鞣皮'];
-const CATEGORIES = ['壮锦', '瑶族', '喀斯特', '现代融合', '传统经典', '创意实验'];
+const CATEGORIES = ['壮锦', '瑶族', '现代融合', '传统经典', '创意实验'];
 
 export default function CreateArtworkPage() {
   const router = useRouter();

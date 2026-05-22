@@ -8,7 +8,7 @@ import { getArtworks, type ArtworkQuery } from '@/lib/artwork-api';
 import type { IArtwork } from '@/shared/types/community';
 import styles from './page.module.css';
 
-const CATEGORIES = ['全部', '壮锦', '瑶族', '喀斯特', '现代融合'];
+const CATEGORIES = ['全部', '壮锦', '瑶族', '现代融合'];
 const TECHNIQUES = ['镂刻', '印花', '染色', '烙烫', '浮雕'];
 const SORT_OPTIONS: { value: string; label: string }[] = [
   { value: 'createdAt', label: '最新' },

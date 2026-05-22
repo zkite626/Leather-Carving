@@ -153,7 +153,7 @@ export default function AdminPatternsPage() {
           <option value="">全部分类</option>
           <option value="壮锦">壮锦</option>
           <option value="瑶族">瑶族</option>
-          <option value="喀斯特">喀斯特</option>
+
           <option value="现代">现代</option>
         </select>
       </div>

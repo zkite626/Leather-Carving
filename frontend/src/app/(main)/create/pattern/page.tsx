@@ -9,7 +9,7 @@ import styles from './page.module.css';
 const STYLES = [
   { value: 'zhuangjin', label: '壮锦风格', desc: '菱形/回字纹/蝴蝶纹等壮族传统纹样', emoji: ' ' },
   { value: 'yaozu', label: '瑶族风格', desc: '盘王纹/太阳纹等瑶族传统图腾', emoji: ' ' },
-  { value: 'karst', label: '喀斯特风格', desc: '桂林山水/溶洞/石林等自然元素', emoji: '⛰️' },
+  { value: 'modern', label: '现代融合', desc: '传统元素与现代极简风格的结合', emoji: '✨' },
   { value: 'modern', label: '现代融合', desc: '传统纹样与当代设计语言结合', emoji: ' ' },
 ];
 
