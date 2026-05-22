@@ -72,8 +72,40 @@ function processQueue(error: unknown): void {
   failedQueue = [];
 }
 
+// Helper function to recursively prepend backend URL to /uploads paths
+function processUploadsUrls(data: any): any {
+  if (data === null || data === undefined) return data;
+  
+  const backendOrigin = API_BASE_URL.replace(/\/api\/v1\/?$/, '');
+
+  if (typeof data === 'string' && data.startsWith('/uploads/')) {
+    return `${backendOrigin}${data}`;
+  }
+
+  if (Array.isArray(data)) {
+    return data.map((item) => processUploadsUrls(item));
+  }
+
+  if (typeof data === 'object') {
+    const processed: any = {};
+    for (const key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        processed[key] = processUploadsUrls(data[key]);
+      }
+    }
+    return processed;
+  }
+
+  return data;
+}
+
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response.data) {
+      response.data = processUploadsUrls(response.data);
+    }
+    return response;
+  },
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
