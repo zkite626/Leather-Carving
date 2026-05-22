@@ -77,8 +77,8 @@ function processUploadsUrls(data: any): any {
   if (data === null || data === undefined) return data;
   
   if (typeof data === 'string' && data.startsWith('/uploads/')) {
-    // As requested, explicitly use http://api:3001
-    return `http://api:3001${data}`;
+    // As requested, explicitly use https://api.pd.245345.xyz
+    return `https://api.pd.245345.xyz${data}`;
   }
 
   if (Array.isArray(data)) {
