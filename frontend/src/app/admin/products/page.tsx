@@ -10,7 +10,7 @@ import {
 import styles from './page.module.css';
 
 const statusLabels: Record<string, string> = {
-  DRAFT: '草稿', ACTIVE: '上架', INACTIVE: '下架', SOLD_OUT: '售罄',
+  DRAFT: '草稿', ON_SALE: '上架', OFF_SALE: '下架', SOLD_OUT: '售罄',
 };
 
 interface ProductForm {
@@ -171,7 +171,7 @@ export default function AdminProductsPage() {
                 <td className={p.stock <= 10 ? styles.stockLow : styles.mutedCell}>{p.stock}</td>
                 <td className={styles.mutedCell}>{p.sales}</td>
                 <td>
-                  <span className={`${styles.statusTag} ${p.status === 'ACTIVE' ? styles.statusActive : p.status === 'INACTIVE' ? styles.statusInactive : styles.statusDraft}`}>
+                  <span className={`${styles.statusTag} ${p.status === 'ON_SALE' ? styles.statusActive : p.status === 'OFF_SALE' ? styles.statusInactive : styles.statusDraft}`}>
                     {statusLabels[p.status] ?? p.status}
                   </span>
                 </td>
@@ -180,12 +180,12 @@ export default function AdminProductsPage() {
                     <button className={styles.iconBtn} title="编辑" onClick={() => openEdit(p)}>
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     </button>
-                    {p.status !== 'ACTIVE' ? (
-                      <button className={`${styles.iconBtn} ${styles.iconBtnSuccess}`} title="上架" onClick={() => setConfirmModal({ productId: p.id, action: 'ACTIVE', label: `上架「${p.name}」？` })}>
+                    {p.status !== 'ON_SALE' ? (
+                      <button className={`${styles.iconBtn} ${styles.iconBtnSuccess}`} title="上架" onClick={() => setConfirmModal({ productId: p.id, action: 'ON_SALE', label: `上架「${p.name}」？` })}>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/></svg>
                       </button>
                     ) : (
-                      <button className={`${styles.iconBtn} ${styles.iconBtnWarn}`} title="下架" onClick={() => setConfirmModal({ productId: p.id, action: 'INACTIVE', label: `下架「${p.name}」？` })}>
+                      <button className={`${styles.iconBtn} ${styles.iconBtnWarn}`} title="下架" onClick={() => setConfirmModal({ productId: p.id, action: 'OFF_SALE', label: `下架「${p.name}」？` })}>
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
                       </button>
                     )}

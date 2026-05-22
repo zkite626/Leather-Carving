@@ -125,7 +125,7 @@ export class ProductQueryDto extends AdminPaginationDto {
   @IsString()
   keyword?: string;
 
-  @ApiPropertyOptional({ enum: ['DRAFT', 'ACTIVE', 'INACTIVE', 'SOLD_OUT'] })
+  @ApiPropertyOptional({ enum: ['DRAFT', 'ON_SALE', 'OFF_SALE', 'SOLD_OUT'] })
   @IsOptional()
   @IsString()
   status?: string;

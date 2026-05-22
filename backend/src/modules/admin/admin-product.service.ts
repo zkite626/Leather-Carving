@@ -1,7 +1,7 @@
-import { Injectable, NotFoundException, Logger, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger, ConflictException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductQueryDto } from './dto';
-import { Prisma } from '@prisma/client';
+import { Prisma, ProductStatus } from '@prisma/client';
 
 interface CreateProductInput {
   name: string;
@@ -55,7 +55,7 @@ export class AdminProductService {
           { description: { contains: query.keyword, mode: 'insensitive' } },
         ],
       }),
-      ...(query.status && { status: query.status as never }),
+      ...(query.status && { status: query.status as ProductStatus }),
     };
 
     const [products, total] = await Promise.all([
@@ -178,12 +178,17 @@ export class AdminProductService {
   }
 
   async updateProductStatus(id: string, status: string) {
+    const validStatuses = Object.values(ProductStatus);
+    if (!validStatuses.includes(status as ProductStatus)) {
+      throw new BadRequestException(`无效的商品状态: ${status}，可选值: ${validStatuses.join(', ')}`);
+    }
+
     const product = await this.prisma.product.findUnique({ where: { id } });
     if (!product || product.deletedAt) throw new NotFoundException('商品不存在');
 
     const updated = await this.prisma.product.update({
       where: { id },
-      data: { status: status as never },
+      data: { status: status as ProductStatus },
     });
 
     this.logger.log(`Product ${id} status changed: ${product.status} -> ${status}`);
