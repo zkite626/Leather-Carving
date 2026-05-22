@@ -19,13 +19,13 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
   return (
     <Link href={`/gallery/${artwork.id}`} className={styles.card}>
       <div className={styles.imageWrapper}>
-        <div style={{ position: 'relative' }}><Image src={coverUrl} alt={artwork.title} className={styles.image} loading="lazy" fill unoptimized /></div>
+        <div style={{ position: 'absolute', inset: 0 }}><Image src={coverUrl} alt={artwork.title} className={styles.image} loading="lazy" fill unoptimized /></div>
         <div className={styles.overlay}>
           <div className={styles.overlayContent}>
             <h3 className={styles.title}>{artwork.title}</h3>
             <div className={styles.author}>
               {artwork.user?.avatar ? (
-                <div style={{ position: 'relative' }}><Image src={artwork.user.avatar} alt="" className={styles.avatar} fill unoptimized /></div>
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}><Image src={artwork.user.avatar} alt="" className={styles.avatar} fill unoptimized /></div>
               ) : (
                 <div className={styles.avatarPlaceholder}>
                   {artwork.user?.nickname?.[0] ?? '?'}

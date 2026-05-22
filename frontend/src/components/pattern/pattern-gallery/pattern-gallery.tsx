@@ -77,7 +77,7 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
               className={styles.item}
               onClick={() => setPreviewPattern(pattern)}
             >
-              <div style={{ position: 'relative' }}><Image
+              <div style={{ position: 'absolute', inset: 0 }}><Image
                 src={pattern.thumbnailUrl || pattern.imageUrl}
                 alt={pattern.name}
                 className={styles.thumb}
@@ -100,7 +100,7 @@ export function PatternGallery({ compact = false }: PatternGalleryProps) {
             <button className={styles.previewClose} onClick={() => setPreviewPattern(null)}>
               &times;
             </button>
-            <div style={{ position: 'relative' }}><Image
+            <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '300px' }}><Image
               src={previewPattern.imageUrl}
               alt={previewPattern.name}
               className={styles.previewImage}
